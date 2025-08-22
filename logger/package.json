@@ -1,0 +1,19 @@
+{
+  "name": "@lakovna/logger",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/core-logger.js",
+  "types": "dist/core-logger.d.ts",
+  "scripts": {
+    "prepare": "npm run build",
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rimraf dist"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "typescript": "^5.4.5",
+    "rimraf": "^5.0.5"
+  }
+}

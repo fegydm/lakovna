@@ -1,0 +1,40 @@
+{
+  "name": "lakovna",
+  "version": "1.0.0",
+  "description": "Automotive Workshop Management System",
+  "private": true,
+  "type": "module",
+  "prisma": {
+    "schema": "prisma/schema.prisma"
+  },
+  "workspaces": [
+    "logger",
+    "common",
+    "back",
+    "front"
+  ],
+  "scripts": {
+    "start": "npm --workspace=back run start",
+    "clean": "node scripts/clean.js",
+    "build": "npm run build:common && npm run build:logger && npm run prisma:generate && npm run build:back && npm run build:front",
+    "build:logger": "npm --workspace=@lakovna/logger run build",
+    "build:back": "npm --workspace=back run build",
+    "build:front": "npm --workspace=front run build", 
+    "build:common": "npm --workspace=@lakovna/common run build",
+    "prisma:generate": "npx prisma generate",
+    "prisma:migrate": "npx prisma migrate dev",
+    "prisma:studio": "npx prisma studio",
+    "postinstall": "npm run prisma:generate && npm run build:logger && npm run build:common",
+    "dev": "npm --workspace=back run dev & npm --workspace=front run dev & wait",
+    "dev:back": "npm --workspace=back run dev",
+    "dev:front": "npm --workspace=front run dev"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.14.0",
+    "prisma": "^6.14.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5",
+    "rimraf": "^5.0.5"
+  }
+}

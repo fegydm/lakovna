@@ -1,0 +1,17 @@
+{
+  "name": "@lakovna/common",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/shared-types.js",
+  "types": "dist/shared-types.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rimraf dist"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5",
+    "rimraf": "^5.0.5"
+  }
+}
