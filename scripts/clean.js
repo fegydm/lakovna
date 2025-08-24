@@ -6,7 +6,6 @@ const paths = [
   // Build artifacts
   'back/dist',
   'front/dist', 
-  'front/build',
   'common/dist',
   'logger/dist',
   
@@ -23,9 +22,6 @@ const paths = [
   'front/package-lock.json',
   'common/package-lock.json',
   'logger/package-lock.json',
-  
-  // Prisma generated
-  'prisma/generated',
   
   // Logs
   'logs',
