@@ -1,4 +1,4 @@
-// File: prisma/schema.prisma
+// File: lakovna/back/prisma/schema.prisma
 // Last change: Merged robust Sendeliver structure with Lakovňa domain models
 
 generator client {
