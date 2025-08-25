@@ -3,6 +3,14 @@
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./dist",
+    "baseUrl": "..",
+    "moduleResolution": "Node",
+    "paths": {
+      "@lakovna/common/*": ["./common/*"],
+      "@lakovna/logger/*": ["./logger/*"],
+      "@lakovna/common": ["./common/types/index.ts"],
+      "@lakovna/logger": ["./logger/core-logger.ts"]
+    },
     "typeRoots": [
       "../node_modules/@types",
       "./node_modules/@types"
