@@ -1,27 +1,19 @@
-// lakovna/scripts/clean.js
+
+// File: lakovna/scripts/clean.js
+
 import { existsSync, rmSync } from 'fs';
 import { join } from 'path';
 
 const paths = [
   // Build artifacts
   'back/dist',
-  'front/dist', 
-  'common/dist',
-  'logger/dist',
+  'front/dist',
   
-  // Node modules
+  // Node modules (iba root)
   'node_modules',
-  'back/node_modules',
-  'front/node_modules',
-  'common/node_modules',
-  'logger/node_modules',
   
-  // Lock files
+  // Lock files (iba root)
   'package-lock.json',
-  'back/package-lock.json',
-  'front/package-lock.json',
-  'common/package-lock.json',
-  'logger/package-lock.json',
   
   // Logs
   'logs',

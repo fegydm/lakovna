@@ -1,4 +1,4 @@
-// logger/src/core-logger.ts
+// lakovna/logger/src/core-logger.ts
 import { LogLevel } from './log-levels.js';          
 import { getEnvVariable, getLogLevelValue } from './env-helpers.js';
 

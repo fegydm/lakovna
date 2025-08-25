@@ -1,4 +1,4 @@
-// common/src/business-constants.ts
+// lakovna/common/constants/business-constants.ts
 export const APP_CONFIG = {
   APP_NAME: 'Lakovňa',
   VERSION: '1.0.0',

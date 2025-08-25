@@ -1,4 +1,4 @@
-// common/src/validation-helpers.ts
+// lakovna/common/src/validation-helpers.ts
 // Simple validation functions without external dependencies
 
 export const isValidEmail = (email: string): boolean => {

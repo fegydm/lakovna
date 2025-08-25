@@ -1,4 +1,4 @@
-// common/types/vehicle.types.ts
+// lakovna/common/types/vehicle.types.ts
 export interface VehiclePosition {
   x: number;
   y: number;

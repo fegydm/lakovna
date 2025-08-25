@@ -1,4 +1,4 @@
-// common/types/stage.types.ts
+// lakovna/common/types/stage.types.ts
 export interface StageInfo {
   id: number;
   name: string;
