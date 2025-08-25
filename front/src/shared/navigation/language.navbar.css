@@ -1,0 +1,160 @@
+/*
+ * File: front/src/shared/navigation/language.navbar.css
+ * Last action: Added smooth transition for hover effect on the flag.
+ */
+
+/* BLOCK: language-navbar */
+.language-navbar {
+  position: relative;
+  display: inline-block;
+}
+
+/* ELEMENTS of language-navbar */
+.language-navbar__button {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.language-navbar__button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.language-navbar__lc {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.language-navbar__flag {
+  width: 1.5rem;
+  height: auto;
+  border-radius: 2px;
+  margin-right: 0.5rem;
+  /* Add a smooth transition to the filter property */
+  transition: filter 0.3s ease;
+}
+
+/* Add a hover effect for the flag */
+.language-navbar__button:hover .language-navbar__flag--grayscale {
+  filter: none;
+  opacity: 1;
+}
+
+.language-navbar__dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 0.5rem;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  width: 350px;
+  z-index: 1000;
+  border: 1px solid #e0e0e0;
+}
+
+.language-navbar__search {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  border-bottom: 1px solid #e0e0e0;
+  gap: 0.5rem;
+}
+
+.language-navbar__search-input {
+  width: 100%;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.875rem;
+}
+
+.language-navbar__search-input--code {
+  flex: 0 0 60px;
+  text-transform: uppercase;
+}
+
+.language-navbar__search-input--name {
+  flex: 1;
+}
+
+.language-navbar__list {
+  max-height: 390px;
+  overflow-y: auto;
+}
+
+.language-navbar__item {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  gap: 0.75rem;
+}
+
+.language-navbar__item:hover {
+  background-color: #f0f9ff;
+}
+
+.language-navbar__item-flag {
+  width: 1.5rem;
+  height: auto;
+}
+
+.language-navbar__item-code {
+  font-size: 0.8rem;
+  color: #777;
+  text-transform: uppercase;
+}
+
+.language-navbar__item-lc {
+  font-size: 0.8rem;
+  color: #777;
+}
+
+.language-navbar__item-name {
+  font-size: 0.875rem;
+}
+
+.language-navbar__item-native-name {
+  color: #777;
+  font-size: 0.75rem;
+  justify-self: end;
+}
+
+.language-navbar__divider {
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 8px 0;
+}
+
+.language-navbar__message {
+  padding: 1rem;
+  text-align: center;
+  color: #666;
+  font-size: 0.875rem;
+}
+
+/* MODIFIERS */
+.language-navbar__flag--grayscale {
+  filter: grayscale(80%);
+  opacity: 0.7;
+}
+
+.language-navbar__item--primary {
+  background-color: #ebf5ff;
+  font-weight: 500;
+}
+
+.language-navbar__item--secondary {
+  background-color: #f5f5f5;
+}
+
+.language-navbar__item--tertiary {
+  background-color: #fafafa;
+}

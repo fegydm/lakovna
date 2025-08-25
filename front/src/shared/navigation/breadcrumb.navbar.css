@@ -1,0 +1,55 @@
+/*
+ * File: front/src/shared/navigation/breadcrumb.navbar.css
+ * Last action: CSS triedy upravené pre konzistenciu s názvom komponentu.
+*/
+
+/* BLOCK: breadcrumb-navbar */
+.breadcrumb-navbar {
+  padding: 0.5rem 1.5rem;
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.breadcrumb-navbar__list {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 0.5rem;
+  padding-left: 10px; /* Zmenšené odsadenie */
+}
+
+.breadcrumb-navbar__item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.breadcrumb-navbar__start-icon {
+  color: var(--color-text-secondary, #6c757d);
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+
+.breadcrumb-navbar__separator {
+  color: var(--color-text-secondary, #6c757d);
+}
+
+.breadcrumb-navbar__link {
+  color: var(--color-text-secondary, #6c757d);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.breadcrumb-navbar__link:hover {
+  color: var(--hauler-primary, #007bff);
+  text-decoration: underline;
+}
+
+.breadcrumb-navbar__current-page {
+  font-weight: 500;
+  color: var(--color-text, #333);
+}

@@ -1,0 +1,55 @@
+/*
+ * File: front/src/shared/navigation/avatar.navbar.css
+ * Last action: CSS triedy upravené pre konzistenciu s názvom komponentu.
+*/
+
+/* BLOCK: avatar-navbar */
+.avatar-navbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--hauler-primary, #007bff);
+  color: white;
+  border: 2px solid transparent;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.2s ease-in-out;
+}
+
+.avatar-navbar:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 0 2px var(--hauler-primary-hover, #0056b3);
+}
+
+/* MODIFIER for guest state */
+.avatar-navbar--guest {
+  background-color: var(--color-canvas-darker, #e9ecef);
+}
+.avatar-navbar--guest:hover {
+  border-color: var(--color-border, #ccc);
+  box-shadow: none;
+}
+
+/* ELEMENTS of avatar-navbar */
+.avatar-navbar__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-navbar__initials {
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.avatar-navbar__icon {
+  width: 22px;
+  height: 22px;
+  color: var(--color-text-secondary, #6c757d);
+  opacity: 0.8;
+}

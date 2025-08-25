@@ -1,0 +1,28 @@
+/* File: front/src/shared/navigation/logo.navbar.css */
+/* Last change: CSS triedy upravené pre konzistenciu s názvom komponentu. */
+
+.logo-navbar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+
+.logo-navbar__image {
+  height: 36px;
+  width: auto;
+}
+
+.logo-navbar__toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  color: #888;
+  transition: transform 0.2s;
+}
+
+.logo-navbar__toggle--open {
+  transform: rotate(180deg);
+}

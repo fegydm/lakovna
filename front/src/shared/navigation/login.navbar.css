@@ -1,0 +1,23 @@
+/*
+ * File: front/src/shared/navigation/login.navbar.css
+ * Last action: CSS triedy upravené pre konzistenciu s názvom komponentu.
+*/
+
+/* BLOCK: login-navbar */
+.login-navbar {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text-secondary, #475569);
+  background-color: transparent;
+  border: 1px solid var(--color-border-light, #e2e8f0);
+  border-radius: var(--border-radius, 0.5rem);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.login-navbar:hover {
+  background-color: var(--hauler-primary-light, #e6f2ff);
+  color: var(--hauler-primary, #007bff);
+  border-color: var(--hauler-primary, #007bff);
+}

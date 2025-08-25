@@ -1,0 +1,133 @@
+/*
+ * File: front/src/shared/base/button.base.css
+ * Last change: Removed static fallbacks to rely solely on dynamic variables.
+*/
+
+/* ==========================================================================
+   BLOCK: button (Base styles)
+   ========================================================================== */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 1.2rem;
+  font-size: var(--font-size-base); /* Používa systémovú premennú */
+  font-weight: 600;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  box-shadow: var(--button-shadow);
+}
+
+.button:disabled,
+.button--inactive {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.button:focus-visible {
+  outline: none;
+  box-shadow: var(--button-shadow-focus);
+}
+
+/* ==========================================================================
+   MODIFIERS: variant
+   ========================================================================== */
+
+/* Primary action */
+.button--primary {
+  background-color: hsl(var(--emphasis));
+  color: hsl(var(--emphasis-contrast)); /* Dynamická farba textu */
+  border-color: hsl(var(--emphasis));
+}
+.button--primary:hover:not(:disabled) {
+  background-color: hsl(var(--hover));
+  border-color: hsl(var(--hover));
+}
+
+/* Secondary action */
+.button--secondary {
+  background-color: transparent;
+  border-color: hsl(var(--sys-border));
+  color: hsl(var(--text-secondary));
+}
+.button--secondary:hover:not(:disabled) {
+  background-color: hsl(var(--sys-input));
+  border-color: hsl(var(--sys-border-hover));
+  color: hsl(var(--text-primary));
+}
+
+/* Dangerous action */
+.button--danger {
+  background-color: hsl(var(--danger-hsl));
+  color: hsl(var(--danger-contrast-hsl));
+  border-color: hsl(var(--danger-hsl));
+}
+.button--danger:hover:not(:disabled) {
+  background-color: hsl(var(--danger-hover-hsl));
+  border-color: hsl(var(--danger-hover-hsl));
+}
+
+/* Cancel action */
+.button--cancel {
+  background-color: transparent;
+  color: hsl(var(--text-secondary));
+  border-color: transparent;
+}
+.button--cancel:hover:not(:disabled) {
+  background-color: hsl(var(--sys-input));
+}
+
+/* Ghost button */
+.button--ghost {
+  background-color: transparent;
+  border-color: hsl(var(--sys-border));
+  color: hsl(var(--text-primary));
+}
+.button--ghost:hover:not(:disabled) {
+  background-color: hsl(var(--sys-input));
+  border-color: hsl(var(--emphasis));
+  color: hsl(var(--emphasis));
+}
+
+/* Link-style button */
+.button--link {
+  background: none;
+  border: none;
+  padding: 0;
+  color: hsl(var(--emphasis));
+  text-decoration: none;
+  font-weight: 500;
+}
+.button--link:hover:not(:disabled) {
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   MODIFIERS: size & behavior
+   ========================================================================== */
+.button--full-width {
+  width: 100%;
+}
+
+.button--small {
+  padding: 0.5rem 1rem;
+  font-size: var(--font-size-sm);
+}
+
+.button--large {
+  padding: 1rem 2rem;
+  font-size: var(--font-size-lg);
+}
+
+.button--icon {
+  padding: 0.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 1rem;
+}

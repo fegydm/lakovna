@@ -1,0 +1,22 @@
+/*
+ * File: front/src/shared/navigation/register.navbar.css
+ * Last action: CSS triedy upravené pre konzistenciu s názvom komponentu.
+*/
+
+/* BLOCK: register-navbar */
+.register-navbar {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: white;
+  background-color: var(--hauler-primary, #007bff);
+  border: none;
+  border-radius: var(--border-radius, 0.5rem);
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, transform 0.2s;
+}
+
+.register-navbar:hover {
+  background-color: var(--hauler-primary-hover, #0056b3);
+  transform: translateY(-1px);
+}

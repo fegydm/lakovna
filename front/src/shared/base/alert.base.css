@@ -1,0 +1,85 @@
+/* File: front/src/shared/base/alert.base.css */
+/* Last change: Styles for the generic, reusable BannerElement component. */
+
+.banner-element {
+  display: flex;
+  align-items: flex-start;
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  border-width: 1px;
+  border-style: solid;
+  position: relative;
+}
+
+.banner-element__icon {
+  flex-shrink: 0;
+  margin-right: 1rem;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.banner-element__content {
+  flex-grow: 1;
+}
+
+.banner-element__title {
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.banner-element__description {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  margin-top: 0.25rem;
+}
+
+.banner-element__actions {
+  margin-left: 1rem;
+  flex-shrink: 0;
+}
+
+.banner-element__close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  padding: 0.25rem;
+}
+
+/* Color Variants */
+.banner-element--info {
+  background-color: var(--color-primary-50);
+  border-color: var(--color-primary-200);
+}
+.banner-element--info .banner-element__icon {
+  color: var(--color-primary-500);
+}
+
+.banner-element--success {
+  background-color: var(--color-success-50);
+  border-color: var(--color-success-200);
+}
+.banner-element--success .banner-element__icon {
+  color: var(--color-success-500);
+}
+
+.banner-element--warning {
+  background-color: var(--color-warning-50);
+  border-color: var(--color-warning-200);
+}
+.banner-element--warning .banner-element__icon {
+  color: var(--color-warning-500);
+}
+
+.banner-element--error {
+  background-color: var(--color-danger-50);
+  border-color: var(--color-danger-200);
+}
+.banner-element--error .banner-element__icon {
+  color: var(--color-danger-500);
+}

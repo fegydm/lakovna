@@ -1,0 +1,42 @@
+/* File: front/src/shared/navigation/navbar.css */
+/* Last change: Refactored to use the final 3-column layout with theme variables. */
+
+
+.navbar {
+  display: flex;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--color-border-primary);
+  max-width: 1600px;
+  align-items: center;
+  gap: 1rem;
+}
+
+.navbar__group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+.navbar__group--left {
+  justify-content: flex-start;
+}
+
+.navbar__group--center {
+  justify-content: center; 
+}
+
+.navbar__group--right {
+  justify-content: flex-end;
+}
+
+.navbar__breadcrumb-container {
+  position: absolute;
+  top: 60px; /* Positioned right below the navbar */
+  left: 0;
+  width: 100%;
+  z-index: 999;
+  background-color: var(--color-background-secondary);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid var(--color-border-primary);
+}

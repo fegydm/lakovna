@@ -1,9 +1,6 @@
 // scripts/dev.js
-// Purpose: Run backend and frontend together in dev mode from monorepo root.
-// - Reads PORT and FRONTEND_URL from .env if available
-// - Starts backend (workspace back), waits for /health
-// - Then starts frontend (workspace front)
-// - Cleans up both on Ctrl+C
+// Run BE + FE in DEV from monorepo root.
+// - Port precedence: platform PORT > .env PORT > 10002
 
 import { spawn } from "child_process";
 import fs from "fs";
@@ -13,81 +10,81 @@ import http from "http";
 const ROOT_DIR = path.resolve(process.cwd());
 const DOTENV = path.join(ROOT_DIR, ".env");
 
-let BACKEND_PORT = 10002;
-let FRONTEND_PORT = 3002;
+function readEnvFilePorts() {
+  let portFromEnvFile = undefined;
+  let fePortFromEnvFile = undefined;
 
-// --- Parse .env if present ---
-if (fs.existsSync(DOTENV)) {
-  const content = fs.readFileSync(DOTENV, "utf8");
-  for (const line of content.split("\n")) {
-    const trimmed = line.trim();
-    if (!trimmed || trimmed.startsWith("#")) continue;
-    const [key, ...rest] = trimmed.split("=");
-    const val = rest.join("=").replace(/^['"]|['"]$/g, "").trim();
-    if (key === "PORT" && val) BACKEND_PORT = Number(val);
-    if (key === "FRONTEND_URL" && val) {
-      const match = val.match(/:(\d{2,5})/);
-      if (match) FRONTEND_PORT = Number(match[1]);
+  if (fs.existsSync(DOTENV)) {
+    const content = fs.readFileSync(DOTENV, "utf8");
+    for (const line of content.split("\n")) {
+      const trimmed = line.trim();
+      if (!trimmed || trimmed.startsWith("#")) continue;
+      const [key, ...rest] = trimmed.split("=");
+      const val = rest.join("=").replace(/^['"]|['"]$/g, "").trim();
+      if (key === "PORT" && val) portFromEnvFile = Number(val);
+      if (key === "FRONTEND_URL" && val) {
+        const m = val.match(/:(\d{2,5})/);
+        if (m) fePortFromEnvFile = Number(m[1]);
+      }
     }
   }
+  return { portFromEnvFile, fePortFromEnvFile };
 }
 
-const BACKEND_URL = `http://localhost:${BACKEND_PORT}`;
-console.log(`🔧 Using BACKEND_PORT=${BACKEND_PORT} (URL: ${BACKEND_URL})`);
-console.log(`🔧 Using FRONTEND_PORT=${FRONTEND_PORT}`);
+const { portFromEnvFile, fePortFromEnvFile } = readEnvFilePorts();
 
-// --- Spawn helpers ---
+const BACKEND_PORT =
+  (process.env.PORT ? Number(process.env.PORT) : undefined) ??
+  portFromEnvFile ??
+  10002;
+
+const FRONTEND_PORT = fePortFromEnvFile ?? 3002;
+
+const BACKEND_URL = `http://localhost:${BACKEND_PORT}`;
+console.log(`🔧 DEV BACKEND_PORT=${BACKEND_PORT} (${BACKEND_URL})`);
+console.log(`🔧 DEV FRONTEND_PORT=${FRONTEND_PORT}`);
+
 function run(cmd, args, opts = {}) {
-  const child = spawn(cmd, args, {
+  return spawn(cmd, args, {
     stdio: "inherit",
     shell: process.platform === "win32",
     ...opts,
   });
-  return child;
 }
 
 let backend, frontend;
 
 function cleanup() {
-  console.log("\n🛑 Cleaning up...");
+  console.log("\n🛑 Cleaning up (dev)...");
   if (frontend) frontend.kill("SIGTERM");
   if (backend) backend.kill("SIGTERM");
 }
 process.on("SIGINT", cleanup);
 process.on("SIGTERM", cleanup);
 
-// --- Start backend ---
-console.log("🚀 Starting backend (workspace back)...");
+console.log("🚀 Starting backend (dev)...");
 backend = run("npm", ["run", "dev:back"]);
 
-// --- Wait for backend /health ---
 function waitForBackend(url, timeoutMs = 60000) {
   return new Promise((resolve, reject) => {
     const start = Date.now();
-    (function check() {
-      http
-        .get(`${url}/health`, (res) => {
-          if (res.statusCode === 200) {
-            console.log(`✅ Backend ready at ${url}`);
-            resolve();
-          } else retry();
-        })
-        .on("error", retry);
-    })();
-
-    function retry() {
-      if (Date.now() - start > timeoutMs) {
-        reject(new Error("Timeout waiting for backend"));
-      } else {
-        setTimeout(() => check(), 500);
-      }
-    }
+    const check = () => {
+      http.get(`${url}/health`, (res) => {
+        if (res.statusCode === 200) resolve();
+        else retry();
+      }).on("error", retry);
+    };
+    const retry = () => {
+      if (Date.now() - start > timeoutMs) reject(new Error("Timeout waiting for backend"));
+      else setTimeout(check, 500);
+    };
+    check();
   });
 }
 
 waitForBackend(BACKEND_URL)
   .then(() => {
-    console.log("🚀 Starting frontend (workspace front)...");
+    console.log("✅ Backend ready. Starting frontend (dev)...");
     frontend = run("npm", ["run", "dev:front"]);
   })
   .catch((err) => {

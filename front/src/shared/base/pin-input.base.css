@@ -1,0 +1,37 @@
+/* File: front/src/shared/base/pin-input.base.css */
+/* Last change: Refactored to use the new theme system variables. */
+
+.pin-input {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+.pin-input__digit {
+  width: 3.5rem;
+  height: 4rem;
+  font-size: 2rem;
+  text-align: center;
+  
+  /* Using new theme variables */
+  border: 2px solid hsl(var(--sys-border));
+  border-radius: var(--border-radius);
+  background-color: hsl(var(--sys-input));
+  color: hsl(var(--text-primary));
+  caret-color: hsl(var(--emphasis));
+  
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pin-input__digit:focus {
+  outline: none;
+  border-color: hsl(var(--emphasis));
+  /* Uses the consistent focus ring from _properties.css */
+  box-shadow: var(--input-shadow-focus);
+}
+
+.pin-input__digit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: hsl(var(--sys-muted) / 0.2);
+}

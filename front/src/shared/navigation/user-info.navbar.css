@@ -1,0 +1,20 @@
+/* File: front/src/shared/navigation/user-info.navbar.css */
+/* Last change: CSS triedy upravené pre konzistenciu s názvom komponentu. */
+
+.user-info-navbar {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.3;
+}
+
+.user-info-navbar__name {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--color-text-primary);
+}
+
+.user-info-navbar__email {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+}

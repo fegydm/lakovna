@@ -1,0 +1,63 @@
+/*
+ * File: front/src/shared/navigation/hamburger.navbar.css
+ * Last change: CSS triedy upravené pre konzistenciu s názvom komponentu.
+*/
+
+/* BLOCK: hamburger-navbar */
+.hamburger-navbar {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* ELEMENTS of hamburger-navbar */
+.hamburger-navbar__toggle {
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  margin: -0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text);
+}
+
+.hamburger-navbar__menu {
+  position: absolute;
+  top: calc(100% + 0.75rem);
+  right: 0;
+  background-color: var(--color-canvas, #ffffff);
+  border-radius: var(--border-radius, 8px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--color-border, #e0e0e0);
+  width: 200px;
+  z-index: 110;
+  overflow: hidden;
+}
+
+.hamburger-navbar__content {
+  display: flex;
+  flex-direction: column;
+}
+
+.hamburger-navbar__item {
+  background: none;
+  border: none;
+  padding: 0.75rem 1.25rem;
+  text-align: left;
+  width: 100%;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.hamburger-navbar__item:not(:last-child) {
+  border-bottom: 1px solid var(--color-border-light, #f0f0f0);
+}
+
+.hamburger-navbar__item:hover {
+  background-color: var(--hauler-primary-light, #e6f2ff);
+  color: var(--hauler-primary-dark, #004085);
+}
