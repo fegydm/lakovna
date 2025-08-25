@@ -1,4 +1,4 @@
-// scripts/clean.js
+// lakovna/scripts/clean.js
 import { existsSync, rmSync } from 'fs';
 import { join } from 'path';
 

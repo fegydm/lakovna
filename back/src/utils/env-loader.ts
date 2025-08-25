@@ -1,4 +1,4 @@
-// File: back/src/utils/env-loader.ts
+// File: lakovna/back/src/utils/env-loader.ts
 // Last change: Enhanced for Lakovna automotive workshop with validation
 
 import { readFileSync } from 'fs';
