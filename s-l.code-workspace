@@ -1,0 +1,23 @@
+{
+	"folders": [
+		{
+			"name": "sendeliver",
+			"path": "../sendeliver"
+		},
+		{
+			"name": "lakovna",
+			"path": "."
+		}
+	],
+	"settings": {
+		"terminal.integrated.copyOnSelection": true,
+		"terminal.integrated.commandsToSkipShell": [
+			"workbench.action.terminal.copySelection",
+			"workbench.action.terminal.paste",
+			"workbench.action.terminal.new",
+			"workbench.action.terminal.split",
+			"workbench.action.terminal.toggleTerminal"
+		],
+		"terminal.integrated.rightClickBehavior": "paste"
+	}
+}
