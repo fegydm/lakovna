@@ -1,7 +1,6 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "rootDir": "./src",
     "outDir": "./dist",
     "baseUrl": "..",
     "moduleResolution": "Node",
@@ -16,6 +15,6 @@
       "./node_modules/@types"
     ]
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "../common/**/*", "../logger/**/*"],
   "exclude": ["node_modules", "dist", "prisma"]
 }
