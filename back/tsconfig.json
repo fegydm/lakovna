@@ -1,20 +1,35 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "target": "ES2022",
+
+    "rootDir": "./src",
     "outDir": "./dist",
+
     "baseUrl": "..",
-    "moduleResolution": "Node",
     "paths": {
       "@lakovna/common/*": ["./common/*"],
       "@lakovna/logger/*": ["./logger/*"],
       "@lakovna/common": ["./common/types/index.ts"],
       "@lakovna/logger": ["./logger/core-logger.ts"]
     },
+
+    "strict": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "types": [
+      "node"
+    ],
     "typeRoots": [
       "../node_modules/@types",
       "./node_modules/@types"
-    ]
+    ],
+    "sourceMap": true
   },
-  "include": ["src/**/*", "../common/**/*", "../logger/**/*"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules", "dist", "prisma"]
 }

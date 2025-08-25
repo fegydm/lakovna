@@ -9,13 +9,20 @@
     "common",
     "logger"
   ],
-  "scripts": {
+"scripts": {
     "clean": "node scripts/clean.js",
     "build": "npm run build -w back && npm run build -w front",
     "build:backend": "npm run build -w back",
-    "dev": "bash scripts/dev.sh",
-    "start": "npm start --workspace=back"
+
+    "dev": "node scripts/dev.js",
+    "dev:back": "npm run dev -w back",
+    "dev:front": "npm run dev -w front",
+
+    "start": "node scripts/start-both.js",
+    "start:back": "npm start -w back",
+    "start:front:preview": "npm run build -w front && npm run preview -w front"
   },
+
   "dependencies": {
     "@prisma/client": "^6.14.0",
     "prisma": "^6.14.0",
