@@ -5,8 +5,8 @@ import { useState, FC, useEffect, Suspense, lazy } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useTheme } from "@/libs/hooks/use-theme.hook";
 import { useAuthOptional } from "@/libs/contexts/auth.optional";
-import { AppRole } from "@/libs/types/domains/roles.types";
-import { AuthStatus } from "@/libs/types/domains/auth.types";
+import { AppRole } from "@/libs/types/systems/app_role.types";
+import { AuthStatus } from "@/libs/types/systems/auth_status.types";
 
 import { LogoNavbar } from "./logo.navbar";
 import { NameNavbar } from "./name.navbar";
