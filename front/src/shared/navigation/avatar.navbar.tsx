@@ -1,39 +1,26 @@
 // File: front/src/shared/navigation/avatar.navbar.tsx
-// Last change: Removed useAuth; works without AuthProvider (props-only).
+// Last change: Refactored to be a pure presentational component by accepting props.
 
 import React, { FC } from "react";
 
 type Props = {
-  isAuthenticated: boolean;
-  userAvatarUrl?: string | null;   // full URL or null
-  guestAvatar: string;             // zodiac id, e.g. "aries"
-  cookiesAllowed: boolean;
-  onUserClick: () => void;
-  onGuestClick: () => void;
+  src: string;
+  alt: string;
+  ariaLabel: string;
+  onClick: () => void;
 };
 
 export const AvatarNavbar: FC<Props> = ({
-  isAuthenticated,
-  userAvatarUrl,
-  guestAvatar,
-  cookiesAllowed,
-  onUserClick,
-  onGuestClick,
+  src,
+  alt,
+  ariaLabel,
+  onClick,
 }) => {
-  const src = isAuthenticated
-    ? (userAvatarUrl || "/avatars/default-user.png")
-    : (cookiesAllowed
-        ? `/avatars/zodiac/${guestAvatar}.png`
-        : "/avatars/zodiac/anonymous.png");
-
-  const alt = isAuthenticated ? "User avatar" : "Guest avatar";
-  const handleClick = isAuthenticated ? onUserClick : onGuestClick;
-
   return (
     <button
       className="navbar__avatar-btn"
-      onClick={handleClick}
-      aria-label="Open avatar menu"
+      onClick={onClick}
+      aria-label={ariaLabel}
     >
       <img
         className="navbar__avatar"
@@ -42,6 +29,10 @@ export const AvatarNavbar: FC<Props> = ({
         width={32}
         height={32}
         loading="eager"
+        onError={(e) => {
+          // Fallback in case the primary avatar image fails to load
+          e.currentTarget.src = "/avatars/zodiac/anonymous.png";
+        }}
       />
     </button>
   );

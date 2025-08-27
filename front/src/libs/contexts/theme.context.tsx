@@ -1,18 +1,29 @@
-// File: lakovna/front/src/libs/contexts/theme.context.tsx
-// Last change: Workshop theme context using external config and universal color utils
+// File: sendeliver/front/src/libs/contexts/theme.context.tsx
+// Last change: Modified ThemeProvider to dynamically load roles from configuration.
 
 import React, { createContext, useState, useEffect, useContext, ReactNode, useRef } from 'react';
 import type { ThemeSettings, HslColor } from '../types/systems/theme.types';
-import type { AppRole } from '../types/systems/app_role.types';
+import { AppRole, APP_ROLES } from '../types/systems/app_role.types';
 import type { ThemeMode } from '../types/systems/theme_mode.types';
-import { SYSTEM_COLORS, DEFAULT_ROLE_COLORS, WORKSHOP_COLORS, semanticLevelsManager, DEFAULT_SEMANTIC_LEVELS } from '../configs/colors.config';
-import { generateSystemVariables, hslToCss, generateSystemSemanticVariables, generateSemanticColorSystem } from '../utils/color.utils';
+import { 
+  SYSTEM_COLORS, 
+  DEFAULT_ROLE_COLORS, 
+  CSS_ROLE_MAP, 
+  semanticLevelsManager, 
+  DEFAULT_SEMANTIC_LEVELS,
+  DOTS_ROLE_COLORS,
+  DOTS_STATUS_COLORS 
+} from '../configs/colors.config';
+import { DESIGN_CONSTANTS } from '../configs/ui.config';
+import { getUserRoleColor, saveUserRoleColor, getThemeMode, saveThemeMode } from '../configs/theme.config';
+import { generateSystemVariables, hslToCss, generateSystemSemanticVariables } from '../utils/color.utils';
+import type { SemanticLevel } from '../configs/colors.config';
 
 export interface ThemeContextValue {
   settings: ThemeSettings | null;
   activeRole: AppRole | null;
   setActiveRole: (role: AppRole) => void;
-  updateRoleColor: (role: AppRole, newColor: HslColor) => void;
+  updateRoleColor: (role: AppRole, newColor: HslColor) => Promise<void>;
   updateSemanticLevels: (role: AppRole, levels: Partial<Record<string, number>>) => void;
   setMode: (mode: ThemeMode) => void;
   toggleDarkMode: () => void;
@@ -22,6 +33,7 @@ export interface ThemeContextValue {
 interface ThemeProviderProps {
   children: ReactNode;
   initialRole?: AppRole;
+  userId?: string;
 }
 
 export const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
@@ -32,7 +44,7 @@ export const useTheme = () => {
   return context;
 };
 
-const STYLE_TAG_ID = 'lakovna-theme-variables';
+const STYLE_TAG_ID = 'app-theme-variables';
 
 const ensureStyleTag = (): HTMLStyleElement | null => {
   if (typeof document === 'undefined') return null;
@@ -45,89 +57,73 @@ const ensureStyleTag = (): HTMLStyleElement | null => {
   return styleEl;
 };
 
-const buildWorkshopVariablesCss = (settings: ThemeSettings): string => {
+const buildVariablesCss = (
+  settings: ThemeSettings,
+  userId?: string
+): string => {
   const lines: string[] = [];
+  const roles = APP_ROLES;
   
-  // System variables from external config - provide all required parameters
-  const systemVars = generateSystemVariables(
-    settings.typography,
-    settings.layout,
-    SYSTEM_COLORS.textPrimary,
-    SYSTEM_COLORS.textSecondary
-  );
-  Object.entries(systemVars).forEach(([k, v]) => {
-    lines.push(`  --${k}: ${v};`);
+  // System variables
+  const systemVars = generateSystemVariables({
+    typography: settings.typography,
+    layout: settings.layout
   });
-  
-  // Text colors from system config
-  lines.push(`  --text-primary: ${hslToCss(SYSTEM_COLORS.textPrimary)};`);
-  lines.push(`  --text-secondary: ${hslToCss(SYSTEM_COLORS.textSecondary)};`);
-  lines.push(`  --text-tertiary: ${hslToCss(SYSTEM_COLORS.textTertiary)};`);
-  lines.push(`  --text-inverse: ${hslToCss(SYSTEM_COLORS.textInverse)};`);
-  
-  // Surface colors from system config
-  lines.push(`  --sys-background: ${hslToCss(SYSTEM_COLORS.background)};`);
-  lines.push(`  --sys-surface: ${hslToCss(SYSTEM_COLORS.surface)};`);
-  lines.push(`  --sys-input: ${hslToCss(SYSTEM_COLORS.input)};`);
-  lines.push(`  --sys-border: ${hslToCss(SYSTEM_COLORS.border)};`);
-  lines.push(`  --sys-border-hover: ${hslToCss(SYSTEM_COLORS.borderHover)};`);
-  
-  // Semantic levels from external config with dark mode adjustment
+  Object.entries(systemVars).forEach(([k, v]) => lines.push(`  ${k}: ${v};`));
+
+  // System semantic variables
   const adjust = (lvl: number, name: string) =>
-    settings.mode === 'dark' ? semanticLevelsManager.adjustForDarkMode(lvl, name) : lvl;
-    
+    settings.mode === 'dark' ? semanticLevelsManager.adjustForDarkMode(lvl, name as SemanticLevel) : lvl;
   const sysSemVars = generateSystemSemanticVariables(
     adjust,
     SYSTEM_COLORS.primary,
     DEFAULT_SEMANTIC_LEVELS
   );
-  Object.entries(sysSemVars).forEach(([k, v]) => {
-    lines.push(`  --${k}: ${v};`);
+  Object.entries(sysSemVars).forEach(([k, v]) => lines.push(`  ${k}: ${v};`));
+
+  // Role-specific CSS variables generation
+  roles.forEach((role) => {
+    const roleColor = settings.roleColors?.[role];
+    if (!roleColor) return;
+    
+    const obfuscated = CSS_ROLE_MAP[role];
+    const semanticLevels = semanticLevelsManager.getLevels(role, userId);
+    
+    Object.entries(semanticLevels).forEach(([levelName, levelValue]) => {
+      const adjusted = settings.mode === 'dark'
+        ? semanticLevelsManager.adjustForDarkMode(levelValue, levelName as SemanticLevel)
+        : levelValue;
+      const triplet = `${roleColor.h} ${roleColor.s}% ${adjusted}%`;
+      lines.push(`  --${obfuscated}-${levelName}: ${triplet};`);
+    });
+
+    // Contrast color calculation
+    const emphasisLightness = semanticLevels.emphasis;
+    const contrastColor = emphasisLightness < 60
+      ? '0 0% 100%'
+      : hslToCss(SYSTEM_COLORS.textPrimary);
+    lines.push(`  --${obfuscated}-contrast: ${contrastColor};`);
   });
-  
-  // Primary theme color with variants
-  const primaryTriplet = hslToCss(settings.primaryColor);
-  lines.push(`  --emphasis: ${primaryTriplet};`);
-  lines.push(`  --emphasis-contrast: ${settings.primaryColor.l > 50 ? '0 0% 0%' : '0 0% 100%'};`);
-  lines.push(`  --hover: ${settings.primaryColor.h} ${settings.primaryColor.s}% ${Math.max(0, settings.primaryColor.l - 10)}%;`);
-  lines.push(`  --active: ${settings.primaryColor.h} ${settings.primaryColor.s}% ${Math.max(0, settings.primaryColor.l - 15)}%;`);
-  
-  // Role colors for button variants from external config
-  const roleColors = settings.roleColors || DEFAULT_ROLE_COLORS;
-  Object.entries(roleColors).forEach(([role, color]) => {
-    if (!color) return; // Skip if color is undefined
-    const triplet = hslToCss(color);
-    lines.push(`  --role-${role}: ${triplet};`);
-    lines.push(`  --role-${role}-contrast: ${color.l > 50 ? '0 0% 0%' : '0 0% 100%'};`);
+
+  // DOTS role colors
+  Object.entries(DOTS_ROLE_COLORS).forEach(([role, colorValue]) => {
+    lines.push(`  --dot-role-${role}: ${colorValue};`);
   });
-  
-  // Workshop semantic colors from external config
-  Object.entries(WORKSHOP_COLORS).forEach(([name, color]) => {
-    const kebabName = name.replace(/([A-Z])/g, '-$1').toLowerCase();
-    const triplet = hslToCss(color);
-    lines.push(`  --workshop-${kebabName}: ${triplet};`);
+
+  // DOTS status colors
+  Object.entries(DOTS_STATUS_COLORS).forEach(([status, colorValue]) => {
+    lines.push(`  --dot-status-${status}: ${colorValue};`);
   });
-  
-  // Semantic color system from external config  
-  const semanticColorSystem = generateSemanticColorSystem({
-    success: SYSTEM_COLORS.success,
-    warning: SYSTEM_COLORS.warning,
-    danger: SYSTEM_COLORS.danger,
-    info: SYSTEM_COLORS.info
-  });
-  Object.entries(semanticColorSystem).forEach(([k, v]) => {
-    lines.push(`  --${k}: ${v};`);
-  });
-  
+
   const rootRule = `:root {\n${lines.join('\n')}\n}`;
   const schemeRule = `:root[data-theme="light"] { color-scheme: light; }\n:root[data-theme="dark"] { color-scheme: dark; }`;
-  
   return `${rootRule}\n${schemeRule}\n`;
 };
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({
   children,
-  initialRole = 'worker'
+  initialRole = 'hauler',
+  userId
 }) => {
   const [settings, setSettings] = useState<ThemeSettings | null>(null);
   const [activeRole, setActiveRoleState] = useState<AppRole>(initialRole);
@@ -137,23 +133,29 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
     let alive = true;
     const myVersion = ++versionRef.current;
 
-    const initializeTheme = () => {
+    const initializeTheme = async () => {
       try {
-        // Get saved theme mode from localStorage or default to light
-        const savedMode = localStorage.getItem('lakovna-theme-mode') as ThemeMode || 'light';
+        const mode = getThemeMode();
+        const roleColors: Record<AppRole, HslColor> = { ...DEFAULT_ROLE_COLORS };
         
+        // Load user customizations
+        for (const role of APP_ROLES) {
+          try {
+            const userColor = await getUserRoleColor(role, userId, 'main');
+            roleColors[role] = userColor;
+          } catch {
+            // Use default color if user color not found
+          }
+        }
+
         const themeSettings: ThemeSettings = {
           primaryColor: SYSTEM_COLORS.primary,
           secondaryColor: SYSTEM_COLORS.textSecondary,
-          mode: savedMode,
+          mode,
           activeRole,
-          roleColors: DEFAULT_ROLE_COLORS,
-          typography: {
-            fontSizeBase: 14
-          },
-          layout: {
-            borderRadius: 8
-          }
+          roleColors,
+          typography: DESIGN_CONSTANTS.typography,
+          layout: DESIGN_CONSTANTS.layout,
         };
 
         if (!alive || myVersion !== versionRef.current) return;
@@ -161,67 +163,57 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
         setSettings(themeSettings);
         applyThemeToDOM(themeSettings);
       } catch (err) {
-        console.error('[Lakovna ThemeProvider] Initialization failed:', err);
+        console.error('[ThemeProvider] init failed:', err);
       }
     };
 
-    initializeTheme();
+    void initializeTheme();
     return () => { alive = false; };
-  }, []);
+  }, [userId]);
 
   useEffect(() => {
-    if (settings) {
-      const updatedSettings = { ...settings, activeRole };
-      setSettings(updatedSettings);
-      applyThemeToDOM(updatedSettings);
-    }
-  }, [activeRole]);
+    if (settings) applyThemeToDOM(settings);
+  }, [activeRole, settings]);
 
   const applyThemeToDOM = (nextSettings: ThemeSettings) => {
     try {
       if (typeof document === 'undefined') return;
-      
-      const cssText = buildWorkshopVariablesCss(nextSettings);
+      const cssText = buildVariablesCss(nextSettings, userId);
       const styleEl = ensureStyleTag();
-      if (styleEl && styleEl.textContent !== cssText) {
-        styleEl.textContent = cssText;
-      }
+      if (styleEl && styleEl.textContent !== cssText) styleEl.textContent = cssText;
 
       const root = document.documentElement;
       root.setAttribute('data-theme', nextSettings.mode);
       root.setAttribute('data-active-role', activeRole);
     } catch (error) {
-      console.error('[Lakovna ThemeProvider] Failed to apply theme:', error);
+      console.error('[ThemeProvider] Failed to apply theme:', error);
     }
   };
 
   const setActiveRole = (role: AppRole): void => {
     setActiveRoleState(role);
+    if (settings) setSettings(prev => (prev ? { ...prev, activeRole: role } : prev));
   };
 
-  const updateRoleColor = (role: AppRole, newColor: HslColor): void => {
-    setSettings(prev => {
-      if (!prev) return prev;
-      const updatedSettings = {
-        ...prev,
-        roleColors: { ...prev.roleColors, [role]: newColor }
-      };
-      applyThemeToDOM(updatedSettings);
-      return updatedSettings;
-    });
+  const updateRoleColor = async (role: AppRole, newColor: HslColor): Promise<void> => {
+    try {
+      await saveUserRoleColor(role, newColor, userId, 'main');
+      setSettings(prev => {
+        if (!prev) return prev;
+        return { ...prev, roleColors: { ...prev.roleColors, [role]: newColor } };
+      });
+    } catch (error) {
+      console.error('[ThemeProvider] Failed to update role color:', error);
+      throw error;
+    }
   };
 
   const setMode = (mode: ThemeMode): void => {
     try {
-      localStorage.setItem('lakovna-theme-mode', mode);
-      setSettings(prev => {
-        if (!prev) return prev;
-        const updatedSettings = { ...prev, mode };
-        applyThemeToDOM(updatedSettings);
-        return updatedSettings;
-      });
+      saveThemeMode(mode);
+      setSettings(prev => (prev ? { ...prev, mode } : prev));
     } catch (error) {
-      console.error('[Lakovna ThemeProvider] Failed to set mode:', error);
+      console.error('[ThemeProvider] Failed to set mode:', error);
     }
   };
 

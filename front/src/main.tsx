@@ -1,18 +1,38 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
+// File: lakovna/front/src/main.tsx
+// Last change: Added filter to hide React Router Future Flag warnings in dev mode
 
-// Jednoduchá komponenta na zobrazenie
-function App() {
-  return (
-    <div>
-      <h1>Vítejte v Lakovňa!</h1>
-      <p>Frontend je úspešne spustený.</p>
-    </div>
-  )
+import React from "react";
+import { createRoot } from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import { App } from "./App";
+
+// import "@/assets/styles/main.css";
+
+// Filter out specific React Router warnings in development
+if (import.meta.env.DEV) {
+  const originalWarn = console.warn.bind(console); 
+
+  console.warn = function (...args) {
+    const isReactRouterWarning = args.some(
+      (arg) =>
+        typeof arg === "string" &&
+        arg.includes("React Router Future Flag Warning")
+    );
+    if (!isReactRouterWarning) {
+      originalWarn(...args); 
+    }
+  };
 }
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+const container = document.getElementById("root");
+if (!container) throw new Error("Failed to find the root element");
+
+const root = createRoot(container);
+
+root.render(
   <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-)
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </React.StrictMode>
+);

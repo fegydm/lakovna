@@ -1,8 +1,9 @@
 // File: front/src/shared/navigation/breadcrumb.navbar.tsx
-// Last change: Prispôsobený názov komponentu, export a CSS triedy.
+// Last change: Replaced hardcoded text with a translation key.
 
 import { FC } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useTranslation } from "../../libs/contexts/translation.context";
 import "./breadcrumb.navbar.css";
 
 interface BreadcrumbSegment {
@@ -12,6 +13,7 @@ interface BreadcrumbSegment {
 
 export const BreadcrumbNavbar: FC = () => {
   const location = useLocation();
+  const { t } = useTranslation();
 
   const getPathSegments = (): BreadcrumbSegment[] => {
     const segments = location.pathname.split("/").filter(Boolean);
@@ -28,7 +30,9 @@ export const BreadcrumbNavbar: FC = () => {
       <ol className="breadcrumb-navbar__list">
         <li className="breadcrumb-navbar__item">
           <span className="breadcrumb-navbar__start-icon">↳</span>
-          <Link to="/" className="breadcrumb-navbar__link">Home</Link>
+          <Link to="/" className="breadcrumb-navbar__link">
+            {t("common", "breadcrumb.home")}
+          </Link>
         </li>
         {segments.map((segment, index) => (
           <li key={segment.path} className="breadcrumb-navbar__item">

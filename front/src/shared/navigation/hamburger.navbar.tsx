@@ -1,8 +1,9 @@
 // File: front/src/shared/navigation/hamburger.navbar.tsx
-// Last change: Prispôsobený názov komponentu, interface, export a CSS triedy.
+// Last change: Replaced hardcoded text with translation keys.
 
 import { type FC, useState, useCallback } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
+import { useTranslation } from "../../libs/contexts/translation.context";
 import "./hamburger.navbar.css";
 
 export interface HamburgerNavbarProps {
@@ -28,6 +29,7 @@ export const HamburgerNavbar: FC<HamburgerNavbarProps> = ({
   onShowAbout,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { t } = useTranslation();
 
   const toggleMenu = useCallback(() => {
     setIsOpen((prev) => !prev);
@@ -43,7 +45,7 @@ export const HamburgerNavbar: FC<HamburgerNavbarProps> = ({
       <button
         onClick={toggleMenu}
         className="hamburger-navbar__toggle"
-        aria-label="Toggle menu"
+        aria-label={t("common", "navbar.toggleMenu")}
         aria-expanded={isOpen}
       >
         {isOpen ? <FaTimes size={22} /> : <FaBars size={22} />}
@@ -53,13 +55,13 @@ export const HamburgerNavbar: FC<HamburgerNavbarProps> = ({
         <div className="hamburger-navbar__menu" role="menu">
           <div className="hamburger-navbar__content">
             <HamburgerNavbarItem onClick={() => handleItemClick(onShowAbout)}>
-              About
+              {t("common", "navbar.about")}
             </HamburgerNavbarItem>
             <HamburgerNavbarItem onClick={() => handleItemClick(onLoginClick)}>
-              Log In
+              {t("common", "navbar.login")}
             </HamburgerNavbarItem>
             <HamburgerNavbarItem onClick={() => handleItemClick(onRegisterClick)}>
-              Create Account
+              {t("common", "navbar.register")}
             </HamburgerNavbarItem>
           </div>
         </div>

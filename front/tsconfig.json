@@ -1,6 +1,5 @@
-{
-  "extends": "../tsconfig.json",
-  "compilerOptions": {
+ {
+"compilerOptions": {
     "target": "ESNext",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "skipLibCheck": true,
@@ -21,8 +20,7 @@
     "typeRoots": [
       "../node_modules/@types",
       "./node_modules/@types"
-    ]
-  },
-  "include": ["src"],
-  "exclude": ["node_modules", "dist"]
-}
+    ],
+    "types": ["vite/client"] 
+  }
+  }

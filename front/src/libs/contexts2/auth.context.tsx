@@ -1,11 +1,12 @@
 // File: sendeliver/front/src/libs/contexts/auth.context.tsx
-// Last change: Centralized all authentication-related API calls into this context.
+// Last change: Replaced inline  with external AccessRole and updated imports to be relative.
 
 import React, { createContext, useState, useEffect, useContext, ReactNode, useCallback, useRef } from 'react';
 import type { AppRole } from '../types/systems/app_role.types';
 import type { AccessRole } from '../types/systems/access_role.types';
 import { useTabManager } from '../hooks/use-tab-manager.hook';
-import { useTranslation } from './translation.context';
+import LogoutModal from '../../shared/modals/logout.modal';
+import EmailVerificationBanner from '../../shared/elements/email-verification-banner.element';
 
 export interface User {
   id: number;
@@ -23,13 +24,6 @@ export interface PendingVerificationInfo {
   expiresAt: number;
 }
 
-export interface VerificationResponse {
-  success: boolean;
-  message: string;
-  user?: User;
-  alreadyVerified?: boolean;
-}
-
 export interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
@@ -40,19 +34,12 @@ export interface AuthContextType {
   setPendingEmailVerification: (info: PendingVerificationInfo | null) => void;
   setUser: (user: User | null) => void;
   register: (name: string, email: string, password: string) => Promise<void>;
-  registerOrganization: (details: { organizationName: string; vatNumber?: string; adminEmail: string; adminPassword: string; adminName: string; }) => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   checkAuthStatus: () => Promise<void>;
-  updateSelectedRole: (role: AppRole) => Promise<void>;
+  update: (role: AppRole) => Promise<void>;
   updateUserAvatar: (imageUrl: string) => Promise<void>;
-  verifyEmailByToken: (token: string) => Promise<VerificationResponse>;
-  completeAccountLink: (token: string, password: string) => Promise<void>;
   activeTabCount: number;
-  showLogoutModal: boolean;
-  setShowLogoutModal: (show: boolean) => void;
-  logoutCurrentTab: () => Promise<void>;
-  logoutAllTabsHandler: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -60,11 +47,15 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 const API_BASE_URL = import.meta.env.VITE_REACT_APP_API_BASE_URL || 'http://localhost:10001';
 
 const handleFetchResponse = async (response: Response): Promise<any> => {
-  if (response.status === 401) return null;
+  if (response.status === 401) {
+    return null;
+  }
+  
   if (!response.ok) {
-    const errorData = await response.json().catch(() => ({ message: 'error.unknown' }));
+    const errorData = await response.json().catch(() => ({ message: 'An unknown error occurred' }));
     throw new Error(errorData.message || `Request failed with status: ${response.status}`);
   }
+  
   return response.json();
 };
 
@@ -76,19 +67,26 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   
   const effectRan = useRef(false);
-  const { t } = useTranslation();
+
   const { activeTabCount, logoutAllTabs } = useTabManager();
 
   const fetchUserProfile = useCallback(async () => {
     const controller = new AbortController();
     const { signal } = controller;
+
     try {
       setLoading(true);
       setError(null);
+      
       const response = await fetch(`${API_BASE_URL}/api/auth/profile`, {
-        method: 'GET', headers: { 'Content-Type': 'application/json' }, credentials: 'include', signal: signal,
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        signal: signal,
       });
+
       const data = await handleFetchResponse(response);
+
       if (data) {
         setUser(data);
         if (data.emailVerified) {
@@ -99,25 +97,39 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setUser(null);
       }
     } catch (err: any) {
-      if (err.name === 'AbortError') return;
-      setError(err.message || 'error.fetch_profile_failed');
+      if (err.name === 'AbortError') {
+        return;
+      }
+      
+      setError(err.message || 'Failed to fetch user profile.');
       setUser(null);
     } finally {
-      if (signal.aborted) return;
+      if (signal.aborted) {
+        return;
+      }
       setLoading(false);
     }
   }, []);
 
   const register = useCallback(async (name: string, email: string, password: string): Promise<void> => {
-    setLoading(true);
-    setError(null);
     try {
+      setLoading(true);
+      setError(null);
+
       const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, email, password }), credentials: 'include',
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password }),
+        credentials: 'include',
       });
+      
       const data = await handleFetchResponse(response);
+
       if (data && !data.user.emailVerified) {
-        const verification = { email: data.user.email, expiresAt: Date.now() + (15 * 60 * 1000) };
+        const verification = {
+          email: data.user.email,
+          expiresAt: Date.now() + (15 * 60 * 1000)
+        };
         setPendingEmailVerification(verification);
         localStorage.setItem('pendingEmailVerification', JSON.stringify(verification));
       }
@@ -129,38 +141,31 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   }, []);
 
-  const registerOrganization = useCallback(async (details: { organizationName: string; vatNumber?: string; adminEmail: string; adminPassword: string; adminName: string; }): Promise<void> => {
-    setLoading(true);
-    setError(null);
-    try {
-      await fetch('/api/auth/register-organization', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(details),
-      });
-    } catch (err: any) {
-      setError(err.message);
-      throw err;
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
   const login = useCallback(async (email: string, password: string) => {
-    setLoading(true);
-    setError(null);
     try {
+      setLoading(true);
+      setError(null);
+
       const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password }), credentials: 'include',
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+        credentials: 'include',
       });
+      
       const data = await handleFetchResponse(response);
+
       if (data && data.user) {
         if (!data.user.emailVerified) {
-          const errorMessage = t('common', 'error.email_not_verified');
-          setError(errorMessage);
+          setError("Váš e-mail nie je overený. Prosím, skontrolujte si schránku a overte si účet.");
           setUser(null);
-          const verification = { email: data.user.email, expiresAt: Date.now() + (15 * 60 * 1000) };
+          const verification = {
+            email: data.user.email,
+            expiresAt: Date.now() + (15 * 60 * 1000)
+          };
           setPendingEmailVerification(verification);
           localStorage.setItem('pendingEmailVerification', JSON.stringify(verification));
-          throw new Error(errorMessage);
+          throw new Error("Email not verified.");
         }
         setUser(data.user);
         setPendingEmailVerification(null);
@@ -172,12 +177,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     } finally {
       setLoading(false);
     }
-  }, [t]);
+  }, []);
 
   const performLogout = useCallback(async (): Promise<void> => {
     try {
       await fetch(`${API_BASE_URL}/api/auth/logout`, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'include',
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
       });
     } catch (err) {
       console.error('Logout request failed, continuing with client-side logout:', err);
@@ -197,12 +204,16 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     await performLogout();
   }, [activeTabCount, performLogout]);
 
-  const logoutCurrentTab = useCallback(async (): Promise<void> => { await performLogout(); }, [performLogout]);
-  
+  const logoutCurrentTab = useCallback(async (): Promise<void> => {
+    await performLogout();
+  }, [performLogout]);
+
   const logoutAllTabsHandler = useCallback(async (): Promise<void> => {
     try {
       await fetch(`${API_BASE_URL}/api/auth/logout`, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'include',
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
       });
     } catch (err) {
       console.error('Logout request failed:', err);
@@ -214,15 +225,22 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setShowLogoutModal(false);
   }, [logoutAllTabs]);
 
-  const updateSelectedRole = useCallback(async (role: AppRole) => {
+  const update = useCallback(async (role: AppRole) => {
     if (!user) return;
-    const previousUser = { ...user };
+    const previousUser = user;
     setUser(currentUser => currentUser ? { ...currentUser, selectedRole: role } : null);
     try {
       const response = await fetch(`${API_BASE_URL}/api/auth/me/role`, {
-        method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ selectedRole: role }), credentials: 'include',
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ selectedRole: role }),
+        credentials: 'include',
       });
-      await handleFetchResponse(response);
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to update user role.');
+      }
     } catch (err: any) {
       console.error("Failed to update user role:", err);
       setUser(previousUser);
@@ -232,44 +250,26 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const updateUserAvatar = useCallback(async (imageUrl: string) => {
     if (!user) return;
-    const previousUser = { ...user };
+    const previousUser = user;
     setUser(currentUser => currentUser ? { ...currentUser, imageUrl: imageUrl } : null);
     try {
       const response = await fetch(`${API_BASE_URL}/api/auth/me/avatar`, {
-        method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ imageUrl: imageUrl }), credentials: 'include',
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ imageUrl: imageUrl }),
+        credentials: 'include',
       });
-      await handleFetchResponse(response);
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to update user avatar.');
+      }
     } catch (err: any) {
       console.error("Failed to update user avatar:", err);
       setUser(previousUser);
       throw err;
     }
   }, [user]);
-
-  const verifyEmailByToken = useCallback(async (token: string): Promise<VerificationResponse> => {
-    const response = await fetch(`${API_BASE_URL}/api/auth/verify-email-by-link?token=${token}`, {
-      method: 'GET', headers: { 'Content-Type': 'application/json' }, credentials: 'include',
-    });
-    const data: VerificationResponse = await response.json().catch(() => ({ success: false, message: t("common", "error.invalidServerResponse") }));
-    if (response.ok && data.success && !data.alreadyVerified && data.user) {
-      setUser(data.user);
-      setPendingEmailVerification(null);
-      localStorage.removeItem('pendingEmailVerification');
-    }
-    return data;
-  }, [t]);
-
-  const completeAccountLink = useCallback(async (token: string, password: string): Promise<void> => {
-    const response = await fetch('/api/auth/complete-account-link', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token, password })
-    });
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.message || t("common", "error.completeAccountFailed"));
-    }
-    // After success, we should probably log the user in.
-    await fetchUserProfile();
-  }, [t, fetchUserProfile]);
 
   useEffect(() => {
     if (!import.meta.env.DEV || effectRan.current) {
@@ -288,24 +288,60 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         }
       }
     }
-    return () => { effectRan.current = true; };
+
+    return () => {
+      effectRan.current = true;
+    };
   }, [fetchUserProfile]);
+
+  useEffect(() => {
+    if (pendingEmailVerification) {
+      localStorage.setItem('pendingEmailVerification', JSON.stringify(pendingEmailVerification));
+    } else {
+      localStorage.removeItem('pendingEmailVerification');
+    }
+  }, [pendingEmailVerification]);
 
   const isAuthenticated = !loading && !!user;
   const isAdmin = !loading && (user?.role === 'superadmin' || user?.role === 'org_admin');
 
   const value: AuthContextType = {
-    user, isAuthenticated, isAdmin, loading, error, pendingEmailVerification, setPendingEmailVerification,
-    setUser, register, registerOrganization, login, logout, checkAuthStatus: fetchUserProfile, updateSelectedRole,
-    updateUserAvatar, verifyEmailByToken, completeAccountLink, activeTabCount, showLogoutModal,
-    setShowLogoutModal, logoutCurrentTab, logoutAllTabsHandler,
+    user,
+    isAuthenticated,
+    isAdmin,
+    loading,
+    error,
+    pendingEmailVerification,
+    setPendingEmailVerification,
+    setUser,
+    register,
+    login,
+    logout,
+    checkAuthStatus: fetchUserProfile,
+    update,
+    updateUserAvatar,
+    activeTabCount,
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={value}>
+      {children}
+      <EmailVerificationBanner />
+      <LogoutModal
+        isOpen={showLogoutModal}
+        onClose={() => setShowLogoutModal(false)}
+        activeTabCount={activeTabCount}
+        onLogoutCurrent={logoutCurrentTab}
+        onLogoutAll={logoutAllTabsHandler}
+      />
+    </AuthContext.Provider>
+  );
 };
 
 export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
-  if (context === undefined) throw new Error('useAuth must be used within an AuthProvider');
+  if (context === undefined) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
   return context;
 };
