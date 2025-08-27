@@ -1,0 +1,61 @@
+/* File: front/src/shared/layouts/footer/footer.css */
+/* Last change: Created base styles for the main footer layout. */
+
+.footer {
+    
+  background-color: var(--color-background-secondary);
+  border-top: 1px solid var(--color-border-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  position: relative;
+}
+
+.footer__row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.footer__admin-button {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  background: none;
+  border: none;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  font-size: 0.8rem;
+  text-decoration: none;
+}
+
+.footer__admin-button:hover {
+  color: var(--color-text-primary);
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+  .footer {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1.5rem 2rem;
+  }
+
+  .footer__social {
+    order: 3;
+  }
+
+  .footer__row {
+    order: 2;
+    flex-direction: row;
+    gap: 2rem;
+  }
+  
+  .footer__admin-button {
+    order: 1;
+    position: static;
+  }
+}

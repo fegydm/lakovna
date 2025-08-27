@@ -1,0 +1,8 @@
+/* File: front/src/shared/layouts/footer/copyright.footer.css */
+/* Last change: Initial styles for the copyright component. */
+
+.copyright-footer {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  text-align: center;
+}

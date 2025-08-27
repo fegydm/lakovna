@@ -1,5 +1,6 @@
- {
-"compilerOptions": {
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
     "target": "ESNext",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "skipLibCheck": true,
@@ -9,18 +10,14 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "baseUrl": ".",
-    "paths": {
-      "@/*": ["src/*"],
-      "@lakovna/common/*": ["../common/*"],
-      "@lakovna/logger/*": ["../logger/*"]
-    },
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "typeRoots": [
       "../node_modules/@types",
       "./node_modules/@types"
-    ],
-    "types": ["vite/client"] 
-  }
-  }
+    ]
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
+}

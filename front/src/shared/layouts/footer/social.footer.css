@@ -1,0 +1,23 @@
+/* File: front/src/shared/layouts/footer/social.footer.css */
+/* Last change: Initial styles for the social footer component. */
+
+.social-footer {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.social-footer__link {
+  color: var(--color-text-secondary);
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.social-footer__link:hover {
+  color: var(--color-text-primary);
+  transform: scale(1.1);
+}
+
+.social-footer__icon {
+  width: 24px;
+  height: 24px;
+}

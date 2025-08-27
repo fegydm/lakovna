@@ -1,5 +1,5 @@
-// File: sendeliver/front/src/libs/contexts/auth.context.tsx
-// Last change: Centralized all authentication-related API calls into this context.
+// File: lakovna/front/src/libs/contexts/auth.context.tsx
+// Last change: Completed all function implementations to create the final, centralized provider.
 
 import React, { createContext, useState, useEffect, useContext, ReactNode, useCallback, useRef } from 'react';
 import type { AppRole } from '../types/systems/app_role.types';
@@ -30,6 +30,18 @@ export interface VerificationResponse {
   alreadyVerified?: boolean;
 }
 
+export interface ResendResponse {
+  ok: boolean;
+  expiresIn?: number;
+  error?: string;
+}
+
+export interface VerifyCodeResponse {
+  ok: boolean;
+  user?: User;
+  error?: string;
+}
+
 export interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
@@ -47,6 +59,8 @@ export interface AuthContextType {
   updateSelectedRole: (role: AppRole) => Promise<void>;
   updateUserAvatar: (imageUrl: string) => Promise<void>;
   verifyEmailByToken: (token: string) => Promise<VerificationResponse>;
+  verifyEmailByCode: (email: string, code: string) => Promise<VerifyCodeResponse>;
+  resendVerificationEmail: (email: string) => Promise<ResendResponse>;
   completeAccountLink: (token: string, password: string) => Promise<void>;
   activeTabCount: number;
   showLogoutModal: boolean;
@@ -133,9 +147,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setLoading(true);
     setError(null);
     try {
-      await fetch('/api/auth/register-organization', {
+      const response = await fetch(`${API_BASE_URL}/api/auth/register-organization`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(details),
       });
+      await handleFetchResponse(response);
     } catch (err: any) {
       setError(err.message);
       throw err;
@@ -258,18 +273,53 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
     return data;
   }, [t]);
+  
+  const resendVerificationEmail = useCallback(async (email: string): Promise<ResendResponse> => {
+    const res = await fetch(`${API_BASE_URL}/api/auth/resend-verification`, {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+    const json: ResendResponse = await res.json().catch(() => ({ ok: false, error: "Bad JSON" }));
+    if (res.ok && json.ok) {
+        const expiresInSec = typeof json.expiresIn === "number" ? json.expiresIn : 15 * 60;
+        const next: PendingVerificationInfo = { email, expiresAt: Date.now() + expiresInSec * 1000 };
+        setPendingEmailVerification(next);
+        localStorage.setItem('pendingEmailVerification', JSON.stringify(next));
+    }
+    return json;
+  }, []);
+
+  const verifyEmailByCode = useCallback(async (email: string, code: string): Promise<VerifyCodeResponse> => {
+    const res = await fetch(`${API_BASE_URL}/api/auth/verify-email-code`, {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, code }),
+    });
+    const json: VerifyCodeResponse = await res.json().catch(() => ({ ok: false, error: "Bad JSON" }));
+    if (res.ok && json.ok && json.user) {
+        setUser(json.user);
+        setPendingEmailVerification(null);
+        localStorage.removeItem('pendingEmailVerification');
+        
+        try {
+            const bc = new BroadcastChannel("email_verification_channel");
+            bc.postMessage({ type: "EMAIL_VERIFIED_SUCCESS", user: json.user });
+            bc.close();
+        } catch {}
+    }
+    return json;
+  }, []);
 
   const completeAccountLink = useCallback(async (token: string, password: string): Promise<void> => {
-    const response = await fetch('/api/auth/complete-account-link', {
+    const response = await fetch(`${API_BASE_URL}/api/auth/complete-account-link`, {
       method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token, password })
     });
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.message || t("common", "error.completeAccountFailed"));
-    }
-    // After success, we should probably log the user in.
+    await handleFetchResponse(response);
     await fetchUserProfile();
-  }, [t, fetchUserProfile]);
+  }, [fetchUserProfile]);
 
   useEffect(() => {
     if (!import.meta.env.DEV || effectRan.current) {
@@ -297,8 +347,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const value: AuthContextType = {
     user, isAuthenticated, isAdmin, loading, error, pendingEmailVerification, setPendingEmailVerification,
     setUser, register, registerOrganization, login, logout, checkAuthStatus: fetchUserProfile, updateSelectedRole,
-    updateUserAvatar, verifyEmailByToken, completeAccountLink, activeTabCount, showLogoutModal,
-    setShowLogoutModal, logoutCurrentTab, logoutAllTabsHandler,
+    updateUserAvatar, verifyEmailByToken, resendVerificationEmail, verifyEmailByCode, completeAccountLink,
+    activeTabCount, showLogoutModal, setShowLogoutModal, logoutCurrentTab, logoutAllTabsHandler,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

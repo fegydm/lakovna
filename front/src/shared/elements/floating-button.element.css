@@ -1,0 +1,41 @@
+/*
+ * File: front/src/shared/elements/floating-button.element.css
+ * Last action: Restored original styles and added logic for hiding/showing the button.
+ */
+
+/* Zabezpečuje, že tlačidlo je na začiatku neviditeľné a neklikateľné. */
+.floating-button {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Modifikátor, ktorý ho robí viditeľným a klikateľným. */
+.floating-button--visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Pôvodný štýl pre samotné tlačidlo. */
+.button--floating {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  padding: 0.75rem;
+  background-color: var(--floating-bg, #7f9ab6);
+  color: var(--floating-color, #ffffff);
+  border-radius: 50%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 200ms ease, transform 200ms ease, opacity 200ms ease;
+  z-index: 1000;
+}
+
+/* Pôvodný efekt pri hoveri. */
+.button--floating:hover {
+  background-color: var(--floating-hover, #6d7e91);
+  transform: scale(1.1);
+  opacity: 1;
+}

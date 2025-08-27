@@ -1,0 +1,51 @@
+/* File: front/src/shared/elements/email-verification-banner.element.css */
+/* Last change: Styles for the smart EmailVerificationBanner component. */
+
+.verification-banner__actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.verification-banner__error {
+  color: var(--color-danger-600);
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+
+.countdown-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-grow: 1;
+}
+
+.countdown-time {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.code-input-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.code-input-container input {
+  width: 100px;
+  text-align: center;
+  font-family: monospace;
+  letter-spacing: 0.2em;
+  font-size: 1.1rem;
+}
+
+.code-input-container button {
+  /* Assuming a Button primitive is used, otherwise add base styles */
+  padding: 0.6rem 1rem;
+  font-weight: 600;
+}

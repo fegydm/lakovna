@@ -1,78 +1,83 @@
-// File: lakovna/front/src/libs/configs/colors.config.ts
-// Last change: Workshop-specific colors with Sendeliver-compatible structure for universal utils
+// File: front/src/libs/configs/colors.config.ts
+// Last change: Unified all color configurations using percentage-based system and APP_ROLE_MAP
 
 import type { AppRole } from '../types/systems/app_role.types';
+import { APP_ROLE_MAP } from '../types/systems/app_role.types';
 import type { HslColor } from '../types/systems/theme.types';
+import type { AuthStatus } from '../types/systems/auth_status.types';
 
-// SYSTEM-WIDE COLORS (workshop environment colors, not role-specific)
+// DOTS COLORS - Status colors (auth states)
+export const DOTS_STATUS_COLORS: Record<AuthStatus | 'inactive', string> = {
+  inactive: 'hsl(var(--color-gray-50))',
+  anonymous: 'hsl(var(--color-red-60))',
+  cookies: 'hsl(var(--color-orange-60))',
+  registered: 'hsl(var(--color-green-60))',
+};
+
+// DOTS COLORS - Role colors (mapped through APP_ROLE_MAP)
+export const DOTS_ROLE_COLORS: Record<string, string> = {
+  client: 'hsl(var(--role-sender-60))',    // sender role color
+  carrier: 'hsl(var(--role-hauler-60))',   // hauler role color  
+  forwarder: 'hsl(var(--role-broker-60))', // broker role color
+};
+
+// PUBLIC/OBFUSCATED role mapping for CSS variables
+export const CSS_ROLE_MAP = {
+  hauler: 'crr',
+  sender: 'cln',
+  broker: 'frw'
+} as const;
+
+// SYSTEM-WIDE COLORS (environment colors, not role-specific)
 export const SYSTEM_COLORS = {
-  primary: { h: 213, s: 73, l: 47 },     // Workshop blue
-  textPrimary: { h: 220, s: 13, l: 18 }, // Dark text
-  textSecondary: { h: 220, s: 13, l: 46 }, // Medium text
-  textTertiary: { h: 220, s: 13, l: 69 },  // Light text
-  textInverse: { h: 0, s: 0, l: 100 },     // White text
-  
-  // Surface colors
-  background: { h: 0, s: 0, l: 100 },      // Page background
-  surface: { h: 220, s: 13, l: 98 },       // Cards, panels
-  input: { h: 220, s: 13, l: 95 },         // Input fields
-  border: { h: 220, s: 13, l: 91 },        // Borders
-  borderHover: { h: 220, s: 13, l: 82 },   // Hover borders
-  disabled: { h: 220, s: 13, l: 91 },      // Disabled elements
-  
+  primary: { h: 0, s: 0, l: 50 },
+  textPrimary: { h: 0, s: 0, l: 15 },
+  textSecondary: { h: 0, s: 0, l: 45 },
   // Semantic colors - independent of role
-  danger: { h: 0, s: 84, l: 60 },
-  success: { h: 142, s: 71, l: 45 },
-  warning: { h: 38, s: 92, l: 50 },
-  info: { h: 199, s: 89, l: 48 },
+  danger: { h: 0, s: 80, l: 55 },
+  success: { h: 140, s: 80, l: 55 },
+  warning: { h: 40, s: 80, l: 55 },
+  // Base system colors
+  gray: { h: 0, s: 0, l: 50 },
+  red: { h: 0, s: 70, l: 50 },
+  orange: { h: 30, s: 80, l: 55 },
+  green: { h: 140, s: 70, l: 45 },
 } as const;
 
-// WORKSHOP ROLE COLORS (hierarchy-based)
+// ROLE BRAND COLORS (simplified - direct HslColor for theme compatibility)
 export const DEFAULT_ROLE_COLORS: Record<AppRole, HslColor> = {
-  admin: { h: 0, s: 84, l: 60 },      // Red - authority/danger
-  manager: { h: 213, s: 73, l: 47 },  // Blue - leadership/primary
-  worker: { h: 142, s: 71, l: 45 },   // Green - productive/success
-  viewer: { h: 220, s: 13, l: 69 },   // Gray - neutral/readonly
+  hauler: { h: 120, s: 40, l: 55 },
+  sender: { h: 280, s: 60, l: 60 },
+  broker: { h: 210, s: 50, l: 60 },
 } as const;
 
-// WORKSHOP-SPECIFIC COLORS
-export const WORKSHOP_COLORS = {
-  // Stage states
-  stageWaiting: { h: 38, s: 92, l: 50 },   // Orange - waiting for action
-  stageActive: { h: 213, s: 73, l: 47 },   // Blue - in progress
-  stageCompleted: { h: 142, s: 71, l: 45 }, // Green - finished
-  stageDelayed: { h: 0, s: 84, l: 60 },     // Red - problem/delayed
-  
-  // Vehicle types (for demo/visualization)
-  vehicleBmw: { h: 213, s: 73, l: 47 },     // Blue
-  vehicleAudi: { h: 0, s: 84, l: 60 },      // Red
-  vehicleMercedes: { h: 220, s: 13, l: 46 }, // Gray
-  vehicleVolkswagen: { h: 142, s: 71, l: 45 }, // Green
-  vehicleFord: { h: 38, s: 92, l: 50 },     // Orange
-  
-  // Task priorities
-  priorityLow: { h: 220, s: 13, l: 69 },    // Gray
-  priorityMedium: { h: 38, s: 92, l: 50 },  // Orange
-  priorityHigh: { h: 0, s: 84, l: 60 },     // Red
-  priorityUrgent: { h: 340, s: 82, l: 52 }, // Magenta
+
+
+// FUTURE: Multi-palette support (when needed)
+export const ROLE_PALETTES: Record<AppRole, {
+  main: HslColor;
+  accent?: HslColor;
+  support?: HslColor;
+}> = {
+  hauler: { main: { h: 110, s: 40, l: 55 } },
+  sender: { main: { h: 280, s: 60, l: 60 } },
+  broker: { main: { h: 210, s: 50, l: 60 } },
 } as const;
 
 // DEFAULT SEMANTIC LEVELS (0-100 percentage for lightness calculation)
 export const DEFAULT_SEMANTIC_LEVELS = {
-  background: 98,    // Page background (lightest)
-  surface: 95,       // Cards, panels
-  input: 92,         // Input fields, textarea
-  border: 88,        // Borders, dividers
-  borderHover: 82,   // Hover borders
-  muted: 69,         // Inactive text, icons
-  emphasis: 47,      // Buttons, emphasis
-  hover: 37,         // Hover states
-  active: 27,        // Active/pressed states
-  disabled: 91,      // Disabled elements
-  subtle: 96,        // Very subtle backgrounds
-  overlay: 90,       // Modal overlays
-  accent: 35,        // Strong accent color
-  light: 99,         // Lightest background
+  background: 95,
+  surface: 90,
+  input: 85,
+  border: 75,
+  muted: 60,
+  emphasis: 35,
+  hover: 80,
+  active: 30,
+  subtle: 92,
+  overlay: 88,
+  accent: 25,
+  light: 99,
 } as const;
 
 // Keep backward compatibility
@@ -84,29 +89,42 @@ export type SemanticLevelValue = number;
 
 // Role-specific semantic level overrides (optional)
 export const ROLE_SEMANTIC_OVERRIDES: Partial<Record<AppRole, Partial<Record<SemanticLevel, SemanticLevelValue>>>> = {
-  admin: {
-    // Red needs adjustments for better contrast
-    emphasis: 50,     // Slightly lighter red
-    hover: 40,        // Better hover visibility
+  sender: {
+    emphasis: 40,
+    muted: 55,
   },
-  manager: {
-    // Blue works well with defaults
+  hauler: {
   },
-  worker: {
-    // Green might need slight adjustments
-    emphasis: 45,
-    hover: 35,
-  },
-  viewer: {
-    // Gray needs higher contrast
-    emphasis: 46,
-    muted: 60,
+  broker: {
+    emphasis: 38,
+    border: 70,
+  }
+};
+
+// UTILITY FUNCTIONS FOR DOTS COLORS
+
+export const getRoleColor = (role: AppRole): string => {
+  const mappedRole = APP_ROLE_MAP[role];
+  return DOTS_ROLE_COLORS[mappedRole] || DOTS_STATUS_COLORS.inactive;
+};
+
+export const getStatusColor = (status: AuthStatus): string => {
+  return DOTS_STATUS_COLORS[status] || DOTS_STATUS_COLORS.inactive;
+};
+
+export const getDotColor = (id: string, isSelected: boolean, isRole: boolean = true): string => {
+  if (!isSelected) return DOTS_STATUS_COLORS.inactive;
+  
+  if (isRole) {
+    return DOTS_ROLE_COLORS[id] || DOTS_STATUS_COLORS.inactive;
+  } else {
+    return DOTS_STATUS_COLORS[id as AuthStatus] || DOTS_STATUS_COLORS.inactive;
   }
 };
 
 /**
  * Dynamic Semantic Levels Manager
- * Allows runtime modification of semantic levels for workshop customization
+ * Allows runtime modification of semantic levels
  */
 class SemanticLevelsManager {
   private userLevels: Map<string, Record<SemanticLevel, SemanticLevelValue>> = new Map();
@@ -173,7 +191,7 @@ class SemanticLevelsManager {
   }
   
   /**
-   * Adjust level for dark mode - compatible with universal color utils
+   * Adjust level for dark mode - updated to accept string parameter
    */
   adjustForDarkMode(level: SemanticLevelValue, levelName: string): SemanticLevelValue {
     const noInvert: string[] = ['muted', 'emphasis'];

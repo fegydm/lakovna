@@ -1,14 +1,16 @@
 // File: lakovna/front/src/libs/types/systems/access_role.types.ts
-// Last change: Security-focused roles for authorization and permission management
+// Last change: Added superadmin and org_admin roles for complete authorization hierarchy
 
 /** Access control roles for authorization system (database-agnostic) */
-export type AccessRole = 'admin' | 'manager' | 'worker' | 'viewer';
+export type AccessRole = 'superadmin' | 'admin' | 'org_admin' | 'manager' | 'worker' | 'viewer';
 
 /**
  * Role hierarchy for permission checking
  */
 export const ACCESS_ROLE_HIERARCHY: Record<AccessRole, number> = {
-  admin: 4,
+  superadmin: 6,
+  admin: 5,
+  org_admin: 4,
   manager: 3, 
   worker: 2,
   viewer: 1

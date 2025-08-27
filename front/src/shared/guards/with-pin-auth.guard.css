@@ -1,0 +1,16 @@
+/* File: front/src/shared/guards/pin-auth.guard.css */
+/* Last change: New file for styling the pin authentication form. */
+
+.pin-auth-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: hsl(var(--sys-background));
+}
+
+.pin-auth-wrapper {
+  width: 100%;
+  max-width: 24rem;
+  padding: 1rem;
+}

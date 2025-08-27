@@ -1,0 +1,27 @@
+/* File: front/src/shared/guards/protected-route.guard.css */
+/* Last change: Added styles for the loading indicator. */
+
+.protected-route-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 200px); /* Adjust based on header/footer height */
+  width: 100%;
+  color: var(--color-text-primary);
+}
+
+.protected-route-loading__spinner {
+  border: 4px solid var(--color-border-primary);
+  border-top: 4px solid var(--color-primary-500);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

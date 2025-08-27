@@ -1,0 +1,27 @@
+/* File: front/src/shared/elements/pin-form.element.css */
+/* Last change: Styles for the smart PIN form element. */
+
+.pin-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 2rem;
+  background-color: var(--color-background-primary);
+  border-radius: var(--border-radius);
+  max-width: 400px;
+  margin: auto;
+}
+
+.pin-form__title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.pin-form__error {
+  font-size: 0.9rem;
+  color: var(--color-danger-600);
+  font-weight: 500;
+  min-height: 1.2em; /* Prevents layout shift */
+}
