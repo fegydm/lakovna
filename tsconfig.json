@@ -1,3 +1,4 @@
+
 {
   "compilerOptions": {
     "target": "ES2022",
@@ -5,14 +6,11 @@
     "moduleResolution": "Node",
     "baseUrl": ".",
     "paths": {
-      "@lakovna/common/*": ["./common/*"],
-      "@lakovna/logger/*": ["./logger/*"],
-      "@lakovna/common": ["./common/types/index.ts"],
-      "@lakovna/logger": ["./logger/core-logger.ts"]
+      "common/*": ["./common/*"],
+      "logger/*": ["./logger/*"]
     },
     "strict": true,
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true

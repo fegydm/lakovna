@@ -1,14 +1,15 @@
 // File: back/src/configs/websocket.config.ts
-// Last change: Replaced 'ws' with 'socket.io' for rooms and typed events
+// Last change: Using mapRole from auth.utils to align DB roles with AccessRole
 
 import { Server as HttpServer } from 'http';
-import { Server, Socket } from 'socket.io';
-import { WorkerRole } from '@prisma/client';
+import { Server } from 'socket.io';
 import jwt from 'jsonwebtoken';
+import { AccessRole } from 'common/types/access-role.types.js';
+import { mapRole } from '../utils/auth.utils.js';
 
 interface SocketAuthPayload {
   id: string;
-  role: WorkerRole;
+  role: string; // raw string from JWT
 }
 
 interface ServerToClientEvents {
@@ -41,9 +42,9 @@ export class WebSocketManager {
       try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET!) as SocketAuthPayload;
         socket.data.userId = decoded.id;
-        socket.data.role = decoded.role;
+        socket.data.role = mapRole(decoded.role); // 🔑 unify role
         next();
-      } catch (err) {
+      } catch {
         next(new Error('Authentication error: Invalid token.'));
       }
     });
@@ -51,12 +52,12 @@ export class WebSocketManager {
     this.io.on('connection', (socket) => {
       console.log(`✅ [WS] Client connected: ${socket.id}, UserID: ${socket.data.userId}`);
 
-      // Automatically join rooms based on role
-      if (socket.data.role === WorkerRole.ADMIN || socket.data.role === WorkerRole.MANAGER) {
+      if (socket.data.role === AccessRole.superadmin || socket.data.role === AccessRole.manager) {
         socket.join('managers');
         console.log(`[WS] User ${socket.data.userId} joined room: managers`);
       }
-      socket.join(socket.data.userId); // Personal room for direct messages
+
+      socket.join(socket.data.userId);
 
       socket.on('disconnect', () => {
         console.log(`[WS] Client disconnected: ${socket.id}`);
@@ -66,15 +67,25 @@ export class WebSocketManager {
     console.log('🚀 [WS] WebSocket server initialized with Socket.IO');
   }
 
-  public static emitToManagers<T extends keyof ServerToClientEvents>(event: T, ...payload: Parameters<ServerToClientEvents[T]>) {
+  public static emitToManagers<T extends keyof ServerToClientEvents>(
+    event: T,
+    ...payload: Parameters<ServerToClientEvents[T]>
+  ) {
     this.io.to('managers').emit(event, ...payload);
   }
 
-  public static emitToUser<T extends keyof ServerToClientEvents>(userId: string, event: T, ...payload: Parameters<ServerToClientEvents[T]>) {
+  public static emitToUser<T extends keyof ServerToClientEvents>(
+    userId: string,
+    event: T,
+    ...payload: Parameters<ServerToClientEvents[T]>
+  ) {
     this.io.to(userId).emit(event, ...payload);
   }
 
-  public static broadcast<T extends keyof ServerToClientEvents>(event: T, ...payload: Parameters<ServerToClientEvents[T]>) {
+  public static broadcast<T extends keyof ServerToClientEvents>(
+    event: T,
+    ...payload: Parameters<ServerToClientEvents[T]>
+  ) {
     this.io.emit(event, ...payload);
   }
 }

@@ -1,39 +1,51 @@
+// File: scripts/clean.js
+// Last change: Made universal clean script for root, back and front
 
-// File: lakovna/scripts/clean.js
+import { existsSync, rmSync } from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 
-import { existsSync, rmSync } from 'fs';
-import { join } from 'path';
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const ROOT = path.resolve(__dirname, "..");
+const BACK = path.join(ROOT, "back");
+const FRONT = path.join(ROOT, "front");
 
-const paths = [
-  // Build artifacts
-  'back/dist',
-  'front/dist',
-  
-  // Node modules (iba root)
-  'node_modules',
-  
-  // Lock files (iba root)
-  'package-lock.json',
-  
-  // Logs
-  'logs',
-  'back/logs',
-  
-  // Temp files
-  '.next',
-  '.turbo'
-];
+const cwd = process.cwd();
 
-console.log('🧹 Cleaning Lakovňa project...\n');
+let paths = [];
+if (cwd === ROOT) {
+  // Root clean → všetko
+  paths = [
+    "back/dist",
+    "front/dist",
+    "node_modules",
+    "package-lock.json",
+    "logs",
+    "back/logs",
+    ".next",
+    ".turbo",
+  ];
+} else if (cwd.startsWith(BACK)) {
+  // Backend clean
+  paths = ["dist", "node_modules", "package-lock.json", "logs"];
+} else if (cwd.startsWith(FRONT)) {
+  // Frontend clean
+  paths = ["dist", "node_modules", "package-lock.json"];
+} else {
+  console.log("❌ Unknown working directory. Run from root, back or front.");
+  process.exit(1);
+}
 
-paths.forEach(path => {
-  const fullPath = join(process.cwd(), path);
-  if (existsSync(fullPath)) {
-    rmSync(fullPath, { recursive: true, force: true });
-    console.log(`✅ Cleaned: ${path}`);
+console.log("🧹 Cleaning project...\n");
+
+paths.forEach((p) => {
+  const full = path.join(cwd, p);
+  if (existsSync(full)) {
+    rmSync(full, { recursive: true, force: true });
+    console.log(`✅ Cleaned: ${p}`);
   } else {
-    console.log(`⏭️  Skipped: ${path} (not found)`);
+    console.log(`⏭️  Skipped: ${p} (not found)`);
   }
 });
 
-console.log('\n🎉 Clean completed!');
+console.log("\n🎉 Clean completed!");

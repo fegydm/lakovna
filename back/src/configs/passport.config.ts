@@ -1,13 +1,12 @@
 // File: back/src/configs/passport.config.ts
-// Last change: Simplified to only contain the Google OAuth2 strategy
+// Last change: Integrated mapRole utility to normalize AccessRole
 
 import passport from 'passport';
 import { Strategy as GoogleStrategy, Profile } from 'passport-google-oauth20';
 import { prisma } from '../lib/prisma.js';
-import { WorkerRole } from '@prisma/client';
+import { mapRole } from '../utils/auth.utils.js';
 
 const configurePassport = () => {
-  // We only configure the Google Strategy, as all other auth is handled by custom middleware.
   passport.use(
     new GoogleStrategy(
       {
@@ -27,12 +26,15 @@ const configurePassport = () => {
           if (!worker) {
             return done(null, false, { message: 'No worker associated with this Google account.' });
           }
-          
-          if (worker.role !== WorkerRole.ADMIN && worker.role !== WorkerRole.MANAGER) {
-            return done(null, false, { message: 'Only managers and admins can log in with Google.' });
+
+          if (!worker.isActive) {
+            return done(null, false, { message: 'This account is disabled.' });
           }
 
-          return done(null, worker);
+          return done(null, {
+            ...worker,
+            role: mapRole(worker.role),
+          });
         } catch (error) {
           return done(error as Error);
         }

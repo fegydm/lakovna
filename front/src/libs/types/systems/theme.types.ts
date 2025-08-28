@@ -1,7 +1,7 @@
 // File: lakovna/front/src/libs/types/systems/theme.types.ts
 // Last change: Modular theme types importing from dedicated role and mode files
 
-import type { AppRole } from './app_role.types';
+import type { AppRole } from '../../../../../common/types/app-role.types';
 import type { ThemeMode } from './theme_mode.types';
 
 export interface HslColor {

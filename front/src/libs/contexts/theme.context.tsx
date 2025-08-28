@@ -3,7 +3,7 @@
 
 import React, { createContext, useState, useEffect, useContext, ReactNode, useRef } from 'react';
 import type { ThemeSettings, HslColor } from '../types/systems/theme.types';
-import { AppRole, APP_ROLES } from '../types/systems/app_role.types';
+import { AppRole, APP_ROLES } from '../../../../common/types/app-role.types';
 import type { ThemeMode } from '../types/systems/theme_mode.types';
 import { 
   SYSTEM_COLORS, 

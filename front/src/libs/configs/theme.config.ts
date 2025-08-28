@@ -2,7 +2,7 @@
 // Last change: Corrected imports to use relative paths as per project rules
 
 import type { HslColor, ThemeSettings } from '../types/systems/theme.types';
-import type { AppRole } from '../types/systems/app_role.types';
+import type { AppRole } from '../../../../common/types/app-role.types';
 import type { ThemeMode } from '../types/systems/theme_mode.types';
 import { DEFAULT_ROLE_COLORS } from './colors.config';
 import { DESIGN_CONSTANTS } from './ui.config';

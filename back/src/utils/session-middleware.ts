@@ -3,7 +3,7 @@
 
 import { randomBytes } from 'crypto';
 import { Request, Response, NextFunction } from 'express';
-import { prisma } from '../lib/prisma.js';
+import { prisma } from '../lib/prisma';
 
 const SESSION_MAX_AGE_MS = 24 * 60 * 60 * 1000; // 24 hours
 

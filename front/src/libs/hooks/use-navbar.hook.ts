@@ -6,7 +6,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useTheme } from '../contexts/theme.context';
 import { useAuthOptional } from '../contexts/auth.optional';
 import { useTranslation } from '../contexts/translation.context';
-import { AppRole, APP_ROLES, APP_ROLE_PATHS, APP_ROLE_MAP } from '../types/systems/app_role.types';
+import { AppRole, APP_ROLES, APP_ROLE_PATHS, APP_ROLE_MAP } from '../../../../common/types/app-role.types';
 import { AuthStatus, AUTH_STATUSES } from '../types/systems/auth_status.types';
 import { DOTS_STATUS_COLORS, DOTS_ROLE_COLORS } from '../configs/colors.config';
 import { ZODIAC_SIGNS } from '../constants/zodiac.constants';

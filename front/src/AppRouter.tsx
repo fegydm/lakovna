@@ -5,10 +5,10 @@ import React, { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 import { AppLayout } from "./shared/layouts/app.layout";
 import ProtectedRoute from "./shared/guards/protected-route.guard";
-import { APP_ROLE_PATHS } from "./libs/types/systems/app_role.types";
+import { APP_ROLE_PATHS } from "../../common/types/app-role.types";
 import { APP_PATHS } from "./libs/configs/paths.config";
 
-const HomePage = lazy(() => import("./apps/portal/home/home.page"));
+const HomePage = lazy(() => import("./apps/home/home"));
 const Page404 = lazy(() => import("./apps/portal/404/404.page"));
 
 const DashboardPlaceholder = () => (

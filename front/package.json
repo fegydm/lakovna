@@ -4,10 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "clean": "node ../scripts/clean.js",
     "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
-    "clean": "rimraf dist node_modules"
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
     "leaflet": "^1.9.4",

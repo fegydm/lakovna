@@ -1,8 +1,8 @@
 // File: front/src/libs/configs/colors.config.ts
 // Last change: Unified all color configurations using percentage-based system and APP_ROLE_MAP
 
-import type { AppRole } from '../types/systems/app_role.types';
-import { APP_ROLE_MAP } from '../types/systems/app_role.types';
+import type { AppRole } from '../../../../common/types/app-role.types';
+import { APP_ROLE_MAP } from '../../../../common/types/app-role.types';
 import type { HslColor } from '../types/systems/theme.types';
 import type { AuthStatus } from '../types/systems/auth_status.types';
 

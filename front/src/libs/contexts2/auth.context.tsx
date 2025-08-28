@@ -2,8 +2,8 @@
 // Last change: Replaced inline  with external AccessRole and updated imports to be relative.
 
 import React, { createContext, useState, useEffect, useContext, ReactNode, useCallback, useRef } from 'react';
-import type { AppRole } from '../types/systems/app_role.types';
-import type { AccessRole } from '../types/systems/access_role.types';
+import type { AppRole } from '../../../../common/types/app-role.types';
+import type { AccessRole } from '../../../../common/types/access-role.types';
 import { useTabManager } from '../hooks/use-tab-manager.hook';
 import LogoutModal from '../../shared/modals/logout.modal';
 import EmailVerificationBanner from '../../shared/elements/email-verification-banner.element';

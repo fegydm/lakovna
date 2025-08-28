@@ -1,10 +1,10 @@
 // File: back/src/utils/auth.utils.ts
-// Last change: Centralized password and token utility functions
+// Last change: Updated signToken to use JWTPayload instead of AuthUser
 
 import { scrypt, randomBytes, timingSafeEqual } from 'crypto';
 import { promisify } from 'util';
 import jwt from 'jsonwebtoken';
-import { Worker, WorkerRole } from '@prisma/client';
+import { JWTPayload } from 'common/types/auth-user.types';
 
 const scryptAsync = promisify(scrypt);
 
@@ -26,7 +26,6 @@ export async function verifyPassword(password: string, hash: string): Promise<bo
   return timingSafeEqual(keyBuffer, derivedKey);
 }
 
-export const signToken = (worker: { id: string; role: WorkerRole }) => {
-  const payload = { id: worker.id, role: worker.role };
+export const signToken = (payload: JWTPayload): string => {
   return jwt.sign(payload, process.env.JWT_SECRET!, { expiresIn: '24h' });
 };
