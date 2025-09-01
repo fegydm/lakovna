@@ -2,7 +2,7 @@
 // Last change: Fixed imports and improved validation with error handling
 
 import { Request, Response } from 'express';
-import { prisma } from '../lib/prisma.js';
+import { prisma } from '../clients/prisma.js';
 
 export const getAllStages = async (req: Request, res: Response) => {
   try {

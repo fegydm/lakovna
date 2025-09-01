@@ -1,15 +1,15 @@
 // File: front/src/apps/home/team/team.tab.tsx
 
 import React, { useState } from "react";
-import type { AccessRole } from "../../../../../common/types/access-role.types";
+import type { AccessRole } from "common/types/universal/access-role.types";
 import "./team.tab.css";
 
 interface TeamTabProps {
   isAuthenticated: boolean;
-  userRole: AccessRole;
+  accessRole: AccessRole;
 }
 
-const TeamTab: React.FC<TeamTabProps> = ({ isAuthenticated, userRole }) => {
+const TeamTab: React.FC<TeamTabProps> = ({ isAuthenticated, accessRole }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterRole, setFilterRole] = useState("all");
 
@@ -80,7 +80,7 @@ const TeamTab: React.FC<TeamTabProps> = ({ isAuthenticated, userRole }) => {
     password: "🔑"
   };
 
-  const canManageTeam = userRole === 'admin' || userRole === 'superadmin' || userRole === 'org_admin';
+  const canManageTeam = accessRole === 'owner' || accessRole === 'superadmin' || accessRole === 'partner';
 
   const getRoleBadgeClass = (role: string) => {
     const roleClasses = {

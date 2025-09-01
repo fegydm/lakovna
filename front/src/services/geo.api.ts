@@ -1,7 +1,7 @@
 // File: front/src/services/geo.api.ts
 // Last change: Removed redundant getTranslations function, which is now in i18n.api.ts.
 
-import type { Country, Language } from '../libs/types/domains/geo.types';
+import type { Country, Language } from '../../../common/types/shared/geo.types';
 
 const DEV_MODE = false;
 

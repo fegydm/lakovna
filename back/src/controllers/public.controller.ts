@@ -2,7 +2,7 @@
 // Last change: Fixed imports and improved customer tracking features
 
 import { Request, Response } from 'express';
-import { prisma } from '../lib/prisma.js';
+import { prisma } from '../clients/prisma.js';
 
 export const getVehicleByTrackingToken = async (req: Request, res: Response) => {
   const { token } = req.params;

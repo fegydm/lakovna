@@ -2,7 +2,7 @@
 // Last change: Fixed imports to use unified prisma client
 
 import { Request, Response } from 'express';
-import { prisma } from '../lib/prisma.js';
+import { prisma } from '../clients/prisma.js';
 
 export const getAllVehicles = async (req: Request, res: Response) => {
   try {

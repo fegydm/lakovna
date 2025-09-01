@@ -1,12 +1,12 @@
 // File: back/src/services/auth.service.ts
 // Last change: Finalized service layer with type-safe terminal login and unified utils
 
-import { prisma } from '../lib/prisma';
+import { prisma } from '../clients/prisma';
 import { Prisma } from '@prisma/client';
-import { hashPassword, verifyPassword } from '../utils/crypto.utils';
-import { signToken } from '../utils/jwt.utils';
-import { toAuthUser } from '../utils/mapper.utils';
-import { AuthUser } from 'common/types/auth-user.types';
+import { hashPassword, verifyPassword } from '../security/crypto.utils';
+import { signToken } from '../security/jwt.utils';
+import { toAuthUser } from '../security/mapper.utils';
+import { AuthUser } from 'common/types/universal/auth-status.types';
 
 /**
  * Register a new organization with an owner account

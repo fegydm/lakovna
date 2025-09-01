@@ -1,15 +1,15 @@
 // File: front/src/apps/home/schema/schema.tab.tsx
 
 import React, { useState } from "react";
-import type { AccessRole } from "../../../../../common/types/access-role.types";
+import type { AccessRole } from "common/types/universal/access-role.types";
 import "./schema.tab.css";
 
 interface SchemaTabProps {
   isAuthenticated: boolean;
-  userRole: AccessRole;
+  accessRole: AccessRole;
 }
 
-const SchemaTab: React.FC<SchemaTabProps> = ({ isAuthenticated, userRole }) => {
+const SchemaTab: React.FC<SchemaTabProps> = ({ isAuthenticated, accessRole }) => {
   const [activeView, setActiveView] = useState("overlay");
   const [selectedVehicle, setSelectedVehicle] = useState<string | null>(null);
 

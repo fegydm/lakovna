@@ -1,15 +1,16 @@
 // File: front/src/apps/home/dashboard/dashboard.tab.tsx
+// Last change: Changed userRole to accessRole
 
 import React from "react";
-import type { AccessRole } from "../../../../../common/types/access-role.types";
+import type { AccessRole } from "common/types/universal/access-role.types";
 import "./dashboard.tab.css";
 
 interface DashboardTabProps {
   isAuthenticated: boolean;
-  userRole: AccessRole;
+  accessRole: AccessRole;
 }
 
-const DashboardTab: React.FC<DashboardTabProps> = ({ isAuthenticated, userRole }) => {
+const DashboardTab: React.FC<DashboardTabProps> = ({ isAuthenticated, accessRole }) => {
   const mockMetrics = {
     vehiclesInProcess: isAuthenticated ? 23 : 8,
     averageProcessingTime: isAuthenticated ? "4.2h" : "3.1h", 

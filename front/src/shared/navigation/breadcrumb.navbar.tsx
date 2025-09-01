@@ -3,7 +3,7 @@
 
 import { FC } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useTranslation } from "../../libs/contexts/translation.context";
+import { useTranslation } from "../../contexts/translation.context";
 import "./breadcrumb.navbar.css";
 
 interface BreadcrumbSegment {

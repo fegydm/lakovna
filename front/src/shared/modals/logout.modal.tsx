@@ -4,7 +4,7 @@
 import React from 'react';
 import { Button } from "../base/button.base";
 import { Modal } from "../base/modal.base";
-import { useTranslation } from "../../libs/contexts/translation.context";
+import { useTranslation } from "../../contexts/translation.context";
 import './logout.modal.css';
 
 const LOGOUT_ICONS = {

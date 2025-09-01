@@ -1,13 +1,13 @@
 // File: front/src/apps/home/settings/settings.tab.tsx
 
 import React, { useState, useEffect } from "react";
-import type { AccessRole } from "../../../../../common/types/access-role.types";
-import { logger } from "../../../libs/utils/logger.util";
+import type { AccessRole } from "../../../../../common/types/universal/access-role.types";
+import { logger } from "../../../../../common/utils/logger.util";
 import "./settings.tab.css";
 
 interface SettingsTabProps {
   isAuthenticated: boolean;
-  userRole: AccessRole;
+  accessRole: AccessRole;
 }
 
 interface LocalSettings {
@@ -26,7 +26,7 @@ interface UserSettings extends LocalSettings {
   defaultView: 'dashboard' | 'schema';
 }
 
-const SettingsTab: React.FC<SettingsTabProps> = ({ isAuthenticated, userRole }) => {
+const SettingsTab: React.FC<SettingsTabProps> = ({ isAuthenticated, accessRole }) => {
   const [localSettings, setLocalSettings] = useState<LocalSettings>({
     theme: 'light',
     primaryColor: '#3b82f6',
@@ -58,7 +58,7 @@ const SettingsTab: React.FC<SettingsTabProps> = ({ isAuthenticated, userRole }) 
     { name: 'Limetková', value: '#84cc16', class: 'color-lime' }
   ];
 
-  const canManageSystem = userRole === 'admin' || userRole === 'superadmin';
+  const canManageSystem = accessRole === 'owner' || accessRole === 'superadmin';
 
   useEffect(() => {
     loadLocalSettings();

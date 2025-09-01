@@ -1,9 +1,9 @@
 // File: back/src/services/worker.service.ts
 // Last change: Added service for worker-driven organization interactions
 
-import { prisma } from '../lib/prisma'
-import { AuthUser } from 'common/types/auth-user.types'
-import { toAuthUser } from '../utils/mapper.utils'
+import { prisma } from '../clients/prisma'
+import { AuthUser } from 'common/types/universal/auth-status.types'
+import { toAuthUser } from '../security/mapper.utils'
 
 /**
  * Worker requests to join an organization

@@ -3,7 +3,7 @@
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { FaArrowUp } from "react-icons/fa";
-import { useTranslation } from "../../libs/contexts/translation.context";
+import { useTranslation } from "../../contexts/translation.context";
 import { Button } from "../base/button.base";
 import "./floating-button.element.css";
 

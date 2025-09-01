@@ -3,9 +3,9 @@
 
 import React from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
-import { useAuth } from '../../libs/contexts/auth.context';
-import { useTranslation } from '../../libs/contexts/translation.context';
-import { APP_PATHS } from '../../libs/configs/paths.config';
+import { useAuth } from '../../contexts/auth.context';
+import { useTranslation } from '../../contexts/translation.context';
+import { APP_PATHS } from 'common/configs/universal/paths.config';
 import './protected-route.guard.css';
 
 const LoadingIndicator: React.FC = () => {

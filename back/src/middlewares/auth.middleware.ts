@@ -3,9 +3,10 @@
 
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { prisma } from '../lib/prisma';
-import { AccessRole } from 'common/types/access-role.types';
-import { AuthUser } from 'common/types/auth-user.types';
+import { prisma } from '../clients/prisma';
+import { AccessRole } from 'common/types/universal/access-role.types';
+import type { AuthUser } from 'common/types/shared/auth-user.types';
+
 
 export const protect = (allowedRoles?: AccessRole[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {

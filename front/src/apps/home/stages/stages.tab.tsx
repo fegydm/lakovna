@@ -1,15 +1,15 @@
 // File: front/src/apps/home/stages/stages.tab.tsx
 
 import React, { useState } from "react";
-import type { AccessRole } from "../../../../../common/types/access-role.types";
+import type { AccessRole } from "common/types/universal/access-role.types";
 import "./stages.tab.css";
 
 interface StagesTabProps {
   isAuthenticated: boolean;
-  userRole: AccessRole;
+  accessRole: AccessRole;
 }
 
-const StagesTab: React.FC<StagesTabProps> = ({ isAuthenticated, userRole }) => {
+const StagesTab: React.FC<StagesTabProps> = ({ isAuthenticated, accessRole }) => {
   const [selectedTemplate, setSelectedTemplate] = useState("paint_shop");
 
   const stageTemplates = [
@@ -105,7 +105,7 @@ const StagesTab: React.FC<StagesTabProps> = ({ isAuthenticated, userRole }) => {
     }
   ];
 
-  const canManage = userRole === 'admin' || userRole === 'superadmin' || userRole === 'org_admin';
+  const canManage = accessRole === 'owner' || accessRole === 'superadmin' || accessRole === 'partner';
 
   return (
     <div className="stages-tab">

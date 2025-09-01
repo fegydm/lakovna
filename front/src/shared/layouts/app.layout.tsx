@@ -3,7 +3,7 @@
 
 import React from "react";
 import { Outlet } from "react-router-dom";
-import { useAuth } from "../../libs/contexts/auth.context";
+import { useAuth } from "../../contexts/auth.context";
 
 import Navbar from "../navigation/navbar";
 import FooterLayout from "./footer/footer";

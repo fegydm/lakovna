@@ -1,8 +1,8 @@
 // File: back/src/services/organization.service.ts
 // Last change: Added service for owner/manager-driven organization management
 
-import { prisma } from '../lib/prisma'
-import { AccessRole } from 'common/types/access-role.types'
+import { prisma } from '../clients/prisma'
+import { AccessRole } from 'common/types/universal/access-role.types'
 
 /**
  * Owner/Manager invites a worker by email

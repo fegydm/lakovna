@@ -2,7 +2,7 @@
 // Last change: Fixed TypeScript errors with proper field names and type definitions
 
 import { Request, Response } from 'express';
-import { prisma } from '../lib/prisma.js';
+import { prisma } from '../clients/prisma.js';
 import { VehicleStatus, TaskStatus } from '@prisma/client';
 
 export const getDashboardStats = async (req: Request, res: Response) => {

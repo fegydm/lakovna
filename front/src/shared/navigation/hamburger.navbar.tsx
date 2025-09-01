@@ -3,7 +3,7 @@
 
 import { type FC, useState, useCallback } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
-import { useTranslation } from "../../libs/contexts/translation.context";
+import { useTranslation } from "../../contexts/translation.context";
 import "./hamburger.navbar.css";
 
 export interface HamburgerNavbarProps {

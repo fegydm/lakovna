@@ -2,11 +2,11 @@
 // Last change: Removed BrowserRouter to avoid duplication with main.tsx.
 
 import React from "react";
-import { ThemeProvider } from "./libs/contexts/theme.context";
-import { TranslationProvider } from "./libs/contexts/translation.context";
-import { LanguagesProvider } from "./libs/contexts/languages.context";
-import { CountriesProvider } from "./libs/contexts/countries.context";
-import { AuthProvider } from "./libs/contexts/auth.context";
+import { ThemeProvider } from "./contexts/theme.context";
+import { TranslationProvider } from "./contexts/translation.context";
+import { LanguagesProvider } from "./contexts/languages.context";
+import { CountriesProvider } from "./contexts/countries.context";
+import { AuthProvider } from "./contexts/auth.context";
 import { GeoApi } from "./services/geo.api";
 import { I18nApi } from "./services/i18n.api";
 import { AppRouter } from "./AppRouter";

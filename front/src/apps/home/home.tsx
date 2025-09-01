@@ -1,10 +1,11 @@
 // File: front/src/apps/home/home.tsx
-// Last change: Created main workshop interface adapted from Sendeliver hauler
+// Last change: Fixed to use user.role directly from AuthContext
 
 import React, { useState, useEffect } from "react";
-import { logger } from "../../libs/utils/logger.util";
+import { logger } from "common/utils/logger.util";
 import HomeTabs from "./tabs.home";
-import { useAuth } from "../../libs/contexts/auth.context";
+import { useAuth } from "../../contexts/auth.context";
+import { AccessRole } from "common/types/universal/access-role.types";
 import "./home.css";
 
 const Home: React.FC = () => {
@@ -16,7 +17,8 @@ const Home: React.FC = () => {
       logger.info(`User accessed workshop`, { 
         userId: user.id, 
         userName: user.name,
-        role: user.role 
+        accessRole: user.role,
+        selectedCategory: user.selectedCategory
       });
     } else {
       logger.info(`Guest accessed workshop with mock data`);
@@ -29,7 +31,7 @@ const Home: React.FC = () => {
         activeTab={activeTab} 
         setActiveTab={setActiveTab} 
         isAuthenticated={isAuthenticated}
-        userRole={user?.role || 'viewer'}
+        accessRole={user?.role || AccessRole.viewer}
       />
     </div>
   );

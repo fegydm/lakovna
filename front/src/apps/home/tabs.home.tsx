@@ -1,5 +1,5 @@
 // File: front/src/apps/home/tabs.home.tsx
-// Last change: Created tab navigation for workshop management interface
+// Last change: Changed userRole to accessRole
 
 import React from "react";
 import DashboardTab from "./dashboard/dashboard.tab";
@@ -8,20 +8,20 @@ import VehiclesTab from "./vehicles/vehicles.tab";
 import StagesTab from "./stages/stages.tab";
 import TeamTab from "./team/team.tab";
 import SettingsTab from "./settings/settings.tab";
-import type { AccessRole } from "../../../../common/types/access-role.types";
+import type { AccessRole } from "../../../../common/types/universal/access-role.types";
 
 interface HomeTabsProps {
   activeTab: string;
   setActiveTab: (tab: string) => void;
   isAuthenticated: boolean;
-  userRole: AccessRole;
+  accessRole: AccessRole;
 }
 
 const HomeTabs: React.FC<HomeTabsProps> = ({ 
   activeTab, 
   setActiveTab, 
   isAuthenticated, 
-  userRole 
+  accessRole 
 }) => {
   const tabs = [
     { id: "dashboard", label: "Dashboard", icon: "📊", component: DashboardTab },
@@ -57,7 +57,7 @@ const HomeTabs: React.FC<HomeTabsProps> = ({
       <div className="home-tabs__content">
         <ActiveComponent 
           isAuthenticated={isAuthenticated}
-          userRole={userRole}
+          accessRole={accessRole}
         />
       </div>
     </div>

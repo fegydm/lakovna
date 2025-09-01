@@ -2,8 +2,8 @@
 // Last change: Replaced hardcoded fallback country code with a centralized constant.
 
 import React from "react";
-import { useLanguageSelector } from "../../libs/hooks/use-language-selector.hook";
-import type { Language } from "../../libs/types/domains/geo.types";
+import { useLanguageSelector } from "../../hooks/use-language-selector.hook";
+import type { Language } from "../../../../common/types/shared/geo.types";
 import { getFlagUrl, FALLBACK_COUNTRY_CODE } from "../../libs/configs/language.config";
 import "./language.navbar.css";
 

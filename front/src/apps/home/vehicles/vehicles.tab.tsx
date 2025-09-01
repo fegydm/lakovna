@@ -1,15 +1,15 @@
 // File: front/src/apps/home/vehicles/vehicles.tab.tsx
 
 import React, { useState } from "react";
-import type { AccessRole } from "../../../../../common/types/access-role.types";
+import type { AccessRole } from "../../../../../common/types/universal/access-role.types";
 import "./vehicles.tab.css";
 
 interface VehiclesTabProps {
   isAuthenticated: boolean;
-  userRole: AccessRole;
+  accessRole: AccessRole;
 }
 
-const VehiclesTab: React.FC<VehiclesTabProps> = ({ isAuthenticated, userRole }) => {
+const VehiclesTab: React.FC<VehiclesTabProps> = ({ isAuthenticated, accessRole }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const mockVehicles = isAuthenticated ? [
@@ -106,7 +106,7 @@ const VehiclesTab: React.FC<VehiclesTabProps> = ({ isAuthenticated, userRole }) 
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          {(isAuthenticated && (userRole === 'admin' || userRole === 'manager')) && (
+          {(isAuthenticated && (accessRole === 'owner' || accessRole === 'manager')) && (
             <button className="add-vehicle-btn">+ Pridať vozidlo</button>
           )}
         </div>

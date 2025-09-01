@@ -7,8 +7,8 @@ import { protect } from '../middlewares/auth.middleware';
 import { rateLimiter } from '../middlewares/rate-limiter';
 import * as authController from '../controllers/auth.controller';
 import * as workerController from '../controllers/worker.controller';
-import { signToken } from '../utils/auth.utils';
-import { roleFromDbFormat } from 'common/types/access-role.types';
+import { signToken } from '../security/auth.utils';
+import { roleFromDbFormat } from 'common/types/universal/access-role.types';
 import { Worker } from '@prisma/client';
 
 const authRouter = Router();

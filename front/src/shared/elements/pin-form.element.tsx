@@ -3,7 +3,7 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import PinInput from "../base/pin-input.base";
-import { useTranslation } from "../../libs/contexts/translation.context";
+import { useTranslation } from "../../contexts/translation.context";
 import "./pin-form.element.css";
 
 interface PinFormProps {

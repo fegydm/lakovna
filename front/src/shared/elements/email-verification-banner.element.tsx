@@ -2,10 +2,10 @@
 // Last change: Replaced hardcoded text and fixed import paths.
 
 import React, { useState, useEffect, useCallback, useMemo, useRef } from "react";
-import { useAuthOptional } from "../../libs/contexts/auth.optional";
+import { useAuthOptional } from "../../contexts/auth.optional";
 import { useLocation } from "react-router-dom";
 import { Alert } from "../base/alert.base";
-import { useTranslation } from "../../libs/contexts/translation.context";
+import { useTranslation } from "../../contexts/translation.context";
 import "./email-verification-banner.element.css";
 
 const PENDING_VERIFICATION_KEY = "pendingEmailVerification";

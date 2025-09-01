@@ -1,7 +1,7 @@
 // lakovna/common/types/index.ts
-export * from './vehicle.types';
-export * from './stage.types';
+export * from './universal/vehicle.types';
+export * from './universal/stage.types';
 export * from './worker.types';
-export * from './api.types';
-export * from './access-role.types';
-export * from './app-role.types';
+export * from './shared/api.types';
+export * from './universal/access-role.types';
+// export * from './org-type.types';

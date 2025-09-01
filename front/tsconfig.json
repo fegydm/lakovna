@@ -7,6 +7,6 @@
     "noEmit": true,
     "isolatedModules": true
   },
-  "include": ["src"],
+  "include": ["src", "_types", "../common/types/shared/theme.types.ts", "../common/types/universal/theme_mode.types.ts", "../common/configs/universal/ui.config.ts", "../common/configs/project/theme.config.ts", "../common/utils/dot-colors.utils.ts", "../common/types/shared/geo.types.ts"],
   "exclude": ["node_modules", "dist"]
 }

@@ -2,7 +2,7 @@
 // Last change: Fixed missing label props for LoginNavbar and RegisterNavbar.
 
 import { FC, Suspense, lazy } from "react";
-import { useNavbar } from "../../libs/hooks/use-navbar.hook";
+import { useNavbar } from "../../hooks/use-navbar.hook";
 
 import { LogoNavbar } from "./logo.navbar";
 import { NameNavbar } from "./name.navbar";

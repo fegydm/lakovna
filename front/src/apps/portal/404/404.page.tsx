@@ -4,7 +4,7 @@
 import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import lottie from "lottie-web/build/player/lottie_light";
-import { useTranslation } from "../../../libs/contexts/translation.context";
+import { useTranslation } from "../../../contexts/translation.context";
 import { Button } from "../../../shared/base/button.base";
 import './404.page.css';
 

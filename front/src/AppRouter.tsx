@@ -1,12 +1,12 @@
 // File: front/src/AppRouter.tsx
-// Last change: Replaced non-existent dashboard pages with temporary placeholder components.
+// Last change: Replaced role-based dashboards with Lakovňa project categories.
 
 import React, { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 import { AppLayout } from "./shared/layouts/app.layout";
 import ProtectedRoute from "./shared/guards/protected-route.guard";
-import { APP_ROLE_PATHS } from "../../common/types/app-role.types";
-import { APP_PATHS } from "./libs/configs/paths.config";
+import { PROJECT_CATEGORY_PATHS } from "common/configs/project/project-paths";
+import { APP_PATHS } from "common/configs/universal/paths.config";
 
 const HomePage = lazy(() => import("./apps/home/home"));
 const Page404 = lazy(() => import("./apps/portal/404/404.page"));
@@ -18,10 +18,10 @@ const DashboardPlaceholder = () => (
   </div>
 );
 
-// --- Create placeholders for role-based pages ---
-const SenderDashboard = DashboardPlaceholder;
-const HaulerDashboard = DashboardPlaceholder;
-const BrokerDashboard = DashboardPlaceholder;
+// --- Placeholders for Lakovňa categories ---
+const PaintDashboard = DashboardPlaceholder;
+const MechanicalDashboard = DashboardPlaceholder;
+const FullServiceDashboard = DashboardPlaceholder;
 
 export const AppRouter: React.FC = () => {
   return (
@@ -32,9 +32,9 @@ export const AppRouter: React.FC = () => {
           
           {/* Protected routes */}
           <Route element={<ProtectedRoute />}>
-            <Route path={APP_ROLE_PATHS.sender} element={<SenderDashboard />} />
-            <Route path={APP_ROLE_PATHS.hauler} element={<HaulerDashboard />} />
-            <Route path={APP_ROLE_PATHS.broker} element={<BrokerDashboard />} />
+            <Route path={PROJECT_CATEGORY_PATHS.paint} element={<PaintDashboard />} />
+            <Route path={PROJECT_CATEGORY_PATHS.mechanical} element={<MechanicalDashboard />} />
+            <Route path={PROJECT_CATEGORY_PATHS["full-service"]} element={<FullServiceDashboard />} />
           </Route>
           
           <Route path="*" element={<Page404 />} />
