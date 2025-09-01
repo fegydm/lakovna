@@ -2,10 +2,10 @@
 // Last change: Fixed to use user.role directly from AuthContext
 
 import React, { useState, useEffect } from "react";
-import { logger } from "common/utils/logger.util";
+import { logger } from "common/utils/logger.utils";
 import HomeTabs from "./tabs.home";
 import { useAuth } from "../../contexts/auth.context";
-import { AccessRole } from "common/types/universal/access-role.types";
+import { AccessRole } from "common/types/access-role.types";
 import "./home.css";
 
 const Home: React.FC = () => {

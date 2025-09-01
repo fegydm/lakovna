@@ -1,9 +1,9 @@
 // File: back/src/routes/index.ts
-// Last change: Updated to use the new custom 'protect' middleware
+// Last change: Replaced Prisma WorkerRole with common AccessRole enum
 
 import { Router } from 'express';
 import { protect } from '../middlewares/auth.middleware.js';
-import { WorkerRole } from '@prisma/client';
+import { AccessRole } from 'common/types/access-role.types';
 
 // Import route modules
 import authRouter from './auth.routes.js';
@@ -26,9 +26,8 @@ apiRouter.use('/dashboard', protect(), dashboardRouter);
 apiRouter.use('/vehicles', protect(), vehicleRouter);
 
 // --- Role-Protected Routes (Specific roles required) ---
-apiRouter.use('/stages', protect([WorkerRole.ADMIN, WorkerRole.MANAGER]), stageRouter);
-apiRouter.use('/workers', protect([WorkerRole.ADMIN]), workerRouter);
-
+apiRouter.use('/stages', protect([AccessRole.manager, AccessRole.superadmin]), stageRouter);
+apiRouter.use('/workers', protect([AccessRole.manager, AccessRole.superadmin]), workerRouter);
 
 // --- Health Check ---
 apiRouter.get('/health', (req, res) => {

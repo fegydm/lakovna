@@ -2,7 +2,7 @@
 // Last change: Changed userRole to accessRole
 
 import React from "react";
-import type { AccessRole } from "common/types/universal/access-role.types";
+import type { AccessRole } from "common/types/access-role.types";
 import "./dashboard.tab.css";
 
 interface DashboardTabProps {

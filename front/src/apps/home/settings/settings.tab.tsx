@@ -1,8 +1,8 @@
 // File: front/src/apps/home/settings/settings.tab.tsx
 
 import React, { useState, useEffect } from "react";
-import type { AccessRole } from "../../../../../common/types/universal/access-role.types";
-import { logger } from "../../../../../common/utils/logger.util";
+import type { AccessRole } from "../../../../../common/types/access-role.types";
+import { logger } from "../../../../../common/utils/logger.utils";
 import "./settings.tab.css";
 
 interface SettingsTabProps {

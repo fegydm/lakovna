@@ -3,7 +3,7 @@
 
 import React from "react";
 import { useLanguageSelector } from "../../hooks/use-language-selector.hook";
-import type { Language } from "../../../../common/types/shared/geo.types";
+import type { Language } from "../../../../common/types/geo.types";
 import { getFlagUrl, FALLBACK_COUNTRY_CODE } from "../../libs/configs/language.config";
 import "./language.navbar.css";
 

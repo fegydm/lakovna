@@ -4,7 +4,7 @@
 import type { 
   PlatformDotCategory, 
   ProjectType 
-} from '../common/configs/universal/dot-category.config';
+} from '../common/configs/dot-system.config';
 
 // ========================================
 // PROJECT TEMPLATE CONFIG - MASTER

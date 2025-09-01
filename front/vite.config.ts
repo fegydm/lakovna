@@ -1,18 +1,26 @@
 // File: front/vite.config.ts
-// Last change: Removed path aliases and updated the server port for Lakovňa.
+// Last change: Restored root alias for common/ imports, kept proxy for backend API.
 
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import path from 'path';
 
 export default defineConfig({
   plugins: [react()],
 
+  resolve: {
+    alias: {
+      common: path.resolve(__dirname, '../common'),
+      // môžeš pridať ďalšie aliasy podľa potreby
+      '@': path.resolve(__dirname, 'src'),
+    },
+  },
+
   server: {
-    port: 3002, // Port for the Lakovňa frontend dev server
+    port: 3002, // Lakovňa frontend dev server
     proxy: {
-      // Proxy API requests to the backend server
       '/api': {
-        target: 'http://localhost:10002', // Backend port for Lakovňa
+        target: 'http://localhost:10002', // Lakovňa backend
         changeOrigin: true,
         secure: false,
       },

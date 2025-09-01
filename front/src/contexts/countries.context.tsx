@@ -10,7 +10,7 @@ import React, {
   useState,
   ReactNode,
 } from "react";
-import type { Country } from "common/types/shared/geo.types";
+import type { Country } from "common/types/geo.types";
 
 export interface CountriesContextValue {
   countries: Country[];

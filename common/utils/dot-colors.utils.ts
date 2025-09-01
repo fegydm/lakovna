@@ -1,12 +1,12 @@
 // File: common/utils/dot-colors.utils.ts
-// Last change: Extracted semantic levels & dot color helpers into universal util
+// Last change: Synced role keys with ProjectOrgType (wrapshop, detailing)
 
-import type { UniversalAuthStatus } from 'common/types/universal/auth-status.types';
-import type { ProjectOrgType } from 'common/types/project/org-type.types';
-import type { HslColor } from 'common/types/shared/theme.types';
+import type { AuthStatus } from 'common/types/auth.types';
+import type { ProjectOrgType } from 'common/types/org-type.types';
+import type { HslColor } from 'common/types/theme.types';
 
 // DOTS COLORS - Status colors (auth states)
-export const DOTS_STATUS_COLORS: Record<UniversalAuthStatus | 'inactive', string> = {
+export const DOTS_STATUS_COLORS: Record<AuthStatus | 'inactive', string> = {
   inactive: 'hsl(var(--color-gray-50))',
   anonymous: 'hsl(var(--color-red-60))',
   cookies: 'hsl(var(--color-orange-60))',
@@ -14,12 +14,13 @@ export const DOTS_STATUS_COLORS: Record<UniversalAuthStatus | 'inactive', string
 };
 
 // DOTS COLORS - OrgType colors (project specific, mapped by CSS role map)
-export const DOTS_ROLE_COLORS: Record<string, string> = {
+export const DOTS_ROLE_COLORS: Record<ProjectOrgType, string> = {
   bodyshop: 'hsl(var(--role-bodyshop-60))',
   service: 'hsl(var(--role-service-60))',
   dealer: 'hsl(var(--role-dealer-60))',
   tuning: 'hsl(var(--role-tuning-60))',
-  autofolie: 'hsl(var(--role-autofolie-60))',
+  wrapshop: 'hsl(var(--role-wrapshop-60))',
+  detailing: 'hsl(var(--role-detailing-60))',
 };
 
 // PUBLIC/OBFUSCATED role mapping for CSS variables
@@ -28,7 +29,8 @@ export const CSS_ROLE_MAP: Record<ProjectOrgType, string> = {
   service: 'srv',
   dealer: 'dlr',
   tuning: 'tun',
-  autofolie: 'fol',
+  wrapshop: 'wrp',
+  detailing: 'det',
 } as const;
 
 // DEFAULT SEMANTIC LEVELS (0-100 percentage for lightness calculation)
@@ -58,16 +60,16 @@ export const ROLE_SEMANTIC_OVERRIDES: Partial<
   service: {},
   dealer: { emphasis: 38, border: 70 },
   tuning: {},
-  autofolie: {},
+  wrapshop: {},
+  detailing: {},
 };
 
 // Utility functions for dots
-
 export const getRoleColor = (role: ProjectOrgType): string => {
   return DOTS_ROLE_COLORS[role] || DOTS_STATUS_COLORS.inactive;
 };
 
-export const getStatusColor = (status: UniversalAuthStatus): string => {
+export const getStatusColor = (status: AuthStatus): string => {
   return DOTS_STATUS_COLORS[status] || DOTS_STATUS_COLORS.inactive;
 };
 
@@ -79,9 +81,9 @@ export const getDotColor = (
   if (!isSelected) return DOTS_STATUS_COLORS.inactive;
 
   if (isRole) {
-    return DOTS_ROLE_COLORS[id] || DOTS_STATUS_COLORS.inactive;
+    return DOTS_ROLE_COLORS[id as ProjectOrgType] || DOTS_STATUS_COLORS.inactive;
   } else {
-    return DOTS_STATUS_COLORS[id as UniversalAuthStatus] || DOTS_STATUS_COLORS.inactive;
+    return DOTS_STATUS_COLORS[id as AuthStatus] || DOTS_STATUS_COLORS.inactive;
   }
 };
 

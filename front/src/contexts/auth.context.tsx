@@ -2,8 +2,8 @@
 // Last change: Replaced AppRole with ProjectDotCategory for role selection (paint/mechanical/full-service)
 
 import React, { createContext, useState, useEffect, useContext, ReactNode, useCallback, useRef } from 'react';
-import { AccessRole } from 'common/types/universal/access-role.types';
-import type { ProjectDotCategory } from 'common/types/project/dot-category.types';
+import { AccessRole } from 'common/types/access-role.types';
+import type { DotCategory } from 'common/types/dot-system.types';
 import { useTabManager } from '../hooks/use-tab-manager.hook';
 import { useTranslation } from './translation.context';
 
@@ -13,7 +13,7 @@ export interface User {
   email: string;
   role: AccessRole;                          // Access permissions
   imageUrl?: string;
-  selectedCategory?: ProjectDotCategory;     // paint | mechanical | full-service
+  selectedCategory?: DotCategory;     // paint | mechanical | full-service
   emailVerified?: boolean;
   isAdmin?: boolean;
 }
@@ -56,7 +56,7 @@ export interface AuthContextType {
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   checkAuthStatus: () => Promise<void>;
-  updateSelectedCategory: (category: ProjectDotCategory) => Promise<void>;
+  updateSelectedCategory: (category: DotCategory) => Promise<void>;
   updateUserAvatar: (imageUrl: string) => Promise<void>;
   verifyEmailByToken: (token: string) => Promise<VerificationResponse>;
   verifyEmailByCode: (email: string, code: string) => Promise<VerifyCodeResponse>;
@@ -229,7 +229,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setShowLogoutModal(false);
   }, [logoutAllTabs]);
 
-  const updateSelectedCategory = useCallback(async (category: ProjectDotCategory) => {
+  const updateSelectedCategory = useCallback(async (category: DotCategory) => {
     if (!user) return;
     const previousUser = { ...user };
     setUser(currentUser => currentUser ? { ...currentUser, selectedCategory: category } : null);

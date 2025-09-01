@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import PinForm from '../elements/pin-form.element';
-import { ProtectedResourceType } from '../../libs/configs/pin-auth.config';
+import { ProtectedResourceType } from '../../../../common/types/pin-auth.types';
 import './with-pin-auth.guard.css';
 
 interface PinAuthOptions {

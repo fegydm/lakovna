@@ -1,10 +1,10 @@
-// File: sendeliver/front/src/libs/hooks/use-language-selector.hook.ts
+// File: front/src/hooks/use-language-selector.hook.ts
 // Last change: Simplified by removing duplicate language restriction logic.
 
 import { useState, useRef, useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "../contexts/translation.context";
 import { useLanguages } from "../contexts/languages.context";
-import type { Language } from "../../../common/types/shared/geo.types";
+import type { Language } from "common/types/geo.types";
 
 const IGNORED_CLASSES = [
   "dropdown__item",

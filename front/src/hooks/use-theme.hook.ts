@@ -1,4 +1,4 @@
-// File: front/src/libs/hooks/use-theme.hook.ts
+// File: front/src/hooks/use-theme.hook.ts
 // Last change: Corrected file path to use relative imports.
 
 import { useContext } from 'react';

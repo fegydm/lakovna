@@ -1,7 +1,7 @@
 // File: common/utils/color.utils.ts
 // Last change: Universal color conversion & generation utilities (no project-specific imports)
 
-import type { HslColor } from 'common/types/shared/theme.types';
+import type { HslColor } from '../types/theme.types';
 
 export const hslToCss = (color: HslColor): string =>
   `${color.h} ${color.s}% ${color.l}%`;

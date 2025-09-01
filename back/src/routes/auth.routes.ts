@@ -1,5 +1,5 @@
 // File: back/src/routes/auth.routes.ts
-// Last change: Fixed role type conflict using roleFromDbFormat mapper
+// Last change: Fixed role type conflict using safeRoleFromDbFormat mapper
 
 import { Router, Request, Response } from 'express';
 import passport from 'passport';
@@ -7,9 +7,9 @@ import { protect } from '../middlewares/auth.middleware';
 import { rateLimiter } from '../middlewares/rate-limiter';
 import * as authController from '../controllers/auth.controller';
 import * as workerController from '../controllers/worker.controller';
-import { signToken } from '../security/auth.utils';
-import { roleFromDbFormat } from 'common/types/universal/access-role.types';
-import { Worker } from '@prisma/client';
+import { signToken } from '../auth/auth.utils';
+import { safeRoleFromDbFormat } from 'common/utils/back/role-mapper';
+import { prisma } from '../core/prisma.client';
 
 const authRouter = Router();
 const loginLimiter = rateLimiter(15 * 60 * 1000, 10);
@@ -22,11 +22,15 @@ authRouter.get('/google', passport.authenticate('google', { scope: ['profile', '
 authRouter.get(
   '/google/callback',
   passport.authenticate('google', { failureRedirect: '/login', session: false }),
-  (req: Request, res: Response) => {
-    const worker = req.user as Worker;
+  async (req: Request, res: Response) => {
+    const worker = req.user as Awaited<ReturnType<typeof prisma.worker.findUnique>>;
+    if (!worker) {
+      return res.redirect(`${process.env.FRONTEND_URL}/auth/callback?error=worker_not_found`);
+    }
+
     const token = signToken({
       id: worker.id,
-      role: roleFromDbFormat(worker.role), // 🔥 fix Prisma → common enum
+      role: safeRoleFromDbFormat(worker.role), // 🔥 fix Prisma → common enum
     });
     res.redirect(`${process.env.FRONTEND_URL}/auth/callback?token=${token}`);
   }

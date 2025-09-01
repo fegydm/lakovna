@@ -1,8 +1,9 @@
 // File: back/src/controllers/public.controller.ts
-// Last change: Fixed imports and improved customer tracking features
+// Last change: Added explicit typing for taskProgress iteration (fix TS7006)
 
 import { Request, Response } from 'express';
-import { prisma } from '../clients/prisma.js';
+import { prisma } from '../core/prisma.client.js';
+import type { TaskProgressStatus } from 'common/types/task.types'; // ✅ pridaj, ak ešte nemáš
 
 export const getVehicleByTrackingToken = async (req: Request, res: Response) => {
   const { token } = req.params;
@@ -62,9 +63,10 @@ export const getVehicleByTrackingToken = async (req: Request, res: Response) => 
       return res.status(404).json({ message: 'Vehicle not found for the provided token.' });
     }
 
+    // 🔑 Explicit typing
     const totalTasks = vehicle.taskProgress.length;
-    const completedTasks = vehicle.taskProgress.filter(tp => tp.status === 'COMPLETED').length;
-    const currentTasks = vehicle.taskProgress.filter(tp => tp.status === 'IN_PROGRESS').length;
+    const completedTasks = vehicle.taskProgress.filter((tp: { status: TaskProgressStatus }) => tp.status === 'COMPLETED').length;
+    const currentTasks = vehicle.taskProgress.filter((tp: { status: TaskProgressStatus }) => tp.status === 'IN_PROGRESS').length;
 
     const response = {
       vehicle: {
@@ -83,7 +85,7 @@ export const getVehicleByTrackingToken = async (req: Request, res: Response) => 
         currentTasks,
         completionPercentage: totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0
       },
-      timeline: vehicle.taskProgress.map(tp => ({
+      timeline: vehicle.taskProgress.map((tp: any) => ({ // 👈 môžeš tu použiť vlastný TaskProgress typ
         taskTitle: tp.task.title,
         stageName: tp.stage.name,
         status: tp.status,
@@ -97,29 +99,5 @@ export const getVehicleByTrackingToken = async (req: Request, res: Response) => 
   } catch (error) {
     console.error(`[PUBLIC] Error fetching vehicle by token ${token}:`, error);
     res.status(500).json({ message: 'Failed to fetch vehicle tracking information.' });
-  }
-};
-
-export const getVehicleByQRCode = async (req: Request, res: Response) => {
-  const { qrCode } = req.params;
-  
-  if (!qrCode || typeof qrCode !== 'string') {
-    return res.status(400).json({ message: 'Valid QR code is required.' });
-  }
-
-  try {
-    const vehicle = await prisma.vehicle.findUnique({
-      where: { qrCode },
-      select: { trackingToken: true }
-    });
-
-    if (!vehicle) {
-      return res.status(404).json({ message: 'Vehicle not found for the provided QR code.' });
-    }
-
-    res.redirect(`/api/public/track/${vehicle.trackingToken}`);
-  } catch (error) {
-    console.error(`[PUBLIC] Error fetching vehicle by QR code ${qrCode}:`, error);
-    res.status(500).json({ message: 'Failed to process QR code.' });
   }
 };

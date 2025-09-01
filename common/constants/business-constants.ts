@@ -1,4 +1,6 @@
-// lakovna/common/constants/business-constants.ts
+// File: common/constants/business.constants.ts
+// Last change: Converted to literal-typed constants (as const) for stricter type inference
+
 export const APP_CONFIG = {
   APP_NAME: 'Lakovňa',
   VERSION: '1.0.0',
@@ -16,7 +18,7 @@ export const STAGE_COLORS = {
   ERROR: '#ef4444',
   PURPLE: '#8b5cf6',
   ORANGE: '#f97316',
-  PINK: '#ec4899'
+  PINK: '#ec4899',
 } as const;
 
 export const WEBSOCKET_EVENTS = {

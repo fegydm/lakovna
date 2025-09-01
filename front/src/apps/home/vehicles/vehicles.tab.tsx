@@ -1,7 +1,7 @@
 // File: front/src/apps/home/vehicles/vehicles.tab.tsx
 
 import React, { useState } from "react";
-import type { AccessRole } from "../../../../../common/types/universal/access-role.types";
+import type { AccessRole } from "../../../../../common/types/access-role.types";
 import "./vehicles.tab.css";
 
 interface VehiclesTabProps {

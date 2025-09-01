@@ -1,9 +1,10 @@
 // File: back/src/controllers/dashboard.controller.ts
-// Last change: Fixed TypeScript errors with proper field names and type definitions
+// Last change: Fixed missing types in reduce/map callbacks (no implicit any)
 
 import { Request, Response } from 'express';
-import { prisma } from '../clients/prisma.js';
-import { VehicleStatus, TaskStatus } from '@prisma/client';
+import { prisma } from '../core/prisma.client.js';
+import type { VehicleStatus, VehicleInfo } from 'common/types/vehicle.types';
+import type { TaskStatus } from 'common/types/stage.types';
 
 export const getDashboardStats = async (req: Request, res: Response) => {
   try {
@@ -16,22 +17,22 @@ export const getDashboardStats = async (req: Request, res: Response) => {
       activeWorkers,
       stageStats,
       recentActivity,
-      completedVehiclesData // FIX: Added the missing query for this variable below
+      completedVehiclesData
     ] = await Promise.all([
       prisma.vehicle.count(),
 
       prisma.vehicle.count({
         where: {
-          status: { notIn: [VehicleStatus.COMPLETED] }
+          status: { notIn: ['COMPLETED'] as VehicleStatus[] }
         }
       }),
 
       prisma.vehicle.count({
-        where: { status: VehicleStatus.DELAYED }
+        where: { status: 'DELAYED' as VehicleStatus }
       }),
 
       prisma.vehicle.count({
-        where: { status: VehicleStatus.COMPLETED }
+        where: { status: 'COMPLETED' as VehicleStatus }
       }),
 
       prisma.worker.count(),
@@ -57,8 +58,14 @@ export const getDashboardStats = async (req: Request, res: Response) => {
       prisma.taskProgress.findMany({
         where: {
           OR: [
-            { status: TaskStatus.COMPLETED, completedAt: { gte: new Date(Date.now() - 24 * 60 * 60 * 1000) } },
-            { status: TaskStatus.IN_PROGRESS, startedAt: { gte: new Date(Date.now() - 24 * 60 * 60 * 1000) } }
+            {
+              status: 'COMPLETED' as TaskStatus,
+              completedAt: { gte: new Date(Date.now() - 24 * 60 * 60 * 1000) }
+            },
+            {
+              status: 'IN_PROGRESS' as TaskStatus,
+              startedAt: { gte: new Date(Date.now() - 24 * 60 * 60 * 1000) }
+            }
           ]
         },
         include: {
@@ -70,33 +77,32 @@ export const getDashboardStats = async (req: Request, res: Response) => {
         orderBy: { createdAt: 'desc' },
         take: 10
       }),
-      
-      // FIX: Added the query to fetch data needed for 'averageCompletionHours' calculation
+
       prisma.vehicle.findMany({
-        where: { 
-          status: VehicleStatus.COMPLETED,
-          entryTime: { lte: new Date() }, 
-          updatedAt: { lte: new Date() }  
-        },
+        where: { status: 'COMPLETED' as VehicleStatus },
         select: { entryTime: true, updatedAt: true }
       })
     ]);
 
     const totalTasksInProgress = await prisma.taskProgress.count({
-      where: { status: TaskStatus.IN_PROGRESS }
+      where: { status: 'IN_PROGRESS' as TaskStatus }
     });
-    
-    // FIX: This calculation now correctly uses 'completedVehiclesData' from Promise.all
-    const averageCompletionHours = completedVehiclesData.length > 0
-      ? completedVehiclesData.reduce((acc, vehicle) => {
-          // Ensure both dates are valid before calculation
-          if (vehicle.updatedAt && vehicle.entryTime) {
-            const hours = (vehicle.updatedAt.getTime() - vehicle.entryTime.getTime()) / (1000 * 60 * 60);
-            return acc + hours;
-          }
-          return acc;
-        }, 0) / completedVehiclesData.length
-      : 0;
+
+    const averageCompletionHours =
+      completedVehiclesData.length > 0
+        ? completedVehiclesData.reduce(
+            (acc: number, vehicle: { entryTime: Date; updatedAt: Date }) => {
+              if (vehicle.updatedAt && vehicle.entryTime) {
+                const hours =
+                  (vehicle.updatedAt.getTime() - vehicle.entryTime.getTime()) /
+                  (1000 * 60 * 60);
+                return acc + hours;
+              }
+              return acc;
+            },
+            0
+          ) / completedVehiclesData.length
+        : 0;
 
     const stats = {
       vehicles: {
@@ -104,39 +110,54 @@ export const getDashboardStats = async (req: Request, res: Response) => {
         active: activeVehicles,
         completed: completedVehicles,
         delayed: delayedVehicles,
-        completionRate: totalVehicles > 0 ? Math.round((completedVehicles / totalVehicles) * 100) : 0
+        completionRate:
+          totalVehicles > 0
+            ? Math.round((completedVehicles / totalVehicles) * 100)
+            : 0
       },
       workers: {
         total: totalWorkers,
         active: activeWorkers,
-        // Using totalWorkers in denominator to measure utilization of the entire workforce
-        utilization: totalWorkers > 0 ? Math.round((activeWorkers / totalWorkers) * 100) : 0
+        utilization:
+          totalWorkers > 0
+            ? Math.round((activeWorkers / totalWorkers) * 100)
+            : 0
       },
-      stages: stageStats.map(stage => ({
+      stages: stageStats.map((stage: typeof stageStats[number]) => ({
         id: stage.id,
         name: stage.name,
         sequence: stage.sequence,
         color: stage.color,
         vehicleCount: stage._count.vehicles,
-        utilization: Math.round((stage._count.vehicles / Math.max(activeVehicles, 1)) * 100)
+        utilization: Math.round(
+          (stage._count.vehicles / Math.max(activeVehicles, 1)) * 100
+        )
       })),
       tasks: {
         inProgress: totalTasksInProgress,
-        completedToday: recentActivity.filter(a => a.status === TaskStatus.COMPLETED).length
+        completedToday: recentActivity.filter(
+          (a: typeof recentActivity[number]) =>
+            a.status === ('COMPLETED' as TaskStatus)
+        ).length
       },
-      recentActivity: recentActivity.map(activity => ({
+      recentActivity: recentActivity.map((activity: typeof recentActivity[number]) => ({
         id: activity.id,
         vehicle: `${activity.vehicle.brand} ${activity.vehicle.model} (${activity.vehicle.registration})`,
         task: activity.task.title,
         stage: activity.stage.name,
         worker: activity.worker?.name || 'Unassigned',
         status: activity.status,
-        timestamp: activity.status === TaskStatus.COMPLETED ? activity.completedAt : activity.startedAt
+        timestamp:
+          activity.status === ('COMPLETED' as TaskStatus)
+            ? activity.completedAt
+            : activity.startedAt
       })),
-      // FIX: Corrected syntax and logic for the performance object
       performance: {
         averageCompletionHours: parseFloat(averageCompletionHours.toFixed(2)),
-        throughput: totalVehicles > 0 ? Math.round((completedVehicles / totalVehicles) * 100) : 0
+        throughput:
+          totalVehicles > 0
+            ? Math.round((completedVehicles / totalVehicles) * 100)
+            : 0
       }
     };
 
@@ -155,11 +176,11 @@ export const getDashboardAlerts = async (req: Request, res: Response) => {
       message: string;
       data: any;
     }
-    
+
     const alerts: Alert[] = [];
 
     const delayedVehicles = await prisma.vehicle.findMany({
-      where: { status: VehicleStatus.DELAYED },
+      where: { status: 'DELAYED' as VehicleStatus },
       select: {
         id: true,
         brand: true,
@@ -172,8 +193,8 @@ export const getDashboardAlerts = async (req: Request, res: Response) => {
 
     const stuckTasks = await prisma.taskProgress.findMany({
       where: {
-        status: TaskStatus.IN_PROGRESS,
-        startedAt: { lte: new Date(Date.now() - 4 * 60 * 60 * 1000) } // In progress for more than 4 hours
+        status: 'IN_PROGRESS' as TaskStatus,
+        startedAt: { lte: new Date(Date.now() - 4 * 60 * 60 * 1000) }
       },
       include: {
         vehicle: { select: { brand: true, model: true, registration: true } },
@@ -182,7 +203,7 @@ export const getDashboardAlerts = async (req: Request, res: Response) => {
       }
     });
 
-    delayedVehicles.forEach(vehicle => {
+    delayedVehicles.forEach((vehicle: typeof delayedVehicles[number]) => {
       alerts.push({
         type: 'delayed_vehicle',
         severity: 'high',
@@ -191,7 +212,7 @@ export const getDashboardAlerts = async (req: Request, res: Response) => {
       });
     });
 
-    stuckTasks.forEach(task => {
+    stuckTasks.forEach((task: typeof stuckTasks[number]) => {
       alerts.push({
         type: 'stuck_task',
         severity: 'medium',

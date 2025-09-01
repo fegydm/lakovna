@@ -8,16 +8,16 @@ import passport from 'passport'; // Keep import for Google strategy configuratio
 import { fileURLToPath } from 'url';
 
 // Utilities & Configs
-import { loadEnv } from './security/env-loader.js';
-import configurePassport from './setup/passport.config.js';
-import { WebSocketManager } from './setup/websocket.config.js';
+import { loadEnv } from './auth/env-loader.js';
+import configurePassport from './core/passport.setup';
+import { WebSocketManager } from './core/websocket.manager';
 
 // Middleware
 import { customCorsMiddleware } from './middlewares/cors.middleware.js';
-import { customCookieParser } from './security/cookie-parser.js';
-import { httpLogger } from './security/http-logger.js';
-import { sessionMiddleware } from './security/session-middleware.js';
-import { userAgentMiddleware } from './security/user-agent-parser.js';
+import { customCookieParser } from './auth/cookie-parser.js';
+import { httpLogger } from './auth/http-logger.js';
+import { sessionMiddleware } from './auth/session-middleware.js';
+import { userAgentMiddleware } from './auth/user-agent-parser.js';
 import { errorHandler } from './middlewares/error.middleware.js';
 
 // Routers

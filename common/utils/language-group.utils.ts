@@ -1,7 +1,7 @@
 // File: common/utils/language-group.utils.ts
 // Last change: Moved from sendeliver/front/libs/utils to common/utils for reuse across projects
 
-import type { Language, GroupedLanguage } from '../types/shared/geo.types';
+import type { Language, GroupedLanguage } from '../types/geo.types';
 
 export const groupLanguagesByPriority = (
   languages: Language[], 

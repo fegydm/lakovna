@@ -1,27 +1,30 @@
 // File: front/src/contexts/theme.context.tsx
-// Last change: Fixed imports (CSS_ROLE_MAP + role colors moved to project config),
-// ensured roleColors fallback to avoid undefined values.
+// Last change: Refactored from AppRole → ProjectOrgType, unified naming with theme.store.ts
 
 import React, { createContext, useState, useEffect, useContext, ReactNode, useRef } from 'react';
-import type { ThemeSettings, HslColor } from 'common/types/shared/theme.types';
-import type { ProjectOrgType } from 'common/types/project/org-type.types';
-import type { ThemeMode } from 'common/types/universal/theme-mode.types';
+import type { ThemeSettings, HslColor } from 'common/types/theme.types';
+import type { ProjectOrgType } from 'common/types/org-type.types';
+import type { ThemeMode } from 'common/types/theme-mode.types';
 
-import { SYSTEM_COLORS } from 'common/configs/universal/colors.config';
-import { DESIGN_CONSTANTS } from 'common/configs/universal/ui.config';
-import { PROJECT_ROLE_COLORS, CSS_ROLE_MAP } from 'common/configs/project/colors.config';
-import { getUserRoleColor, saveUserRoleColor, getThemeMode, saveThemeMode } from 'common/configs/project/theme.config';
+import { SYSTEM_COLORS } from 'common/configs/universal-colors.config';
+import { DESIGN_CONSTANTS } from 'common/configs/ui.config';
+import { PROJECT_ROLE_COLORS, CSS_ROLE_MAP } from 'common/configs/project-colors.config';
+import { getUserRoleColor, saveUserRoleColor, getThemeMode, saveThemeMode } 
+  from 'common/utils/front/theme-storage.utils';
 
 import { semanticLevelsManager, DOTS_ROLE_COLORS, DOTS_STATUS_COLORS } from 'common/utils/dot-colors.utils';
-import { generateSystemVariables, hslToCss, generateSystemSemanticVariables } from 'common/utils/color.utils';
+import { generateSystemVariables, hslToCss } from 'common/utils/color.utils';
 import type { SemanticLevel } from 'common/utils/dot-colors.utils';
 
+// ==========================================
+// Context Value
+// ==========================================
 export interface ThemeContextValue {
   settings: ThemeSettings | null;
-  activeRole: ProjectOrgType | null;
-  setActiveRole: (role: ProjectOrgType) => void;
-  updateRoleColor: (role: ProjectOrgType, newColor: HslColor) => Promise<void>;
-  updateSemanticLevels: (role: ProjectOrgType, levels: Partial<Record<string, number>>) => void;
+  activeOrg: ProjectOrgType | null;
+  setActiveOrg: (org: ProjectOrgType) => void;
+  updateOrgColor: (org: ProjectOrgType, newColor: HslColor) => Promise<void>;
+  updateSemanticLevels: (org: ProjectOrgType, levels: Partial<Record<string, number>>) => void;
   setMode: (mode: ThemeMode) => void;
   toggleDarkMode: () => void;
   isDarkMode: boolean;
@@ -29,10 +32,13 @@ export interface ThemeContextValue {
 
 interface ThemeProviderProps {
   children: ReactNode;
-  initialRole?: ProjectOrgType;
+  initialOrg?: ProjectOrgType;
   userId?: string;
 }
 
+// ==========================================
+// Hook
+// ==========================================
 export const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
 export const useTheme = () => {
@@ -41,6 +47,9 @@ export const useTheme = () => {
   return context;
 };
 
+// ==========================================
+// Helpers
+// ==========================================
 const STYLE_TAG_ID = 'app-theme-variables';
 
 const ensureStyleTag = (): HTMLStyleElement | null => {
@@ -54,14 +63,11 @@ const ensureStyleTag = (): HTMLStyleElement | null => {
   return styleEl;
 };
 
-const buildVariablesCss = (
-  settings: ThemeSettings,
-  userId?: string
-): string => {
+const buildVariablesCss = (settings: ThemeSettings, userId?: string): string => {
   const lines: string[] = [];
-  const roles = Object.keys(PROJECT_ROLE_COLORS) as ProjectOrgType[];
+  const orgTypes = Object.keys(PROJECT_ROLE_COLORS) as ProjectOrgType[];
 
-  // System variables
+  // System vars
   const systemVars = generateSystemVariables(
     settings.typography,
     settings.layout,
@@ -70,53 +76,54 @@ const buildVariablesCss = (
   );
   Object.entries(systemVars).forEach(([k, v]) => lines.push(`  ${k}: ${v};`));
 
-  // Role-specific CSS variables
-  roles.forEach((role) => {
-    const roleColor = settings.roleColors?.[role];
+  // Org-type role colors
+  orgTypes.forEach((org) => {
+    const roleColor = settings.roleColors?.[org];
     if (!roleColor) return;
 
-    const obfuscated = CSS_ROLE_MAP[role];
+    const obfuscated = CSS_ROLE_MAP[org];
     if (!obfuscated) return;
 
-    const semanticLevels = semanticLevelsManager.getLevels(role, userId);
+    const semanticLevels = semanticLevelsManager.getLevels(org, userId);
 
     Object.entries(semanticLevels).forEach(([levelName, levelValue]) => {
-      const adjusted = settings.mode === 'dark'
-        ? semanticLevelsManager.adjustForDarkMode(levelValue, levelName as SemanticLevel)
-        : levelValue;
+      const adjusted =
+        settings.mode === 'dark'
+          ? semanticLevelsManager.adjustForDarkMode(levelValue, levelName as SemanticLevel)
+          : levelValue;
       const triplet = `${roleColor.h} ${roleColor.s}% ${adjusted}%`;
       lines.push(`  --${obfuscated}-${levelName}: ${triplet};`);
     });
 
     const emphasisLightness = semanticLevels.emphasis;
-    const contrastColor = emphasisLightness < 60
-      ? '0 0% 100%'
-      : hslToCss(SYSTEM_COLORS.textPrimary);
+    const contrastColor =
+      emphasisLightness < 60
+        ? '0 0% 100%'
+        : hslToCss(SYSTEM_COLORS.textPrimary);
     lines.push(`  --${obfuscated}-contrast: ${contrastColor};`);
   });
 
-  // DOTS role colors
+  // DOTS role/status colors
   Object.entries(DOTS_ROLE_COLORS).forEach(([role, colorValue]) => {
     lines.push(`  --dot-role-${role}: ${colorValue};`);
   });
-
-  // DOTS status colors
   Object.entries(DOTS_STATUS_COLORS).forEach(([status, colorValue]) => {
     lines.push(`  --dot-status-${status}: ${colorValue};`);
   });
 
-  const rootRule = `:root {\n${lines.join('\n')}\n}`;
-  const schemeRule = `:root[data-theme="light"] { color-scheme: light; }\n:root[data-theme="dark"] { color-scheme: dark; }`;
-  return `${rootRule}\n${schemeRule}\n`;
+  return `:root {\n${lines.join('\n')}\n}\n:root[data-theme="light"] { color-scheme: light; }\n:root[data-theme="dark"] { color-scheme: dark; }`;
 };
 
+// ==========================================
+// Provider
+// ==========================================
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({
   children,
-  initialRole = 'bodyshop',
-  userId
+  initialOrg = 'bodyshop',
+  userId,
 }) => {
   const [settings, setSettings] = useState<ThemeSettings | null>(null);
-  const [activeRole, setActiveRoleState] = useState<ProjectOrgType>(initialRole);
+  const [activeOrg, setActiveOrgState] = useState<ProjectOrgType>(initialOrg);
   const versionRef = useRef(0);
 
   useEffect(() => {
@@ -128,13 +135,12 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
         const mode = getThemeMode();
         const roleColors: Record<ProjectOrgType, HslColor> = { ...PROJECT_ROLE_COLORS };
 
-        // Load user customizations with fallback
-        for (const role of Object.keys(PROJECT_ROLE_COLORS) as ProjectOrgType[]) {
+        for (const org of Object.keys(PROJECT_ROLE_COLORS) as ProjectOrgType[]) {
           try {
-            const userColor = await getUserRoleColor(role, userId, 'main');
-            roleColors[role] = userColor ?? PROJECT_ROLE_COLORS[role];
+            const userColor = await getUserRoleColor(org, userId, 'main');
+            roleColors[org] = userColor ?? PROJECT_ROLE_COLORS[org];
           } catch {
-            roleColors[role] = PROJECT_ROLE_COLORS[role];
+            roleColors[org] = PROJECT_ROLE_COLORS[org];
           }
         }
 
@@ -142,7 +148,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
           primaryColor: SYSTEM_COLORS.primary,
           secondaryColor: SYSTEM_COLORS.textSecondary,
           mode,
-          activeRole,
+          activeRole: activeOrg, // still stored under "activeRole" in ThemeSettings
           roleColors,
           typography: DESIGN_CONSTANTS.typography,
           layout: DESIGN_CONSTANTS.layout,
@@ -158,12 +164,14 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
     };
 
     void initializeTheme();
-    return () => { alive = false; };
+    return () => {
+      alive = false;
+    };
   }, [userId]);
 
   useEffect(() => {
     if (settings) applyThemeToDOM(settings);
-  }, [activeRole, settings]);
+  }, [activeOrg, settings]);
 
   const applyThemeToDOM = (nextSettings: ThemeSettings) => {
     try {
@@ -174,26 +182,26 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
 
       const root = document.documentElement;
       root.setAttribute('data-theme', nextSettings.mode);
-      root.setAttribute('data-active-role', activeRole);
+      root.setAttribute('data-active-org', activeOrg);
     } catch (error) {
       console.error('[ThemeProvider] Failed to apply theme:', error);
     }
   };
 
-  const setActiveRole = (role: ProjectOrgType): void => {
-    setActiveRoleState(role);
-    if (settings) setSettings(prev => (prev ? { ...prev, activeRole: role } : prev));
+  const setActiveOrg = (org: ProjectOrgType): void => {
+    setActiveOrgState(org);
+    if (settings) setSettings((prev) => (prev ? { ...prev, activeRole: org } : prev));
   };
 
-  const updateRoleColor = async (role: ProjectOrgType, newColor: HslColor): Promise<void> => {
+  const updateOrgColor = async (org: ProjectOrgType, newColor: HslColor): Promise<void> => {
     try {
-      await saveUserRoleColor(role, newColor, userId, 'main');
-      setSettings(prev => {
+      await saveUserRoleColor(org, newColor, userId, 'main');
+      setSettings((prev) => {
         if (!prev) return prev;
-        return { ...prev, roleColors: { ...prev.roleColors, [role]: newColor } };
+        return { ...prev, roleColors: { ...prev.roleColors, [org]: newColor } };
       });
     } catch (error) {
-      console.error('[ThemeProvider] Failed to update role color:', error);
+      console.error('[ThemeProvider] Failed to update org color:', error);
       throw error;
     }
   };
@@ -201,14 +209,14 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
   const setMode = (mode: ThemeMode): void => {
     try {
       saveThemeMode(mode);
-      setSettings(prev => (prev ? { ...prev, mode } : prev));
+      setSettings((prev) => (prev ? { ...prev, mode } : prev));
     } catch (error) {
       console.error('[ThemeProvider] Failed to set mode:', error);
     }
   };
 
-  const updateSemanticLevels = (role: ProjectOrgType, levels: Partial<Record<string, number>>): void => {
-    semanticLevelsManager.setRoleLevels(role, levels as any);
+  const updateSemanticLevels = (org: ProjectOrgType, levels: Partial<Record<string, number>>): void => {
+    semanticLevelsManager.setRoleLevels(org, levels as any);
     if (settings) applyThemeToDOM(settings);
   };
 
@@ -219,18 +227,14 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
 
   const contextValue: ThemeContextValue = {
     settings,
-    activeRole,
-    setActiveRole,
-    updateRoleColor,
+    activeOrg,
+    setActiveOrg,
+    updateOrgColor,
     updateSemanticLevels,
     setMode,
     toggleDarkMode,
     isDarkMode: settings?.mode === 'dark',
   };
 
-  return (
-    <ThemeContext.Provider value={contextValue}>
-      {children}
-    </ThemeContext.Provider>
-  );
+  return <ThemeContext.Provider value={contextValue}>{children}</ThemeContext.Provider>;
 };

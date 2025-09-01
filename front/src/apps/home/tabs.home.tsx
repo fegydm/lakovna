@@ -8,7 +8,7 @@ import VehiclesTab from "./vehicles/vehicles.tab";
 import StagesTab from "./stages/stages.tab";
 import TeamTab from "./team/team.tab";
 import SettingsTab from "./settings/settings.tab";
-import type { AccessRole } from "../../../../common/types/universal/access-role.types";
+import type { AccessRole } from "../../../../common/types/access-role.types";
 
 interface HomeTabsProps {
   activeTab: string;

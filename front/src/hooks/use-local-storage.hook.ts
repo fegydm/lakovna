@@ -1,4 +1,4 @@
-// File: front/src/core/hooks/use-local-storage.hook.ts
+// File: front/src/hooks/use-local-storage.hook.ts
 // Last change: Added cross-tab synchronization using the 'storage' event.
 
 import { useState, useCallback, useEffect } from 'react';

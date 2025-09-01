@@ -1,4 +1,4 @@
-// File: sendeliver/front/src/libs/hooks/use-tab-manager.hook.ts
+// File: front/src/hooks/use-tab-manager.hook.ts
 // Last change: Fixed TypeScript error by explicitly casting setInterval's return type to number.
 
 import { useState, useEffect, useRef, useCallback } from 'react';

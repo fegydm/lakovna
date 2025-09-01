@@ -10,12 +10,12 @@ import React, {
   useState,
   ReactNode,
 } from 'react';
-import type { Language, GroupedLanguage } from 'common/types/shared/geo.types';
+import type { Language, GroupedLanguage } from 'common/types/geo.types';
 
 import { 
   languageRestrictions, 
   STATIC_LANGUAGE_FALLBACKS
-} from 'common/configs/universal/language.config';
+} from 'common/configs/language.config';
 
 import {
 

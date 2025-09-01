@@ -2,9 +2,9 @@
 // Last change: Fixed imports to use unified prisma client
 
 import { Request, Response } from 'express';
-import { prisma } from '../clients/prisma.js';
+import { prisma } from '../core/prisma.client.js';
 import jwt from 'jsonwebtoken';
-import { hashPassword, signToken } from '../security/auth.utils.js';
+import { hashPassword, signToken } from '../auth/auth.utils.js';
 
 export const requestPasswordLink = async (req: Request, res: Response) => {
   const { email } = req.body;
