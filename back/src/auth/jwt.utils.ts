@@ -1,4 +1,4 @@
-// File: back/src/utils/jwt.utils.ts
+// File: back/src/auth/jwt.utils.ts
 // Last change: Fixed expiresIn typing by casting to StringValue
 
 import jwt, { SignOptions } from 'jsonwebtoken';

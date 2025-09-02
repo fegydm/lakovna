@@ -49,6 +49,6 @@ export interface AuthUser {
   // Current active context
   activeOrgType?: ProjectOrgType;
 
-  // Linked organizations (with roles)
-  memberships: AuthMembership[];
+  // Linked organizations (with roles) - made optional for now
+  memberships?: AuthMembership[];
 }

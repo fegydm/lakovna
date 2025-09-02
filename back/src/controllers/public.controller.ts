@@ -1,13 +1,13 @@
 // File: back/src/controllers/public.controller.ts
-// Last change: Added explicit typing for taskProgress iteration (fix TS7006)
+// Last change: Switched from TaskProgressStatus to Prisma TaskStatus enum
 
 import { Request, Response } from 'express';
 import { prisma } from '../core/prisma.client.js';
-import type { TaskProgressStatus } from 'common/types/task.types'; // ✅ pridaj, ak ešte nemáš
+import { TaskStatus } from '@prisma/client';
 
 export const getVehicleByTrackingToken = async (req: Request, res: Response) => {
   const { token } = req.params;
-  
+
   if (!token || typeof token !== 'string') {
     return res.status(400).json({ message: 'Valid tracking token is required.' });
   }
@@ -28,45 +28,48 @@ export const getVehicleByTrackingToken = async (req: Request, res: Response) => 
             name: true,
             sequence: true,
             icon: true,
-            color: true
-          }
+            color: true,
+          },
         },
         customer: {
           select: {
-            name: true
-          }
+            name: true,
+          },
         },
         taskProgress: {
           include: {
-            task: { 
-              select: { 
-                title: true, 
-                sequence: true 
-              } 
+            task: {
+              select: {
+                title: true,
+                sequence: true,
+              },
             },
             stage: {
               select: {
                 name: true,
-                sequence: true
-              }
-            }
+                sequence: true,
+              },
+            },
           },
           orderBy: [
             { stage: { sequence: 'asc' } },
-            { task: { sequence: 'asc' } }
-          ]
-        }
-      }
+            { task: { sequence: 'asc' } },
+          ],
+        },
+      },
     });
 
     if (!vehicle) {
       return res.status(404).json({ message: 'Vehicle not found for the provided token.' });
     }
 
-    // 🔑 Explicit typing
     const totalTasks = vehicle.taskProgress.length;
-    const completedTasks = vehicle.taskProgress.filter((tp: { status: TaskProgressStatus }) => tp.status === 'COMPLETED').length;
-    const currentTasks = vehicle.taskProgress.filter((tp: { status: TaskProgressStatus }) => tp.status === 'IN_PROGRESS').length;
+    const completedTasks = vehicle.taskProgress.filter(
+      (tp) => tp.status === TaskStatus.COMPLETED
+    ).length;
+    const currentTasks = vehicle.taskProgress.filter(
+      (tp) => tp.status === TaskStatus.IN_PROGRESS
+    ).length;
 
     const response = {
       vehicle: {
@@ -76,23 +79,24 @@ export const getVehicleByTrackingToken = async (req: Request, res: Response) => 
         status: vehicle.status,
         entryTime: vehicle.entryTime,
         estimatedCompletion: vehicle.estimatedCompletion,
-        customer: vehicle.customer?.name
+        customer: vehicle.customer?.name,
       },
       currentStage: vehicle.currentStage,
       progress: {
         totalTasks,
         completedTasks,
         currentTasks,
-        completionPercentage: totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0
+        completionPercentage:
+          totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0,
       },
-      timeline: vehicle.taskProgress.map((tp: any) => ({ // 👈 môžeš tu použiť vlastný TaskProgress typ
+      timeline: vehicle.taskProgress.map((tp) => ({
         taskTitle: tp.task.title,
         stageName: tp.stage.name,
         status: tp.status,
         startedAt: tp.startedAt,
         completedAt: tp.completedAt,
-        notes: tp.notes
-      }))
+        notes: tp.notes,
+      })),
     };
 
     res.status(200).json(response);

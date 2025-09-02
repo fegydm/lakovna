@@ -1,4 +1,4 @@
-// File: back/src/utils/crypto.utils.ts
+// File: back/src/auth/crypto.utils.ts
 // Last change: Extracted password hashing and verification into separate utils
 
 import { scrypt, randomBytes, timingSafeEqual } from 'crypto';

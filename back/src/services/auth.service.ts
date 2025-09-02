@@ -1,150 +1,178 @@
 // File: back/src/services/auth.service.ts
-// Last change: Finalized service layer with type-safe terminal login and unified utils
 
-import { prisma } from '../core/prisma.client';
-import { Prisma } from '@prisma/client';
-import { hashPassword, verifyPassword } from '../auth/crypto.utils';
-import { signToken } from '../auth/jwt.utils';
-import { toAuthUser } from '../auth/mapper.utils';
-import { AuthUser } from 'common/types/auth.types';
+import { prisma } from '../core/prisma.client'
+import { hashPassword, verifyPassword } from '../auth/crypto.utils'
+import { signToken } from '../auth/jwt.utils'
+import { AccessRole, MembershipStatus, AuthMethod } from '../../../database/generated'
 
-/**
- * Register a new organization with an owner account
- */
+// ================================================
+// REGISTER + CREATE ORG
+// ================================================
 export async function registerAndCreateOrgService(
   organizationName: string,
   workerName: string,
   email: string,
   password: string
 ) {
-  const existingWorker = await prisma.worker.findUnique({
+  const existingUser = await prisma.user.findUnique({
     where: { email: email.toLowerCase() },
-  });
-  if (existingWorker) throw new Error('Worker with this email already exists');
+  })
+  if (existingUser) throw new Error('User with this email already exists')
 
-  const hashedPassword = await hashPassword(password);
+  const hashedPassword = await hashPassword(password)
 
-  const { newWorker, newOrganization } = await prisma.$transaction(
-    async (tx: Prisma.TransactionClient) => {
-      const organization = await tx.organization.create({
-        data: { name: organizationName },
-      });
+  const result = await prisma.$transaction(async (tx) => {
+    // 1) Create user
+    const user = await tx.user.create({
+      data: {
+        email: email.toLowerCase(),
+        name: workerName,
+        password: hashedPassword, // <-- OPRAVENÉ: Ukladanie hashovaného hesla
+        isActive: true,
+      },
+    })
 
-      const worker = await tx.worker.create({
-        data: {
-          name: workerName,
-          email: email.toLowerCase(),
-          password: hashedPassword,
-          role: 'owner',
-          memberships: {
-            create: {
-              organizationId: organization.id,
-              role: 'owner',
-              status: 'ACTIVE',
-            },
-          },
-        },
+    // 2) Create organization
+    const organization = await tx.organization.create({
+      data: {
+        name: organizationName,
+        type: 'bodyshop',
+      },
+    })
+
+    // 3) Create worker profile
+    const worker = await tx.worker.create({
+      data: {
+        userId: user.id,
+        organizationId: organization.id,
+        accessRole: AccessRole.OWNER,
+        businessRole: 'shop-owner',
+        isActive: true,
+        authMethods: [AuthMethod.PASSWORD],
+      },
+    })
+
+    // 4) Create membership
+    const membership = await tx.membership.create({
+      data: {
+        workerId: worker.id,
+        organizationId: organization.id,
+        role: AccessRole.OWNER,
+        status: MembershipStatus.ACTIVE,
+      },
+    })
+
+    return { user, organization, worker, membership }
+  })
+
+  const token = signToken({
+    userId: result.user.id,
+    organizationId: result.organization.id,
+    accessRole: result.worker.accessRole,
+  })
+
+  return {
+    token,
+    user: result.user,
+    organization: result.organization,
+    worker: result.worker,
+  }
+}
+
+// ================================================
+// LOGIN (EMAIL + PASSWORD)
+// ================================================
+export async function loginWorkerService(email: string, password: string) {
+  const user = await prisma.user.findUnique({
+    where: { email: email.toLowerCase() },
+    include: {
+      workers: {
         include: {
           memberships: {
-            where: { status: 'ACTIVE' as const },
-            select: { organizationId: true, role: true },
+            where: { status: MembershipStatus.ACTIVE },
           },
+          organization: true,
         },
-      });
-      return { newWorker: worker, newOrganization: organization };
-    }
-  );
-
-  const authUser = toAuthUser(newWorker);
-  if (!authUser) throw new Error('Failed to map user after registration');
-
-  const token = signToken(authUser);
-  return { token, worker: authUser, organization: newOrganization };
-}
-
-/**
- * Login worker with email/password
- */
-export async function loginWorkerService(email: string, password: string) {
-  const worker = await prisma.worker.findUnique({
-    where: { email: email.toLowerCase() },
-    select: {
-      id: true,
-      email: true,
-      name: true,
-      role: true,
-      password: true,
-      isActive: true,
-      memberships: {
-        where: { status: 'ACTIVE' as const },
-        select: { organizationId: true, role: true },
       },
     },
-  });
+  })
 
-  if (!worker || !worker.password) throw new Error('Invalid credentials');
+  if (!user || !user.password) throw new Error('Invalid credentials')
 
-  const isPasswordValid = await verifyPassword(password, worker.password);
-  if (!isPasswordValid) throw new Error('Invalid credentials');
+  const isPasswordValid = await verifyPassword(password, user.password)
+  if (!isPasswordValid) throw new Error('Invalid credentials')
 
-  const authUser = toAuthUser(worker);
-  if (!authUser) throw new Error('Failed to map user after login');
+  if (user.workers.length === 0) throw new Error('No active worker profile found')
 
-  const token = signToken(authUser);
-  return { token, worker: authUser };
+  const primaryWorker = user.workers[0]
+  const primaryMembership = primaryWorker.memberships[0]
+
+  // <-- OPRAVENÉ: Overenie existencie členstva
+  if (!primaryMembership) {
+    throw new Error('No active membership found for this worker')
+  }
+
+  const token = signToken({
+    userId: user.id,
+    organizationId: primaryMembership.organizationId,
+    accessRole: primaryWorker.accessRole,
+  })
+
+  return { token, user, worker: primaryWorker }
 }
 
-/**
- * Login worker via terminal (rfid, qr, usb)
- */
+// ================================================
+// LOGIN (TERMINAL AUTH: RFID / QR / USB)
+// ================================================
 export async function loginTerminalService(
   authMethod: 'rfid' | 'qr' | 'usb',
   authValue: string
 ) {
-  let worker;
+  let worker
 
-  if (authMethod === 'rfid') {
-    worker = await prisma.worker.findUnique({
-      where: { rfidTag: authValue },
-      include: {
-        memberships: {
-          where: { status: 'ACTIVE' as const },
-          select: { organizationId: true, role: true },
-        },
+  const includeOptions = {
+    include: {
+      user: true,
+      organization: true,
+      memberships: {
+        where: { status: MembershipStatus.ACTIVE },
+        include: { organization: true },
       },
-    });
-  } else if (authMethod === 'qr') {
-    worker = await prisma.worker.findUnique({
-      where: { qrCode: authValue },
-      include: {
-        memberships: {
-          where: { status: 'ACTIVE' as const },
-          select: { organizationId: true, role: true },
-        },
-      },
-    });
-  } else if (authMethod === 'usb') {
-    worker = await prisma.worker.findUnique({
-      where: { usbKeyId: authValue },
-      include: {
-        memberships: {
-          where: { status: 'ACTIVE' as const },
-          select: { organizationId: true, role: true },
-        },
-      },
-    });
-  } else {
-    throw new Error('Invalid auth method');
+    },
   }
 
-  if (!worker) throw new Error('Invalid credentials or worker not found');
-  if (!worker.isActive) throw new Error('Worker account is disabled');
+  // Použijeme dynamický where objekt
+  const whereClause = { isActive: true }
+  if (authMethod === 'rfid') {
+    whereClause.rfidTag = authValue
+  } else if (authMethod === 'qr') {
+    whereClause.qrCode = authValue
+  } else if (authMethod === 'usb') {
+    whereClause.usbKeyId = authValue
+  } else {
+    throw new Error('Invalid auth method')
+  }
 
-  await prisma.workSession.create({ data: { workerId: worker.id, authMethod } });
+  worker = await prisma.worker.findFirst({
+    where: whereClause,
+    ...includeOptions,
+  })
 
-  const authUser = toAuthUser(worker);
-  if (!authUser) throw new Error('Failed to map user on terminal login');
+  if (!worker) throw new Error('Invalid credentials or worker not found')
+  if (!worker.isActive) throw new Error('Worker account is disabled')
 
-  const token = signToken(authUser);
-  return { token, worker: authUser };
+  const primaryMembership = worker.memberships[0]
+
+  // <-- OPRAVENÉ: Overenie existencie členstva
+  if (!primaryMembership) {
+    throw new Error('No active membership found for this worker')
+  }
+
+  const token = signToken({
+    userId: worker.userId,
+    organizationId: primaryMembership.organizationId,
+    accessRole: worker.accessRole,
+  })
+
+  return { token, user: worker.user, worker }
 }

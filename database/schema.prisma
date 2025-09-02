@@ -15,22 +15,36 @@ generator client {
 // ==================================================
 
 enum AccessRole {
-  superadmin
-  developer
-  owner
-  manager
-  coordinator
-  worker
-  partner
-  viewer
+  SUPERADMIN
+  DEVELOPER
+  OWNER
+  MANAGER
+  COORDINATOR
+  WORKER
+  PARTNER
+  VIEWER
 }
 
 enum AuthMethod {
-  password
-  google
-  rfid
-  qr
-  usb
+  PASSWORD
+  GOOGLE
+  RFID
+  QR
+  USB
+}
+
+enum MembershipStatus {
+  PENDING
+  ACTIVE
+  INACTIVE
+}
+
+enum TaskProgressStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  FAILED
+  ON_HOLD
 }
 
 // ==================================================
@@ -41,38 +55,119 @@ model User {
   id        String   @id @default(cuid())
   email     String   @unique
   name      String
+  password  String? // <-- PRIDANÉ: Heslo je potrebné pre prihlásenie
   isActive  Boolean  @default(true)
-
-  // Relations
   workers   Worker[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("users")
 }
 
 model Organization {
-  id          String   @id @default(cuid())
+  id          String       @id @default(cuid())
   name        String
-  type        String   // OrgType (configurable by owner)
+  type        String
   description String?
-
   workers     Worker[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  memberships Membership[]
+  invites     Invite[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@map("organizations")
 }
 
 model Worker {
-  id            String      @id @default(cuid())
-  user          User        @relation(fields: [userId], references: [id])
-  userId        String
-  organization  Organization @relation(fields: [organizationId], references: [id])
+  id             String       @id @default(cuid())
+  user           User         @relation(fields: [userId], references: [id])
+  userId         String
+  organization   Organization @relation(fields: [organizationId], references: [id])
   organizationId String
+  accessRole     AccessRole
+  businessRole   String?
+  isActive       Boolean      @default(true)
+  authMethods    AuthMethod[]
+  memberships    Membership[]
 
-  accessRole    AccessRole
-  businessRole  String?      // Configurable per org, not enum = free text
-  isActive      Boolean      @default(true)
+  // --- PRIDANÉ POLIA PRE TERMINÁL ---
+  rfidTag  String? @unique
+  qrCode   String? @unique
+  usbKeyId String? @unique
+  // ------------------------------------
 
-  authMethods   AuthMethod[] // Multiple allowed (password, qr, rfid...)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  @@unique([userId, organizationId])
+  @@map("workers")
+}
+
+model Task {
+  id                String         @id @default(cuid())
+  title             String
+  sequence          Int
+  description       String?
+  estimatedDuration Int?
+  taskProgress      TaskProgress[]
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+
+  @@map("tasks")
+}
+
+model Stage {
+  id           String         @id @default(cuid())
+  name         String
+  sequence     Int
+  taskProgress TaskProgress[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  @@map("stages")
+}
+
+model TaskProgress {
+  id          String             @id @default(cuid())
+  status      TaskProgressStatus
+  notes       String?
+  startedAt   DateTime?
+  completedAt DateTime?
+  task        Task               @relation(fields: [taskId], references: [id])
+  taskId      String
+  stage       Stage              @relation(fields: [stageId], references: [id])
+  stageId     String
+  vehicleId   String?
+  workerId    String?
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+
+  @@map("task_progress")
+}
+
+model Invite {
+  id             String       @id @default(cuid())
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId String
+  email          String
+  role           AccessRole
+  token          String       @unique
+  expiresAt      DateTime
+  createdAt      DateTime     @default(now())
+
+  @@map("invites")
+}
+
+model Membership {
+  id             String           @id @default(cuid())
+  worker         Worker           @relation(fields: [workerId], references: [id])
+  workerId       String
+  organization   Organization     @relation(fields: [organizationId], references: [id])
+  organizationId String
+  role           AccessRole
+  status         MembershipStatus
+  assignedAt     DateTime         @default(now())
+
+  @@unique([workerId, organizationId])
+  @@map("memberships")
 }

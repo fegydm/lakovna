@@ -1,50 +1,56 @@
 // File: front/src/hooks/useNavbarDots.ts
-// Handles top/bottom dots state and colors
+// Last change: Switched to DotCategory + getCategoryColor for Lakovňa categories
 
-import { useState, useEffect } from 'react';
-import { AuthStatus } from 'common/types/auth.types';
-import { AccessRole } from 'common/types/access-role.types';
+import { useEffect, useState } from "react";
+import type { DotCategory } from "common/types/dot-system.types";
+import { DOTS_STATUS_COLORS, getCategoryColor } from "common/utils/dot-colors.utils";
 
 type DotsArray = string[];
 
+export interface UseNavbarDotsParams {
+  isAuthenticated: boolean;
+  cookiesAllowed: boolean;
+  userCategory: DotCategory | null;
+  explicitTopCategory?: DotCategory | null;
+}
+
 const initialDotsState: DotsArray = [
-  'var(--color-muted)',
-  'var(--color-muted)',
-  'var(--color-muted)',
+  DOTS_STATUS_COLORS.inactive,
+  DOTS_STATUS_COLORS.inactive,
+  DOTS_STATUS_COLORS.inactive,
 ];
 
-export const useNavbarDots = (
-  isAuthenticated: boolean,
-  cookiesAllowed: boolean,
-  userRole?: AccessRole | null,
-  explicitTopRole?: AccessRole | null,
-  locationPath?: string,
-) => {
+export const useNavbarDots = ({
+  isAuthenticated,
+  cookiesAllowed,
+  userCategory,
+  explicitTopCategory = null,
+}: UseNavbarDotsParams) => {
   const [topDots, setTopDots] = useState<DotsArray>(initialDotsState);
   const [bottomDots, setBottomDots] = useState<DotsArray>(initialDotsState);
 
-  // bottom dots by AuthStatus
+  // bottom row = auth statuses
   useEffect(() => {
     const nb = [...initialDotsState];
-    if (isAuthenticated) nb[2] = 'var(--color-success)';
-    else if (cookiesAllowed) nb[1] = 'var(--color-warning)';
-    else nb[0] = 'var(--color-secondary)';
+    if (isAuthenticated) {
+      nb[2] = DOTS_STATUS_COLORS.registered;
+    } else if (cookiesAllowed) {
+      nb[1] = DOTS_STATUS_COLORS.cookies;
+    } else {
+      nb[0] = DOTS_STATUS_COLORS.anonymous;
+    }
     setBottomDots(nb);
   }, [isAuthenticated, cookiesAllowed]);
 
-  // top dots by role/path
+  // top row = categories
   useEffect(() => {
     const nt = [...initialDotsState];
-    const roleToDisplay = isAuthenticated ? userRole : explicitTopRole;
-
-    if (roleToDisplay) {
-      nt[1] = 'var(--color-primary)'; // example mapping
-    } else if (locationPath) {
-      if (locationPath.includes('/client')) nt[0] = 'var(--color-primary)';
-      if (locationPath.includes('/carrier')) nt[2] = 'var(--color-primary)';
+    const categoryToDisplay = isAuthenticated ? userCategory : explicitTopCategory;
+    if (categoryToDisplay) {
+      nt[0] = getCategoryColor(categoryToDisplay);
     }
     setTopDots(nt);
-  }, [isAuthenticated, userRole, explicitTopRole, locationPath]);
+  }, [userCategory, explicitTopCategory, isAuthenticated]);
 
-  return { topDots, bottomDots, setTopDots, setBottomDots };
+  return { topDots, bottomDots };
 };

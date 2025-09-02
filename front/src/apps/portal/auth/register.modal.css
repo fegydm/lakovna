@@ -1,0 +1,113 @@
+/* File: front/src/apps/portal/auth/register.modal.css */
+/* Last change: Created styles for the refactored register modal. */
+
+.register-modal__type-selection {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.register-modal__type-button {
+  flex: 1;
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  border: 2px solid var(--color-border-primary);
+  background-color: var(--color-background-primary);
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.register-modal__type-button:hover {
+  border-color: var(--color-primary-300);
+}
+
+.register-modal__type-button.active {
+  border-color: var(--color-primary-500);
+  background-color: var(--color-primary-50);
+  box-shadow: 0 2px 4px hsla(var(--color-primary-500), 0.1);
+}
+
+.register-modal__type-title {
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.register-modal__type-button.active .register-modal__type-title {
+  color: var(--color-primary-800);
+}
+
+.register-modal__type-desc {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  margin-top: 0.25rem;
+}
+
+.register-modal__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.register-modal__error {
+  background-color: var(--color-danger-100);
+  color: var(--color-danger-800);
+  padding: 0.75rem 1rem;
+  border-radius: var(--border-radius);
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+.register-modal__field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.register-modal__field label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.register-modal__field--password {
+  position: relative;
+}
+
+.password-toggle-btn {
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  transform: translateY(25%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  padding: 0.25rem;
+}
+
+.register-modal__error-inline {
+  font-size: 0.8rem;
+  color: var(--color-danger-600);
+  margin-top: 0.25rem;
+}
+
+.register-modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border-primary);
+}
+
+.register-modal__connect-org {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.register-modal__connect-org p {
+  margin-bottom: 0.25rem;
+}

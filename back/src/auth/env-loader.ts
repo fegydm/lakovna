@@ -81,6 +81,9 @@ function candidateEnvPaths(): string[] {
   // 2) Render Secret Files: /etc/secrets/*
   paths.push(...renderSecretCandidates());
 
+  paths.push(resolve(maybeRoot ?? backDir, "environments/.env"));
+paths.push(resolve(maybeRoot ?? backDir, "environments/.env.local"));
+
   // 3) Monorepo layout: repo root (one level up from back/)
   paths.push(resolve(backDir, "..", ".env"));
   paths.push(resolve(backDir, "..", ".env.local"));
@@ -98,6 +101,9 @@ function candidateEnvPaths(): string[] {
     paths.push(resolve(maybeRoot, ".env"));
     paths.push(resolve(maybeRoot, ".env.local"));
   }
+
+
+
 
   // De-duplicate while preserving order
   return Array.from(new Set(paths));

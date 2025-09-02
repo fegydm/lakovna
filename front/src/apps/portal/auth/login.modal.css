@@ -1,0 +1,77 @@
+/* File: front/src/apps/portal/auth/login.modal.css */
+/* Last change: Created styles for the login modal using BEM and theme variables. */
+
+/* ==========================================================================
+   BLOCK: login-modal
+   ========================================================================== */
+.login-modal__error {
+  background-color: var(--color-danger-100);
+  color: var(--color-danger-800);
+  padding: 0.75rem 1rem;
+  border-radius: var(--border-radius);
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+.login-modal__field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.login-modal__field label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--color-text-primary);
+}
+
+.login-modal__separator {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: var(--color-text-secondary);
+  margin: 1.5rem 0;
+  font-size: 0.875rem;
+}
+
+.login-modal__separator::before,
+.login-modal__separator::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--color-border-primary);
+}
+
+.login-modal__separator:not(:empty)::before {
+  margin-right: 0.5em;
+}
+
+.login-modal__separator:not(:empty)::after {
+  margin-left: 0.5em;
+}
+
+.login-modal__signup {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+/* ==========================================================================
+   ELEMENT: modal-link (Používa sa naprieč viacerými modálmi)
+   ========================================================================== */
+.modal-link {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: var(--color-primary-600);
+  cursor: pointer;
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.modal-link:hover {
+  color: var(--color-primary-700);
+}

@@ -1,19 +1,12 @@
 // File: common/types/task.types.ts
-// Shared task domain models – used across backend & frontend
+// Shared task domain models – unified with Prisma enums
 
 import type { StageInfo } from './stage.types';
 import type { VehicleInfo } from './vehicle.types';
 import type { AuthUser } from './auth.types';
+import { TaskStatus } from '@prisma/client'; // ✅ Prisma enum je pravda
 
-// ✅ Enum-like union pre statusy taskov
-export type TaskProgressStatus =
-  | 'PENDING'
-  | 'IN_PROGRESS'
-  | 'COMPLETED'
-  | 'FAILED'
-  | 'ON_HOLD';
-
-// Hlavné info o úlohe
+// Záznam o úlohe (task definition)
 export interface TaskInfo {
   id: string | number;
   title: string;
@@ -28,7 +21,7 @@ export interface TaskProgress {
   task: Pick<TaskInfo, 'id' | 'title' | 'sequence'>;
   stage: Pick<StageInfo, 'id' | 'name' | 'sequence'>;
 
-  status: TaskProgressStatus;
+  status: TaskStatus; // ✅ enum z Prisma
   notes?: string;
 
   startedAt?: Date;

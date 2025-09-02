@@ -1,10 +1,11 @@
 // File: back/src/core/passport.setup.ts
-// Last change: Use roleFromDbFormat from common/configs/access-role.config
+// Last change: Ensure returned user matches AuthUser (memberships optional)
 
 import passport from 'passport';
 import { Strategy as GoogleStrategy, Profile } from 'passport-google-oauth20';
 import { prisma } from './prisma.client';
 import { roleFromDbFormat } from 'common/configs/access-role.config';
+import type { AuthUser } from 'common/types/auth.types';
 
 const configurePassport = () => {
   passport.use(
@@ -31,10 +32,18 @@ const configurePassport = () => {
             return done(null, false, { message: 'This account is disabled.' });
           }
 
-          return done(null, {
-            ...worker,
+          // ✅ Build AuthUser object
+          const user: AuthUser = {
+            id: worker.id,
+            name: worker.name,
+            email: worker.email,
             role: roleFromDbFormat(worker.role),
-          });
+            isActive: worker.isActive,
+            imageUrl: worker.imageUrl ?? undefined,
+            memberships: [], // optional, empty by default
+          };
+
+          return done(null, user);
         } catch (error) {
           return done(error as Error);
         }

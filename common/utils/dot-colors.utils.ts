@@ -1,148 +1,40 @@
 // File: common/utils/dot-colors.utils.ts
-// Last change: Synced role keys with ProjectOrgType (wrapshop, detailing)
+// Last change: Unified support for Lakovňa DotCategory + legacy ProjectOrgType
 
-import type { AuthStatus } from 'common/types/auth.types';
-import type { ProjectOrgType } from 'common/types/org-type.types';
-import type { HslColor } from 'common/types/theme.types';
+import type { AuthStatus } from "common/types/auth.types";
+import type { ProjectOrgType } from "common/types/org-type.types";
+import type { DotCategory } from "common/types/dot-system.types";
+import { DOT_CATEGORIES, DOT_STATUSES } from "common/configs/dot-system.config";
 
-// DOTS COLORS - Status colors (auth states)
-export const DOTS_STATUS_COLORS: Record<AuthStatus | 'inactive', string> = {
-  inactive: 'hsl(var(--color-gray-50))',
-  anonymous: 'hsl(var(--color-red-60))',
-  cookies: 'hsl(var(--color-orange-60))',
-  registered: 'hsl(var(--color-green-60))',
+// ========== STATUS COLORS (auth states) ==========
+export const DOTS_STATUS_COLORS: Record<AuthStatus | "inactive", string> = {
+  inactive: "hsl(var(--color-gray-50))",
+  ...Object.fromEntries(
+    Object.entries(DOT_STATUSES).map(([status, cfg]) => [status, cfg.color])
+  ) as Record<AuthStatus, string>,
 };
 
-// DOTS COLORS - OrgType colors (project specific, mapped by CSS role map)
+// ========== CATEGORY COLORS (Lakovňa categories) ==========
+export const DOTS_CATEGORY_COLORS: Record<DotCategory, string> = Object.fromEntries(
+  Object.entries(DOT_CATEGORIES).map(([cat, cfg]) => [cat, cfg.color])
+) as Record<DotCategory, string>;
+
+// ========== ROLE COLORS (Sendeliver legacy orgTypes) ==========
 export const DOTS_ROLE_COLORS: Record<ProjectOrgType, string> = {
-  bodyshop: 'hsl(var(--role-bodyshop-60))',
-  service: 'hsl(var(--role-service-60))',
-  dealer: 'hsl(var(--role-dealer-60))',
-  tuning: 'hsl(var(--role-tuning-60))',
-  wrapshop: 'hsl(var(--role-wrapshop-60))',
-  detailing: 'hsl(var(--role-detailing-60))',
+  bodyshop: "hsl(var(--role-bodyshop-60))",
+  service: "hsl(var(--role-service-60))",
+  dealer: "hsl(var(--role-dealer-60))",
+  tuning: "hsl(var(--role-tuning-60))",
+  wrapshop: "hsl(var(--role-wrapshop-60))",
+  detailing: "hsl(var(--role-detailing-60))",
 };
 
-// PUBLIC/OBFUSCATED role mapping for CSS variables
-export const CSS_ROLE_MAP: Record<ProjectOrgType, string> = {
-  bodyshop: 'bsh',
-  service: 'srv',
-  dealer: 'dlr',
-  tuning: 'tun',
-  wrapshop: 'wrp',
-  detailing: 'det',
-} as const;
+// ===== Helpers =====
+export const getStatusColor = (status: AuthStatus): string =>
+  DOTS_STATUS_COLORS[status] || DOTS_STATUS_COLORS.inactive;
 
-// DEFAULT SEMANTIC LEVELS (0-100 percentage for lightness calculation)
-export const DEFAULT_SEMANTIC_LEVELS = {
-  background: 95,
-  surface: 90,
-  input: 85,
-  border: 75,
-  muted: 60,
-  emphasis: 35,
-  hover: 80,
-  active: 30,
-  subtle: 92,
-  overlay: 88,
-  accent: 25,
-  light: 99,
-} as const;
+export const getCategoryColor = (category: DotCategory): string =>
+  DOTS_CATEGORY_COLORS[category] || DOTS_STATUS_COLORS.inactive;
 
-export type SemanticLevel = keyof typeof DEFAULT_SEMANTIC_LEVELS;
-export type SemanticLevelValue = number;
-
-// Role-specific semantic level overrides (optional, project specific)
-export const ROLE_SEMANTIC_OVERRIDES: Partial<
-  Record<ProjectOrgType, Partial<Record<SemanticLevel, SemanticLevelValue>>>
-> = {
-  bodyshop: { emphasis: 40, muted: 55 },
-  service: {},
-  dealer: { emphasis: 38, border: 70 },
-  tuning: {},
-  wrapshop: {},
-  detailing: {},
-};
-
-// Utility functions for dots
-export const getRoleColor = (role: ProjectOrgType): string => {
-  return DOTS_ROLE_COLORS[role] || DOTS_STATUS_COLORS.inactive;
-};
-
-export const getStatusColor = (status: AuthStatus): string => {
-  return DOTS_STATUS_COLORS[status] || DOTS_STATUS_COLORS.inactive;
-};
-
-export const getDotColor = (
-  id: string,
-  isSelected: boolean,
-  isRole: boolean = true
-): string => {
-  if (!isSelected) return DOTS_STATUS_COLORS.inactive;
-
-  if (isRole) {
-    return DOTS_ROLE_COLORS[id as ProjectOrgType] || DOTS_STATUS_COLORS.inactive;
-  } else {
-    return DOTS_STATUS_COLORS[id as AuthStatus] || DOTS_STATUS_COLORS.inactive;
-  }
-};
-
-/**
- * Dynamic Semantic Levels Manager
- * Allows runtime modification of semantic levels
- */
-class SemanticLevelsManager {
-  private userLevels: Map<string, Record<SemanticLevel, SemanticLevelValue>> = new Map();
-  private roleLevels: Map<ProjectOrgType, Record<SemanticLevel, SemanticLevelValue>> = new Map();
-
-  constructor() {
-    this.resetToDefaults();
-  }
-
-  getLevels(role: ProjectOrgType, userId?: string): Record<SemanticLevel, SemanticLevelValue> {
-    if (userId) {
-      const userKey = `${userId}-${role}`;
-      const userSpecific = this.userLevels.get(userKey);
-      if (userSpecific) return userSpecific;
-    }
-
-    const roleSpecific = this.roleLevels.get(role);
-    if (roleSpecific) return roleSpecific;
-
-    return DEFAULT_SEMANTIC_LEVELS;
-  }
-
-  setUserLevels(userId: string, role: ProjectOrgType, levels: Partial<Record<SemanticLevel, SemanticLevelValue>>) {
-    const key = `${userId}-${role}`;
-    const current = this.getLevels(role, userId);
-    this.userLevels.set(key, { ...current, ...levels });
-  }
-
-  setRoleLevels(role: ProjectOrgType, levels: Partial<Record<SemanticLevel, SemanticLevelValue>>) {
-    const current = this.roleLevels.get(role) || DEFAULT_SEMANTIC_LEVELS;
-    this.roleLevels.set(role, { ...current, ...levels });
-  }
-
-  resetToDefaults() {
-    this.userLevels.clear();
-    this.roleLevels.clear();
-
-    Object.entries(ROLE_SEMANTIC_OVERRIDES).forEach(([role, overrides]) => {
-      if (overrides) {
-        this.roleLevels.set(role as ProjectOrgType, {
-          ...DEFAULT_SEMANTIC_LEVELS,
-          ...overrides,
-        });
-      }
-    });
-  }
-
-  adjustForDarkMode(level: SemanticLevelValue, levelName: string): SemanticLevelValue {
-    const noInvert: string[] = ['muted', 'emphasis'];
-    if (noInvert.includes(levelName)) return level;
-    return 100 - level;
-  }
-}
-
-// Export singleton instance
-export const semanticLevelsManager = new SemanticLevelsManager();
+export const getRoleColor = (role: ProjectOrgType): string =>
+  DOTS_ROLE_COLORS[role] || DOTS_STATUS_COLORS.inactive;

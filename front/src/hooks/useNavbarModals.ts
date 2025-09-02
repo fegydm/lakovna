@@ -1,11 +1,10 @@
 // File: front/src/hooks/useNavbarModals.ts
-// Handles active modal state and modal-related handlers
+// Handles all modal open/close logic and related actions for Navbar
 
 import { useState } from 'react';
-import { AuthStatus } from 'common/types/auth.types';
-import { AccessRole } from 'common/types/access-role.types';
+import type { AuthStatus } from 'common/types/auth.types';
 
-type ModalType =
+export type ModalType =
   | 'avatar'
   | 'dots'
   | 'about'
@@ -15,41 +14,106 @@ type ModalType =
   | 'register'
   | null;
 
-export const useNavbarModals = (
-  setCookiesAllowed: (v: boolean) => void,
-  setExplicitTopRole: (v: AccessRole | null) => void,
-) => {
+interface UseNavbarModalsParams {
+  isAuthenticated: boolean;
+  cookiesAllowed: boolean;
+  onLogout?: () => Promise<void>;
+  onAvatarSave?: (avatarId: string) => Promise<void>;
+  onDotsSelectionChange?: (top: string | null, bottom: AuthStatus | null) => Promise<void>;
+  onNavigateToPolicy?: () => void;
+  onNavigateToThemeSettings?: () => void;
+}
+
+export const useNavbarModals = ({
+  isAuthenticated,
+  cookiesAllowed,
+  onLogout,
+  onAvatarSave,
+  onDotsSelectionChange,
+  onNavigateToPolicy,
+  onNavigateToThemeSettings,
+}: UseNavbarModalsParams) => {
   const [activeModal, setActiveModal] = useState<ModalType>(null);
 
-  const handleModalOpen = (m: ModalType) => setActiveModal(m);
+  const handleModalOpen = (modal: ModalType) => setActiveModal(modal);
   const handleModalClose = () => setActiveModal(null);
 
-  const handleAcceptCookies = () => {
-    localStorage.setItem('cookie_consent', 'accepted');
-    setCookiesAllowed(true);
-    handleModalClose();
+  const handlers = {
+    handleModalOpen,
+    handleModalClose,
+    handleLogout: async () => {
+      handleModalClose();
+      if (onLogout) await onLogout();
+    },
+    handleAvatarSave: async (avatarId: string) => {
+      if (onAvatarSave) {
+        await onAvatarSave(avatarId);
+      }
+      handleModalClose();
+    },
+    handleDotsSelectionChange: async (top: string | null, bottom: AuthStatus | null) => {
+      if (onDotsSelectionChange) {
+        await onDotsSelectionChange(top, bottom);
+      }
+      handleModalClose();
+    },
+    handleNavigateToPolicy: () => {
+      handleModalClose();
+      if (onNavigateToPolicy) onNavigateToPolicy();
+    },
+    handleNavigateToThemeSettings: () => {
+      handleModalClose();
+      if (onNavigateToThemeSettings) onNavigateToThemeSettings();
+    },
   };
 
-  const handleDeclineCookies = () => {
-    localStorage.setItem('cookie_consent', 'declined');
-    setCookiesAllowed(false);
-    handleModalClose();
-  };
-
-  const handleDotsSelectionChange = async (top: AccessRole | null, bottom: AuthStatus | null) => {
-    handleModalClose();
-    if (top) setExplicitTopRole(top);
-    if (bottom === AuthStatus.REGISTERED) handleModalOpen('register');
-    if (bottom === AuthStatus.COOKIES) handleModalOpen('demoWelcome');
-    if (bottom === AuthStatus.ANONYMOUS) handleDeclineCookies();
+  const modalProps = {
+    about: {
+      isOpen: activeModal === 'about',
+      onClose: handleModalClose,
+      onNavigateToRegister: () => handleModalOpen('register'),
+    },
+    avatar: {
+      isOpen: activeModal === 'avatar',
+      onClose: handleModalClose,
+      onLogout: () => handleModalOpen('confirmLogout'),
+      onSave: handlers.handleAvatarSave,
+      isGuestMode: !isAuthenticated,
+      cookiesAllowed,
+    },
+    dots: {
+      isOpen: activeModal === 'dots',
+      onClose: handleModalClose,
+      onSelectionChange: handlers.handleDotsSelectionChange,
+      onCustomizeClick: handlers.handleNavigateToThemeSettings,
+    },
+    confirmLogout: {
+      isOpen: activeModal === 'confirmLogout',
+      onClose: handleModalClose,
+      onConfirm: handlers.handleLogout,
+    },
+    demoWelcome: {
+      isOpen: activeModal === 'demoWelcome',
+      onAccept: () => handleModalClose(),
+      onDecline: () => handleModalClose(),
+      onAcceptAndRegister: () => handleModalOpen('register'),
+      onNavigateToPolicy: handlers.handleNavigateToPolicy,
+    },
+    login: {
+      isOpen: activeModal === 'login',
+      onClose: handleModalClose,
+      onNavigateToRegister: () => handleModalOpen('register'),
+    },
+    register: {
+      isOpen: activeModal === 'register',
+      onClose: handleModalClose,
+    },
   };
 
   return {
     activeModal,
-    handleModalOpen,
-    handleModalClose,
-    handleAcceptCookies,
-    handleDeclineCookies,
-    handleDotsSelectionChange,
+    setActiveModal,
+    handlers,
+    modalProps,
   };
 };

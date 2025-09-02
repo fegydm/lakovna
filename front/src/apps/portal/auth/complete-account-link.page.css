@@ -1,0 +1,56 @@
+/* File: front/src/apps/portal/auth/complete-account-link.page.css */
+/* Last change: Initial styles for the account linking page. */
+
+.account-link-page {
+  max-width: 500px;
+  margin: 4rem auto;
+  padding: 2rem;
+  text-align: center;
+  background-color: var(--color-background-primary);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--color-border-primary);
+}
+
+.account-link-page__title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+}
+
+.account-link-state {
+  padding: 1rem 0;
+}
+
+.account-link-state__title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.account-link-state__title.error {
+  color: var(--color-danger-600);
+}
+
+.account-link-state__title.success {
+  color: var(--color-success-600);
+}
+
+.account-link-state__message {
+  color: var(--color-text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+.account-link-form__description {
+  margin-bottom: 1.5rem;
+  color: var(--color-text-secondary);
+}
+
+.account-link-form__field {
+  text-align: left;
+  margin-bottom: 1.5rem;
+}
+
+.account-link-form__field label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}

@@ -1,4 +1,4 @@
-// File: common/configs/project/project-paths.ts
+// File: common/configs/project-paths.ts
 // Defines route paths for each DotCategory in the Lakovňa project
 
 import type { DotCategory } from '../types/dot-system.types';

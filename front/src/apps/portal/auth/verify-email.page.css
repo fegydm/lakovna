@@ -1,0 +1,85 @@
+/* File: front/src/apps/portal/auth/verify-email.page.css */
+/* Last change: Initial styles for the email verification page. */
+
+.verify-email-page {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background-color: var(--color-background-secondary);
+}
+
+.verify-email-card {
+  background-color: var(--color-background-primary);
+  border-radius: var(--border-radius);
+  padding: 2.5rem;
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  border: 1px solid var(--color-border-primary);
+}
+
+.verify-email-card__icon {
+  font-size: 3rem;
+  margin-bottom: 1.25rem;
+}
+
+.verify-email-card__title {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.verify-email-card--success .verify-email-card__title {
+  color: var(--color-success-600);
+}
+.verify-email-card--error .verify-email-card__title {
+  color: var(--color-danger-600);
+}
+.verify-email-card--already-verified .verify-email-card__title {
+  color: var(--color-warning-600);
+}
+
+.verify-email-card__message {
+  color: var(--color-text-secondary);
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.verify-email-card__spinner-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  color: var(--color-primary-600);
+  margin-bottom: 1.25rem;
+  font-weight: 500;
+}
+
+.verify-email-card__spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--color-primary-200);
+  border-top-color: var(--color-primary-500);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.verify-email-card__redirect-info {
+  background-color: var(--color-background-secondary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--border-radius);
+  padding: 1rem;
+  margin-bottom: 1.25rem;
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+}

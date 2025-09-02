@@ -1,9 +1,9 @@
 // File: common/constants/zodiac.constants.ts
-// Last change: Created centralized zodiac signs constants
+// Last change: Added strong typing with ZodiacSign union
 
 export const ZODIAC_SIGNS = [
   "aries",
-  "taurus", 
+  "taurus",
   "gemini",
   "cancer",
   "leo",
@@ -16,11 +16,12 @@ export const ZODIAC_SIGNS = [
   "pisces",
 ] as const;
 
+// Literal union type "aries" | "taurus" | ...
 export type ZodiacSign = typeof ZODIAC_SIGNS[number];
 
 export const ZODIAC_DISPLAY_NAMES: Record<ZodiacSign, string> = {
   aries: "Aries",
-  taurus: "Taurus", 
+  taurus: "Taurus",
   gemini: "Gemini",
   cancer: "Cancer",
   leo: "Leo",
@@ -33,7 +34,10 @@ export const ZODIAC_DISPLAY_NAMES: Record<ZodiacSign, string> = {
   pisces: "Pisces",
 };
 
-export const ZODIAC_DATE_RANGES: Record<ZodiacSign, { start: string; end: string }> = {
+export const ZODIAC_DATE_RANGES: Record<
+  ZodiacSign,
+  { start: string; end: string }
+> = {
   aries: { start: "03-21", end: "04-19" },
   taurus: { start: "04-20", end: "05-20" },
   gemini: { start: "05-21", end: "06-20" },
@@ -48,28 +52,36 @@ export const ZODIAC_DATE_RANGES: Record<ZodiacSign, { start: string; end: string
   pisces: { start: "02-19", end: "03-20" },
 };
 
+/**
+ * Get Zodiac sign from birth date
+ */
 export const getZodiacByBirthDate = (birthDate: Date): ZodiacSign => {
-  const month = String(birthDate.getMonth() + 1).padStart(2, '0');
-  const day = String(birthDate.getDate()).padStart(2, '0');
+  const month = String(birthDate.getMonth() + 1).padStart(2, "0");
+  const day = String(birthDate.getDate()).padStart(2, "0");
   const dateString = `${month}-${day}`;
-  
+
   for (const [sign, range] of Object.entries(ZODIAC_DATE_RANGES)) {
     const { start, end } = range;
-    
+
+    // Normal case
     if (start <= end) {
       if (dateString >= start && dateString <= end) {
         return sign as ZodiacSign;
       }
     } else {
+      // Wrap-around case (e.g., Capricorn)
       if (dateString >= start || dateString <= end) {
         return sign as ZodiacSign;
       }
     }
   }
-  
+
   return "capricorn";
 };
 
+/**
+ * Pick a random Zodiac sign
+ */
 export const getRandomZodiacSign = (): ZodiacSign => {
   const randomIndex = Math.floor(Math.random() * ZODIAC_SIGNS.length);
   return ZODIAC_SIGNS[randomIndex];
