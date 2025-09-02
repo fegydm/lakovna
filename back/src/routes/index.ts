@@ -1,37 +1,37 @@
 // File: back/src/routes/index.ts
-// Last change: Replaced Prisma WorkerRole with common AccessRole enum
+// Last change: Fixed import paths and applied snake_case naming conventions
 
 import { Router } from 'express';
-import { protect } from '../middlewares/auth.middleware.js';
+import { protect } from '../middlewares/auth.middleware';
 import { AccessRole } from 'common/types/access-role.types';
 
 // Import route modules
-import authRouter from './auth.routes.js';
-import vehicleRouter from './vehicle.routes.js';
-import stageRouter from './stage.routes.js';
-import workerRouter from './worker.routes.js';
-import dashboardRouter from './dashboard.routes.js';
-import publicRouter from './public.routes.js';
-import i18nRouter from './i18n.routes.js';
+import auth_router from './auth.routes';
+import vehicle_router from './vehicle.routes';
+import stage_router from './stage.routes';
+import worker_router from './worker.routes';
+import dashboard_router from './dashboard.routes';
+import public_router from './public.routes';
+import i18n_router from './i18n.routes';
 
-const apiRouter = Router();
+export const api_router = Router();
 
 // --- Public Routes ---
-apiRouter.use('/auth', authRouter);
-apiRouter.use('/public', publicRouter);
-apiRouter.use('/i18n', i18nRouter);
+api_router.use('/auth', auth_router);
+api_router.use('/public', public_router);
+api_router.use('/i18n', i18n_router);
 
 // --- Protected Routes (JWT authentication required for all below) ---
-apiRouter.use('/dashboard', protect(), dashboardRouter);
-apiRouter.use('/vehicles', protect(), vehicleRouter);
+api_router.use('/dashboard', protect(), dashboard_router);
+api_router.use('/vehicles', protect(), vehicle_router);
 
 // --- Role-Protected Routes (Specific roles required) ---
-apiRouter.use('/stages', protect([AccessRole.manager, AccessRole.superadmin]), stageRouter);
-apiRouter.use('/workers', protect([AccessRole.manager, AccessRole.superadmin]), workerRouter);
+api_router.use('/stages', protect([AccessRole.MANAGER, AccessRole.SUPERADMIN]), stage_router);
+api_router.use('/workers', protect([AccessRole.MANAGER, AccessRole.SUPERADMIN]), worker_router);
 
 // --- Health Check ---
-apiRouter.get('/health', (req, res) => {
+api_router.get('/health', (req, res) => {
   res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-export default apiRouter;
+export default api_router;

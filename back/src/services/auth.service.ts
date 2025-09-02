@@ -1,178 +1,120 @@
 // File: back/src/services/auth.service.ts
+// Last change: Refactored with shared types and centralized AuthUser builder
 
-import { prisma } from '../core/prisma.client'
-import { hashPassword, verifyPassword } from '../auth/crypto.utils'
-import { signToken } from '../auth/jwt.utils'
-import { AccessRole, MembershipStatus, AuthMethod } from '../../../database/generated'
+import { 
+  get_user_by_email, 
+  create_user_and_organization, 
+  get_user_by_terminal_auth 
+} from '../utils/user.utils';
+import { hash_password, verify_password } from '../auth/crypto.utils';
+import { sign_token } from '../auth/jwt.utils';
+import { AccessRole } from 'common/types/access-role.types';
+import { MembershipStatus, AuthUser } from 'common/types/auth.types';
+import { PROJECT_CONFIG } from 'common/configs/project.config';
+import type { UserWithMemberships } from 'common/types/user.types';
 
-// ================================================
+// ==================================================
+// HELPER: Build AuthUser from user and memberships
+// ==================================================
+function build_auth_user(user: UserWithMemberships): AuthUser {
+  const primary = user.memberships[0];
+
+  return {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    is_verified: user.is_verified,
+    access_role: primary?.role,
+    business_role: primary?.business_role ?? undefined,
+    memberships: user.memberships.map(m => ({
+      organization_id: m.organization_id,
+      role: m.role,
+      business_role: m.business_role ?? undefined,
+    })),
+  };
+}
+
+// ==================================================
 // REGISTER + CREATE ORG
-// ================================================
-export async function registerAndCreateOrgService(
-  organizationName: string,
-  workerName: string,
+// ==================================================
+export async function register_and_create_org_service(
+  organization_name: string,
+  user_name: string,
   email: string,
   password: string
 ) {
-  const existingUser = await prisma.user.findUnique({
-    where: { email: email.toLowerCase() },
-  })
-  if (existingUser) throw new Error('User with this email already exists')
+  const existing_user = await get_user_by_email(email.toLowerCase());
+  if (existing_user) throw new Error('User with this email already exists');
 
-  const hashedPassword = await hashPassword(password)
+  const hashed_password = await hash_password(password);
 
-  const result = await prisma.$transaction(async (tx) => {
-    // 1) Create user
-    const user = await tx.user.create({
-      data: {
-        email: email.toLowerCase(),
-        name: workerName,
-        password: hashedPassword, // <-- OPRAVENÉ: Ukladanie hashovaného hesla
-        isActive: true,
-      },
-    })
+  const { user, organization, membership } = await create_user_and_organization(
+    user_name,
+    email.toLowerCase(),
+    hashed_password,
+    organization_name,
+    PROJECT_CONFIG.organization_type_mappings.bodyshop.key,
+    AccessRole.OWNER,
+    'shop_owner'
+  );
 
-    // 2) Create organization
-    const organization = await tx.organization.create({
-      data: {
-        name: organizationName,
-        type: 'bodyshop',
-      },
-    })
+  const auth_user = build_auth_user({
+    ...user,
+    is_active: user.is_active,
+    memberships: [{
+      organization_id: membership.organization_id,
+      role: membership.access_role,
+      business_role: membership.business_role,
+      status: membership.status
+    }]
+  });
 
-    // 3) Create worker profile
-    const worker = await tx.worker.create({
-      data: {
-        userId: user.id,
-        organizationId: organization.id,
-        accessRole: AccessRole.OWNER,
-        businessRole: 'shop-owner',
-        isActive: true,
-        authMethods: [AuthMethod.PASSWORD],
-      },
-    })
+  const token = sign_token(auth_user);
 
-    // 4) Create membership
-    const membership = await tx.membership.create({
-      data: {
-        workerId: worker.id,
-        organizationId: organization.id,
-        role: AccessRole.OWNER,
-        status: MembershipStatus.ACTIVE,
-      },
-    })
-
-    return { user, organization, worker, membership }
-  })
-
-  const token = signToken({
-    userId: result.user.id,
-    organizationId: result.organization.id,
-    accessRole: result.worker.accessRole,
-  })
-
-  return {
-    token,
-    user: result.user,
-    organization: result.organization,
-    worker: result.worker,
-  }
+  return { token, user, organization, membership };
 }
 
-// ================================================
+// ==================================================
 // LOGIN (EMAIL + PASSWORD)
-// ================================================
-export async function loginWorkerService(email: string, password: string) {
-  const user = await prisma.user.findUnique({
-    where: { email: email.toLowerCase() },
-    include: {
-      workers: {
-        include: {
-          memberships: {
-            where: { status: MembershipStatus.ACTIVE },
-          },
-          organization: true,
-        },
-      },
-    },
-  })
+// ==================================================
+export async function login_worker_service(email: string, password: string) {
+  const user = await get_user_by_email(email.toLowerCase()) as UserWithMemberships | null;
+  if (!user || !user.password) throw new Error('Invalid credentials');
+  if (!user.is_active) throw new Error('User account is disabled');
 
-  if (!user || !user.password) throw new Error('Invalid credentials')
-
-  const isPasswordValid = await verifyPassword(password, user.password)
-  if (!isPasswordValid) throw new Error('Invalid credentials')
-
-  if (user.workers.length === 0) throw new Error('No active worker profile found')
-
-  const primaryWorker = user.workers[0]
-  const primaryMembership = primaryWorker.memberships[0]
-
-  // <-- OPRAVENÉ: Overenie existencie členstva
-  if (!primaryMembership) {
-    throw new Error('No active membership found for this worker')
+  const is_password_valid = await verify_password(password, user.password);
+  if (!is_password_valid) throw new Error('Invalid credentials');
+  
+  const primary_membership = user.memberships[0];
+  if (!primary_membership || primary_membership.status !== MembershipStatus.ACTIVE) {
+    throw new Error('No active membership found for this user');
   }
 
-  const token = signToken({
-    userId: user.id,
-    organizationId: primaryMembership.organizationId,
-    accessRole: primaryWorker.accessRole,
-  })
+  const auth_user = build_auth_user(user);
+  const token = sign_token(auth_user);
 
-  return { token, user, worker: primaryWorker }
+  return { token, user, membership: primary_membership };
 }
 
-// ================================================
+// ==================================================
 // LOGIN (TERMINAL AUTH: RFID / QR / USB)
-// ================================================
-export async function loginTerminalService(
-  authMethod: 'rfid' | 'qr' | 'usb',
-  authValue: string
+// ==================================================
+export async function login_terminal_service(
+  auth_method: 'rfid' | 'qr' | 'usb',
+  auth_value: string
 ) {
-  let worker
+  const user = await get_user_by_terminal_auth(auth_method, auth_value) as UserWithMemberships | null;
+  
+  if (!user) throw new Error('Invalid credentials or user not found');
+  if (!user.is_active) throw new Error('User account is disabled');
 
-  const includeOptions = {
-    include: {
-      user: true,
-      organization: true,
-      memberships: {
-        where: { status: MembershipStatus.ACTIVE },
-        include: { organization: true },
-      },
-    },
+  const primary_membership = user.memberships[0];
+  if (!primary_membership || primary_membership.status !== MembershipStatus.ACTIVE) {
+    throw new Error('No active membership found for this user');
   }
 
-  // Použijeme dynamický where objekt
-  const whereClause = { isActive: true }
-  if (authMethod === 'rfid') {
-    whereClause.rfidTag = authValue
-  } else if (authMethod === 'qr') {
-    whereClause.qrCode = authValue
-  } else if (authMethod === 'usb') {
-    whereClause.usbKeyId = authValue
-  } else {
-    throw new Error('Invalid auth method')
-  }
+  const auth_user = build_auth_user(user);
+  const token = sign_token(auth_user);
 
-  worker = await prisma.worker.findFirst({
-    where: whereClause,
-    ...includeOptions,
-  })
-
-  if (!worker) throw new Error('Invalid credentials or worker not found')
-  if (!worker.isActive) throw new Error('Worker account is disabled')
-
-  const primaryMembership = worker.memberships[0]
-
-  // <-- OPRAVENÉ: Overenie existencie členstva
-  if (!primaryMembership) {
-    throw new Error('No active membership found for this worker')
-  }
-
-  const token = signToken({
-    userId: worker.userId,
-    organizationId: primaryMembership.organizationId,
-    accessRole: worker.accessRole,
-  })
-
-  return { token, user: worker.user, worker }
+  return { token, user, membership: primary_membership };
 }

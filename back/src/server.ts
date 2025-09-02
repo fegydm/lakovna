@@ -1,70 +1,65 @@
 // File: back/src/server.ts
-// Last change: Removed global Passport middleware to resolve type conflicts
+// Last change: Refactored to align with project conventions and simplify logic
 
 import express, { Request, Response, NextFunction } from 'express';
 import http from 'http';
 import path from 'path';
-import passport from 'passport'; // Keep import for Google strategy configuration
+import passport from 'passport';
 import { fileURLToPath } from 'url';
 
-// Utilities & Configs
-import { loadEnv } from './auth/env-loader.js';
-import configurePassport from './core/passport.setup';
+// --- UTILITIES & CORE ---
+import { load_env } from './core/env.loader';
+import { configure_passport } from './core/passport.setup';
 import { WebSocketManager } from './core/websocket.manager';
 
-// Middleware
-import { customCorsMiddleware } from './middlewares/cors.middleware.js';
-import { customCookieParser } from './auth/cookie-parser.js';
-import { httpLogger } from './auth/http-logger.js';
-import { sessionMiddleware } from './auth/session-middleware.js';
-import { userAgentMiddleware } from './auth/user-agent-parser.js';
-import { errorHandler } from './middlewares/error.middleware.js';
+// --- MIDDLEWARE ---
+import { custom_cors_middleware } from './middlewares/cors.middleware';
+import { cookie_middleware } from './middlewares/cookie.middleware'; 
+import { http_logger } from './middlewares/http-logger.middleware';
+import { session_middleware } from './middlewares/session.middleware';
+import { user_agent_middleware } from './middlewares/user-agent.middleware';
+import { error_handler } from './middlewares/error.middleware';
 
-// Routers
-import apiRouter from './routes/index.js';
+// --- ROUTERS ---
+import api_router from './routes/index';
 
 // --- INITIALIZATION ---
-loadEnv();
+load_env();
 const app = express();
 const server = http.createServer(app);
-const PORT = process.env.PORT || 10002;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const project_root = path.join(__dirname, '../..');
+const frontend_dist_path = path.join(project_root, 'front', 'dist');
 
 // --- CORE MIDDLEWARE ---
-app.use(customCorsMiddleware);
+app.use(custom_cors_middleware);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(customCookieParser);
-app.use(httpLogger);
-app.use(userAgentMiddleware);
-app.use(sessionMiddleware); // Our custom session handler
+app.use(cookie_middleware);
+app.use(http_logger);
+app.use(user_agent_middleware);
+app.use(session_middleware);
 
-// --- AUTHENTICATION CONFIG ---
-// We only configure Passport, but don't use it as a global middleware anymore.
-// It will be used specifically on the Google OAuth routes.
-configurePassport();
+// --- AUTHENTICATION ---
+configure_passport();
 
 // --- API ROUTES ---
-app.use('/api', apiRouter);
+app.use('/api', api_router);
 
-// --- SERVE STATIC FRONTEND (FOR PRODUCTION) ---
-if (process.env.NODE_ENV === 'production') {
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = path.dirname(__filename);
-  const frontDistPath = path.join(__dirname, '..', '..', 'front', 'dist');
-
-  app.use(express.static(frontDistPath));
-  app.get('*', (req: Request, res: Response) => {
-    res.sendFile(path.resolve(frontDistPath, 'index.html'));
-  });
-}
+// --- STATIC FRONTEND ---
+app.use(express.static(frontend_dist_path));
+app.get('*', (req: Request, res: Response) => {
+  res.sendFile(path.resolve(frontend_dist_path, 'index.html'));
+});
 
 // --- FINAL ERROR HANDLER ---
-app.use(errorHandler);
+app.use(error_handler);
 
-// --- WEBSOCKET & SERVER START ---
+// --- WEBSOCKETS & SERVER START ---
 WebSocketManager.initialize(server);
-
-server.listen(PORT, () => {
+const PORT = parseInt(process.env.PORT || '10002', 10);
+server.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Server is running on http://localhost:${PORT}`);
   console.log(`✅ Environment: ${process.env.NODE_ENV}`);
 });

@@ -1,51 +1,52 @@
 // File: back/src/routes/auth.routes.ts
-// Last change: Fixed req.user typing to AuthUser instead of Prisma.Worker
+// Last change: Fixed import errors and path inconsistencies
 
 import { Router, Request, Response } from 'express';
 import passport from 'passport';
+
 import { protect } from '../middlewares/auth.middleware';
-import { rateLimiter } from '../middlewares/rate-limiter';
-import * as authController from '../controllers/auth.controller';
-import * as workerController from '../controllers/worker.controller';
-import { signToken } from '../auth/auth.utils';
-import type { AuthUser } from 'common/types/auth.types';
+import { rate_limiter } from '../middlewares/rate-limiter.middleware';
+import * as auth_controller from '../controllers/auth.controller';
+import { sign_token } from '../auth/auth.utils';
+import type { AuthUser } from 'common/types/universal.types';
+import { APP_PATHS } from 'common/configs/paths.config';
+import { PROJECT_CONFIG } from 'common/configs/project.config';
 
-const authRouter = Router();
-const loginLimiter = rateLimiter(15 * 60 * 1000, 10);
+const auth_router = Router();
+const login_limiter = rate_limiter(15 * 60 * 1000, 10);
 
-authRouter.post('/register-organization', authController.registerAndCreateOrg);
-authRouter.post('/login', loginLimiter, authController.loginWorker);
-authRouter.post('/login/terminal', loginLimiter, authController.loginTerminal);
+auth_router.post(APP_PATHS.auth_paths.register_organization, auth_controller.register_and_create_org);
+auth_router.post(APP_PATHS.auth_paths.login, login_limiter, auth_controller.login_worker);
+auth_router.post(APP_PATHS.auth_paths.login_terminal, login_limiter, auth_controller.login_terminal);
 
-authRouter.get(
-  '/google',
+auth_router.get(
+  APP_PATHS.auth_paths.google,
   passport.authenticate('google', { scope: ['profile', 'email'], session: false })
 );
 
-authRouter.get(
-  '/google/callback',
-  passport.authenticate('google', { failureRedirect: '/login', session: false }),
+auth_router.get(
+  APP_PATHS.auth_paths.google_callback,
+  passport.authenticate('google', { failureRedirect: APP_PATHS.auth_paths.login, session: false }),
   async (req: Request, res: Response) => {
-    // ✅ správne typovanie
     const user = req.user as AuthUser;
     if (!user) {
       return res.redirect(
-        `${process.env.FRONTEND_URL}/auth/callback?error=worker_not_found`
+        `${PROJECT_CONFIG.branding.frontend_url}/auth/callback?error=user_not_found`
       );
     }
 
-    const token = signToken({
+    const token = sign_token({
       id: user.id,
-      role: user.role,
+      role: user.access_role,
     });
 
-    res.redirect(`${process.env.FRONTEND_URL}/auth/callback?token=${token}`);
+    res.redirect(`${PROJECT_CONFIG.branding.frontend_url}/auth/callback?token=${token}`);
   }
 );
 
-authRouter.post('/link-password/request', workerController.requestPasswordLink);
-authRouter.post('/link-password/complete', workerController.completePasswordLink);
+auth_router.post(APP_PATHS.auth_paths.request_password_link, auth_controller.request_password_link);
+auth_router.post(APP_PATHS.auth_paths.complete_password_link, auth_controller.complete_password_link);
 
-authRouter.get('/profile', protect(), authController.getProfile);
+auth_router.get(APP_PATHS.auth_paths.profile, protect(), auth_controller.get_profile);
 
-export default authRouter;
+export default auth_router;

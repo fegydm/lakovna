@@ -1,145 +1,84 @@
 // File: common/utils/logger.utils.ts
-// Universal logger utility with console formatting and optional server reporting
+// Last change: Refactored logger to be universal and independent of runtime environments
 
-type LogLevel = 'debug' | 'info' | 'warn' | 'error';
-
-interface LogContext {
-  [key: string]: any;
-}
-
-interface LogEntry {
-  level: LogLevel;
-  message: string;
-  timestamp: string;
-  context?: LogContext;
-  url?: string;
-  userAgent?: string;
-}
+import type { LogLevel, LogContext, LogEntry } from '../types/logger.types';
+import { LOGGER_CONFIG } from '../configs/logger.config';
 
 class Logger {
-  private isDevelopment: boolean;
-  private logLevel: LogLevel;
+  private is_development: boolean;
+  private log_level: LogLevel;
 
   constructor() {
-    // FE (vite) → import.meta.env.DEV, BE → process.env.NODE_ENV
-    this.isDevelopment =
+    this.is_development =
       (typeof import.meta !== 'undefined' && (import.meta as any).env?.DEV) ||
       process.env.NODE_ENV === 'development';
 
-    this.logLevel = this.getLogLevel();
+    this.log_level = this.get_log_level();
   }
 
-  private getLogLevel(): LogLevel {
-    let envLevel: string | undefined;
+  private get_log_level(): LogLevel {
+    let env_level: string | undefined;
 
     if (typeof import.meta !== 'undefined' && (import.meta as any).env) {
-      envLevel = (import.meta as any).env.VITE_LOG_LEVEL;
+      env_level = (import.meta as any).env.VITE_LOG_LEVEL;
     } else if (typeof process !== 'undefined') {
-      envLevel = process.env.LOG_LEVEL;
+      env_level = process.env.LOG_LEVEL;
     }
 
-    return (envLevel as LogLevel) || (this.isDevelopment ? 'debug' : 'info');
+    return (env_level as LogLevel) || (this.is_development ? 'debug' : 'info');
   }
 
-  private shouldLog(level: LogLevel): boolean {
-    const levels: Record<LogLevel, number> = {
-      debug: 0,
-      info: 1,
-      warn: 2,
-      error: 3,
-    };
-    return levels[level] >= levels[this.logLevel];
+  private should_log(level: LogLevel): boolean {
+    return LOGGER_CONFIG.log_levels[level] >= LOGGER_CONFIG.log_levels[this.log_level];
   }
 
-  private formatMessage(level: LogLevel, message: string, context?: LogContext): LogEntry {
+  private format_message(level: LogLevel, message: string, context?: LogContext): LogEntry {
     return {
       level,
       message,
       timestamp: new Date().toISOString(),
       context,
       url: typeof window !== 'undefined' ? window.location.href : undefined,
-      userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : undefined,
+      user_agent: typeof navigator !== 'undefined' ? navigator.userAgent : undefined,
     };
   }
 
-  private log(level: LogLevel, message: string, context?: LogContext): void {
-    if (!this.shouldLog(level)) return;
+  public log(level: LogLevel, message: string, context?: LogContext): void {
+    if (!this.should_log(level)) return;
 
-    const logEntry = this.formatMessage(level, message, context);
-    const consoleMethod = level === 'debug' ? 'log' : level;
+    const log_entry = this.format_message(level, message, context);
+    const console_method = level === 'debug' ? 'log' : level;
 
-    if (this.isDevelopment) {
-      const style = this.getConsoleStyle(level);
-      console[consoleMethod](
-        `%c[${level.toUpperCase()}] ${logEntry.timestamp}`,
+    if (this.is_development) {
+      const style = LOGGER_CONFIG.dev_styles[level];
+      console[console_method](
+        `%c[${level.toUpperCase()}] ${log_entry.timestamp}`,
         style,
         message,
         context ? context : ''
       );
     } else {
-      console[consoleMethod](JSON.stringify(logEntry));
+      console[console_method](JSON.stringify(log_entry));
     }
 
-    this.sendToServer(logEntry);
+    // This part should be moved to a specific server/client implementation
+    // this.send_to_server(log_entry);
   }
 
-  private getConsoleStyle(level: LogLevel): string {
-    const styles = {
-      debug: 'color: #6b7280; font-weight: normal;',
-      info: 'color: #3b82f6; font-weight: bold;',
-      warn: 'color: #f59e0b; font-weight: bold;',
-      error: 'color: #ef4444; font-weight: bold; background: #fef2f2; padding: 2px 4px; border-radius: 3px;',
-    };
-    return styles[level];
-  }
-
-  private async sendToServer(logEntry: LogEntry): Promise<void> {
-    if (this.isDevelopment || logEntry.level === 'debug') return;
-
-    try {
-      if (typeof fetch !== 'undefined') {
-        await fetch('/api/logs', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(logEntry),
-          keepalive: true,
-        });
-      }
-    } catch (error) {
-      console.error('Failed to send log to server:', error);
-    }
-  }
-
-  debug(message: string, context?: LogContext): void {
+  public debug(message: string, context?: LogContext): void {
     this.log('debug', message, context);
   }
 
-  info(message: string, context?: LogContext): void {
+  public info(message: string, context?: LogContext): void {
     this.log('info', message, context);
   }
 
-  warn(message: string, context?: LogContext): void {
+  public warn(message: string, context?: LogContext): void {
     this.log('warn', message, context);
   }
 
-  error(message: string, context?: LogContext): void {
+  public error(message: string, context?: LogContext): void {
     this.log('error', message, context);
-  }
-
-  group(label: string): void {
-    if (this.isDevelopment) console.group(`🏭 ${label}`);
-  }
-
-  groupEnd(): void {
-    if (this.isDevelopment) console.groupEnd();
-  }
-
-  time(label: string): void {
-    if (this.isDevelopment) console.time(`⏱️ ${label}`);
-  }
-
-  timeEnd(label: string): void {
-    if (this.isDevelopment) console.timeEnd(`⏱️ ${label}`);
   }
 }
 

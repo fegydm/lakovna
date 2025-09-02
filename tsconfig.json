@@ -6,12 +6,21 @@
     "baseUrl": ".",
     "paths": {
       "common/*": ["./common/*"],
-      "logger/*": ["./logger/*"]
+      "logger/*": ["./logger/*"],
+      "@prisma/client": ["./database/generated/index.d.ts"]
     },
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true
-  }
+  },
+  "include": [
+    "back/**/*",
+    "front/**/*",
+    "common/**/*",
+    "logger/**/*",
+    "database/**/*",
+    "environments/**/*"
+  ]
 }

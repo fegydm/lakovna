@@ -1,34 +1,26 @@
 // File: common/types/dot-system.types.ts
-// Unified dot system types: categories and statuses (2-row model)
+// Last change: Updated DotCategoryConfig to use HslColor for consistency
 
-// =======================================
-// Row 1: Categories
-// =======================================
+import type { ProjectCategory } from './project-category.types';
+import type { AuthStatus } from './auth.types';
+import type { HslColor } from './color.types';
 
-// Direct categories used in each project
-export type DotCategory =
-  | 'paint'        // Lakovňa: Category A
-  | 'mechanical'   // Lakovňa: Category B
-  | 'full-service' // Lakovňa: Category AB
-  // Sendeliver: 'hauler' | 'sender' | 'broker' (future extension)
+// Row 1: Project-specific categories
+export type DotCategory = ProjectCategory;
 
-// Category config for UI rendering
 export interface DotCategoryConfig {
   label: string;
   description: string;
-  color: string;
+  color: HslColor;
   icon: string;
 }
 
-// =======================================
-// Row 2: Statuses (auth states)
-// =======================================
-export type DotStatus = 'anonymous' | 'cookies' | 'registered';
+// Row 2: Universal auth statuses
+export type DotStatus = AuthStatus;
 
-// Status config for UI rendering
 export interface DotStatusConfig {
   label: string;
   description: string;
-  color: string;
+  color: HslColor;
   icon: string;
 }

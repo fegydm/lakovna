@@ -1,54 +1,69 @@
 // File: common/types/auth.types.ts
-// Unified auth-related type contracts (FE + BE)
+// Last change: Consolidated all authentication and membership-related types into a single file
 
 // ------------------------------
 // Global access role
 // ------------------------------
 import type { AccessRole } from './access-role.types';
-import type { ProjectOrgType } from './org-type.types';
+import type { ProjectOrgType } from './organization.types';
 
 // ------------------------------
-// Auth status (dot-system row 2)
+// Auth status
 // ------------------------------
-export type AuthStatus =
-  | 'anonymous'   // Guest, not logged in
-  | 'cookies'     // Session-based login
-  | 'registered'; // Fully authenticated
+export const enum AuthStatus {
+  ANONYMOUS = 'anonymous',
+  COOKIES = 'cookies',
+  REGISTERED = 'registered',
+}
+
+// ------------------------------
+// Authentication method
+// ------------------------------
+export const enum AuthMethod {
+  PASSWORD = 'password',
+  GOOGLE = 'google',
+  RFID = 'rfid',
+  QR = 'qr',
+  USB = 'usb',
+}
 
 // ------------------------------
 // JWT payload
 // ------------------------------
 export interface JWTPayload {
   id: string;
-  role: string; // AccessRole (stored as string)
+  role: AccessRole;
+  organization_ids: string[];
+}
+
+// ------------------------------
+// Membership status
+// ------------------------------
+export const enum MembershipStatus {
+  PENDING = 'pending',
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
 }
 
 // ------------------------------
 // Organization membership info
 // ------------------------------
 export interface AuthMembership {
-  organizationId: string;
-  role: AccessRole; // role within this organization
+  organization_id: string;
+  role: AccessRole;
+  business_role?: string | null;
 }
 
 // ------------------------------
 // Authenticated user context
 // ------------------------------
 export interface AuthUser {
-  id: string; // globally unique user ID
+  id: string;
   name: string;
   email: string;
-  role: AccessRole; // global access role (owner, manager, etc.)
-  isActive: boolean;
-
-  // Optional metadata
-  imageUrl?: string;
-  emailVerified?: boolean;
-  isAdmin?: boolean;
-
-  // Current active context
-  activeOrgType?: ProjectOrgType;
-
-  // Linked organizations (with roles) - made optional for now
-  memberships?: AuthMembership[];
+  is_verified: boolean;
+  access_role: AccessRole;
+  business_role?: string | null;
+  memberships: AuthMembership[];
+  active_org_type?: ProjectOrgType;
 }

@@ -1,27 +1,18 @@
 // File: back/src/auth/jwt.utils.ts
-// Last change: Fixed expiresIn typing by casting to StringValue
+// Last change: Refactored to use snake_case naming conventions and ensure type safety
 
 import jwt, { SignOptions } from 'jsonwebtoken';
-import { AuthUser } from 'common/types/auth.types';
-import { AccessRole } from 'common/types/access-role.types';
+import { AuthUser, JWTPayload, AccessRole } from 'common/types/universal.types';
 
 if (!process.env.JWT_SECRET) {
   throw new Error('JWT_SECRET environment variable is required');
 }
 
-export interface JwtPayload {
-  id: string;
-  role: AccessRole;
-  organizationIds: string[];
-  iat?: number;
-  exp?: number;
-}
-
-export const signToken = (user: AuthUser): string => {
-  const payload: JwtPayload = {
+export const sign_token = (user: AuthUser): string => {
+  const payload: JWTPayload = {
     id: user.id,
-    role: user.role,
-    organizationIds: user.memberships?.map(m => m.organizationId) ?? [],
+    role: user.access_role,
+    organization_ids: user.memberships?.map(m => m.organization_id) ?? [],
   };
 
   const options: SignOptions = {
@@ -31,17 +22,17 @@ export const signToken = (user: AuthUser): string => {
   return jwt.sign(payload, process.env.JWT_SECRET!, options);
 };
 
-export const verifyToken = (token: string): JwtPayload | null => {
+export const verify_token = (token: string): JWTPayload | null => {
   try {
-    return jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
+    return jwt.verify(token, process.env.JWT_SECRET!) as JWTPayload;
   } catch {
     return null;
   }
 };
 
-export const decodeToken = (token: string): JwtPayload | null => {
+export const decode_token = (token: string): JWTPayload | null => {
   try {
-    return jwt.decode(token) as JwtPayload;
+    return jwt.decode(token) as JWTPayload;
   } catch {
     return null;
   }

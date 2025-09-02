@@ -1,15 +1,8 @@
 // File: common/types/vehicle.types.ts
-// Shared vehicle domain models – used across projects (Lakovňa, Sendeliver, ...)
+// Last change: Updated current_stage to accept null type for consistency
 
 import type { StageInfo } from './stage.types';
-
-// Vehicle lifecycle statuses
-export type VehicleStatus =
-  | 'WAITING'
-  | 'MOVING'
-  | 'DELAYED'
-  | 'COMPLETED'
-  | 'ON_HOLD';
+import type { TaskProgressStatus } from './task.types';
 
 // Vehicle geo/position info (local or GPS-based)
 export interface VehiclePosition {
@@ -26,28 +19,30 @@ export interface VehicleCustomer {
 
 // Vehicle main info
 export interface VehicleInfo {
-  id: string | number;
+  id: string;
   brand: string;
   model: string;
-  registration: string;
+  registration_number: string;
+  vin?: string;
 
   // Linked customer
   customer: VehicleCustomer;
 
   // Process / workflow stage
-  currentStage?: StageInfo;
+  current_stage?: StageInfo | null;
+  current_stage_id?: string | null;
 
   // Lifecycle status
-  status: VehicleStatus;
+  status: TaskProgressStatus;
 
   // Optional position
   position?: VehiclePosition;
 
   // Tracking + logistics
-  qrCode?: string;
-  trackingToken?: string;
+  qr_code?: string;
+  tracking_token?: string;
 
   // Timing
-  entryTime: Date;
-  estimatedCompletion?: Date;
+  entry_time: Date;
+  estimated_completion?: Date;
 }

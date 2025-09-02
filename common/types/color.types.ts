@@ -1,5 +1,5 @@
 // File: common/types/color.types.ts
-// Color-related type contracts (HSL, semantic levels, role/dot mappings)
+// Last change: Consolidated color types for better consistency and reusability
 
 // Base HSL color representation
 export interface HslColor {
@@ -8,8 +8,11 @@ export interface HslColor {
   l: number;
 }
 
+// Map of a given key to an HSL color
+export type ColorMap<T extends string = string> = Record<T, HslColor>;
+
 // Semantic levels for theming
-export type SemanticLevel =
+export type SemanticColor =
   | 'background'
   | 'surface'
   | 'input'
@@ -22,12 +25,3 @@ export type SemanticLevel =
   | 'overlay'
   | 'accent'
   | 'light';
-
-export type SemanticLevelValue = number;
-
-// Generic role → color map (project-specific configs can narrow it)
-export type RoleColorMap<T extends string = string> = Record<T, HslColor>;
-
-// Dot system colors
-export type DotStatusColorMap<T extends string = string> = Record<T, string>;
-export type DotRoleColorMap = Record<string, string>;

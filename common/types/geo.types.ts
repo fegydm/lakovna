@@ -1,19 +1,18 @@
 // File: common/types/geo.types.ts
-// Shared geo domain models – pure type contracts
+// Last change: Updated types for naming consistency and clarity
 
-export type ISODateString = string;
+export type IsoDateString = string;
 
 // Country information (ISO + metadata)
 export interface Country {
-  cc: string;                  // ISO 3166-1 alpha-2 code (e.g., "SK")
-  name_en: string;             // English name
-  name_local: string;          // Localized name (native language)
-  name_sk: string;             // Slovak name
+  cc_iso2: string;
+  name_en: string;
+  name_local: string;
+  name_sk: string;
 
-  // Optional metadata from ISO / DB
-  code_3?: string;             // ISO 3166-1 alpha-3 code
-  numeric_code?: string;       // ISO 3166-1 numeric code
-  phone_code?: string;         // Country calling code
+  cc_iso3?: string;
+  numeric_code?: string;
+  phone_code?: string;
   continent_id?: number;
   is_eu?: boolean;
   is_schengen?: boolean;
@@ -22,18 +21,17 @@ export interface Country {
   driving_side?: 'left' | 'right';
   area_km2?: number;
 
-  // Timestamps
-  created_at?: ISODateString;
-  updated_at?: ISODateString;
+  created_at?: IsoDateString;
+  updated_at?: IsoDateString;
 }
 
 // Language information
 export interface Language {
-  lc: string;          // ISO 639-1 language code (e.g., "en", "sk")
-  cc: string;          // Related country ISO2 code
-  name_en: string;     // English name
-  native_name: string; // Native name of the language
-  is_rtl: boolean;     // Is right-to-left
+  lc_iso2: string;
+  cc_iso2: string;
+  name_en: string;
+  native_name: string;
+  is_rtl: boolean;
 }
 
 // Extended language with grouping for UI/selection purposes

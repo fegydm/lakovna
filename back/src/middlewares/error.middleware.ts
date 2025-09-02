@@ -1,16 +1,17 @@
-// File: back/src/middleware/error.middleware.ts
-// Last change: Extracted the final error handling logic from the main server file
+// File: back/src/middlewares/error.middleware.ts
+// Last change: Refactored to use snake_case naming and ensure consistent API response
 
 import { Request, Response, NextFunction } from 'express';
 
-export const errorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
+export const error_handler = (err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error('[ERROR HANDLER]', err);
 
   if (res.headersSent) {
     return next(err);
   }
 
-  res.status(err.status || 500).json({
-    message: err.message || 'Internal Server Error',
+  res.status(500).json({
+    is_success: false,
+    error: err.message || 'Internal Server Error',
   });
 };

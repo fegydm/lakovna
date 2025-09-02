@@ -4,7 +4,7 @@
 import { createStore } from "common/utils/store.utils";
 import type { HslColor, ThemeSettings } from "common/types/theme.types";
 import type { ThemeMode } from "common/types/theme-mode.types";
-import type { ProjectOrgType } from "common/types/org-type.types";
+import type { ProjectOrgType } from "common/types/organization.types";
 import { PROJECT_ROLE_COLORS } from "common/configs/project-colors.config";
 import { SYSTEM_COLORS } from "common/configs/universal-colors.config";
 

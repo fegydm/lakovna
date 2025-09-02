@@ -1,25 +1,24 @@
 // File: common/utils/store.utils.ts
-// Minimal event-driven store inspired by Zustand
+// Last change: Refactored store utility to be consistent with project naming conventions
 
 import { useSyncExternalStore } from "react";
 
-export function createStore<T>(initialState: T) {
-  let state = initialState;
+export function create_store<T>(initial_state: T) {
+  let state = initial_state;
   const listeners = new Set<() => void>();
 
-  const getState = (): T => state;
+  const get_state = (): T => state;
 
-  const setState = (updater: Partial<T> | ((prev: T) => T)) => {
-    const nextState =
+  const set_state = (updater: Partial<T> | ((prev: T) => T)) => {
+    const next_state =
       typeof updater === "function"
         ? (updater as (prev: T) => T)(state)
         : { ...state, ...updater };
 
-    // If updater is a full state (function case), don't merge twice
     state =
       typeof updater === "function"
-        ? (nextState as T)
-        : { ...state, ...(nextState as Partial<T>) };
+        ? (next_state as T)
+        : { ...state, ...(next_state as Partial<T>) };
 
     listeners.forEach((listener) => listener());
   };
@@ -29,8 +28,8 @@ export function createStore<T>(initialState: T) {
     return () => listeners.delete(listener);
   };
 
-  const useStore = <U>(selector: (s: T) => U): U =>
+  const use_store = <U>(selector: (s: T) => U): U =>
     useSyncExternalStore(subscribe, () => selector(state));
 
-  return { getState, setState, subscribe, useStore };
+  return { get_state, set_state, subscribe, use_store };
 }

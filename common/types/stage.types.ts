@@ -1,37 +1,30 @@
 // File: common/types/stage.types.ts
-// Shared stage/task domain models – used in workflow systems
+// Last change: Updated types for consistency with HslColor and snake_case naming
 
-// Task priority levels
-export type TaskPriority = 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
-
-// Task status states
-export type TaskStatus =
-  | 'TODO'
-  | 'IN_PROGRESS'
-  | 'COMPLETED'
-  | 'SKIPPED'
-  | 'DELAYED';
+import type { TaskProgressStatus } from './task.types';
+import type { HslColor } from './color.types';
+import type { TaskPriority } from './task-priority.types';
 
 // Task within a stage
 export interface StageTaskInfo {
-  id: number | string;
+  id: string;
   title: string;
   description?: string;
   sequence: number;
   priority: TaskPriority;
-  estimatedDuration?: number; // minutes/hours, depends on project
-  status?: TaskStatus;
+  estimated_duration?: number;
+  status?: TaskProgressStatus;
 }
 
 // Stage in a workflow
 export interface StageInfo {
-  id: number | string;
+  id: string;
   name: string;
   icon?: string;
-  color?: string;
-  position?: { x: number; y: number }; // optional for visual layout
+  color?: HslColor;
+  position?: { x: number; y: number };
   sequence: number;
-  isActive: boolean;
-  isRequired: boolean;
+  is_active: boolean;
+  is_required: boolean;
   tasks: StageTaskInfo[];
 }

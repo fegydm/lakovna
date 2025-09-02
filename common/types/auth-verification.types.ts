@@ -1,23 +1,23 @@
 // File: common/types/auth-verification.types.ts
-// Contracts for email/code verification flows (FE + BE)
+// Last change: Updated types to use snake_case and be consistent with API response patterns
 
 import type { AuthUser } from './auth.types';
 
 export interface PendingVerificationInfo {
   email: string;
-  expiresAt: number; // epoch timestamp (ms)
+  expires_at: number; // epoch timestamp (ms)
 }
 
 export interface VerificationResponse {
   success: boolean;
   message: string;
   user?: AuthUser;
-  alreadyVerified?: boolean;
+  already_verified?: boolean;
 }
 
 export interface ResendResponse {
   success: boolean;
-  expiresIn?: number; // seconds until next resend allowed
+  expires_in?: number; // seconds until next resend allowed
   error?: string;
 }
 

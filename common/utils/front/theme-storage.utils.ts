@@ -2,7 +2,7 @@
 // Last change: Extracted storage-related theme utilities from project-theme.config.ts and Sendeliver theme.config.ts
 
 import type { HslColor } from '../../types/theme.types';
-import type { ProjectOrgType } from '../../types/org-type.types';
+import type { ProjectOrgType } from '../../types/organization.types';
 import type { ThemeMode } from '../../types/theme-mode.types';
 import { PROJECT_ROLE_COLORS } from '../../configs/project-colors.config';
 import { DESIGN_CONSTANTS } from '../../configs/ui.config';

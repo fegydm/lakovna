@@ -1,13 +1,13 @@
 // File: common/types/access-role.types.ts
-// AccessRole enum – single source of truth across platform and DB
+// Last change: Aligned with PascalCase naming convention
 
 export enum AccessRole {
-  superadmin = 'superadmin',
-  developer = 'developer',
-  owner = 'owner',
-  manager = 'manager',
-  coordinator = 'coordinator',
-  worker = 'worker',
-  partner = 'partner',
-  viewer = 'viewer'
+  SUPERADMIN = 'superadmin',
+  DEVELOPER = 'developer',
+  OWNER = 'owner',
+  MANAGER = 'manager',
+  COORDINATOR = 'coordinator',
+  WORKER = 'worker',
+  PARTNER = 'partner',
+  VIEWER = 'viewer'
 }

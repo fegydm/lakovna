@@ -1,13 +1,15 @@
 // File: common/types/back/express.d.ts
-// Last change: Replaced Prisma Worker with lightweight AuthUser type (backend-only)
+// Last change: Consolidated Express Request interface extensions, including useragent
 
 import type { AuthUser } from '../auth.types';
 
 declare global {
   namespace Express {
-    export interface User extends AuthUser {}
-    export interface Request {
+    interface Request {
       user?: AuthUser;
+      useragent?: {
+        isBot: boolean;
+      };
     }
   }
 }

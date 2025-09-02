@@ -1,33 +1,27 @@
 // File: common/types/theme.types.ts
-// Theme-related type contracts (shared across FE/BE)
+// Last change: Updated types for consistency with color.types.ts and naming conventions
 
 import type { ThemeMode } from './theme-mode.types';
-
-// Base HSL color representation
-export interface HslColor {
-  h: number;
-  s: number;
-  l: number;
-}
+import type { HslColor } from './color.types';
 
 // Mapping from role key → HSL color (projects can specialize)
-export type RoleColorMap = Record<string, HslColor | undefined>;
+export type ThemeRoleColorMap = Record<string, HslColor>;
 
 // Global theme settings (used in FE for UI, in BE for exports/branding)
 export interface ThemeSettings {
-  primaryColor: HslColor;
-  secondaryColor?: HslColor;
+  primary_color: HslColor;
+  secondary_color?: HslColor;
 
   mode: ThemeMode;
 
   typography: {
-    fontSizeBase: number;
+    font_size_base: number;
   };
 
   layout: {
-    borderRadius: number;
+    border_radius: number;
   };
 
-  roleColors?: RoleColorMap;
-  activeRole?: string; // project-specific role key (e.g. AppRole, BusinessRole, OrgType)
+  role_colors?: ThemeRoleColorMap;
+  active_role?: string;
 }

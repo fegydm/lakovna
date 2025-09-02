@@ -1,20 +1,21 @@
 // File: back/src/core/websocket.manager.ts
-// Last change: Use roleFromDbFormat from common/configs/access-role.config
+// Last change: Updated to adhere to project conventions and remove redundant logic
 
 import { Server as HttpServer } from 'http';
 import { Server } from 'socket.io';
 import jwt from 'jsonwebtoken';
-import { AccessRole } from 'common/types/access-role.types.js';
-import { roleFromDbFormat } from 'common/configs/access-role.config';
+
+import { AccessRole } from 'common/types/access-role.types';
+import { PROJECT_CONFIG } from 'common/configs/project.config';
 
 interface SocketAuthPayload {
   id: string;
-  role: string; // raw string from JWT
+  role: string;
 }
 
 interface ServerToClientEvents {
-  'vehicle:position': (payload: { vehicleId: string; x: number; y: number }) => void;
-  'task:status': (payload: { taskId: number; vehicleId: string; status: string }) => void;
+  'vehicle:position': (payload: { vehicle_id: string; x: number; y: number }) => void;
+  'task:status': (payload: { task_id: string; vehicle_id: string; status: string }) => void;
   'alert:created': (payload: { message: string; level: 'info' | 'warning' | 'error' }) => void;
 }
 
@@ -28,7 +29,7 @@ export class WebSocketManager {
   public static initialize(server: HttpServer): void {
     this.io = new Server<ClientToServerEvents, ServerToClientEvents>(server, {
       cors: {
-        origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+        origin: PROJECT_CONFIG.routing.homepage.default_org,
         methods: ['GET', 'POST'],
       },
       path: '/ws/',
@@ -41,8 +42,8 @@ export class WebSocketManager {
       }
       try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET!) as SocketAuthPayload;
-        socket.data.userId = decoded.id;
-        socket.data.role = roleFromDbFormat(decoded.role); // 🔑 unify role
+        socket.data.user_id = decoded.id;
+        socket.data.role = decoded.role as AccessRole;
         next();
       } catch {
         next(new Error('Authentication error: Invalid token.'));
@@ -50,14 +51,14 @@ export class WebSocketManager {
     });
 
     this.io.on('connection', (socket) => {
-      console.log(`✅ [WS] Client connected: ${socket.id}, UserID: ${socket.data.userId}`);
+      console.log(`✅ [WS] Client connected: ${socket.id}, UserID: ${socket.data.user_id}`);
 
-      if (socket.data.role === AccessRole.superadmin || socket.data.role === AccessRole.manager) {
+      if (socket.data.role === AccessRole.SUPERADMIN || socket.data.role === AccessRole.MANAGER) {
         socket.join('managers');
-        console.log(`[WS] User ${socket.data.userId} joined room: managers`);
+        console.log(`[WS] User ${socket.data.user_id} joined room: managers`);
       }
 
-      socket.join(socket.data.userId);
+      socket.join(socket.data.user_id);
 
       socket.on('disconnect', () => {
         console.log(`[WS] Client disconnected: ${socket.id}`);
@@ -67,19 +68,19 @@ export class WebSocketManager {
     console.log('🚀 [WS] WebSocket server initialized with Socket.IO');
   }
 
-  public static emitToManagers<T extends keyof ServerToClientEvents>(
+  public static emit_to_managers<T extends keyof ServerToClientEvents>(
     event: T,
     ...payload: Parameters<ServerToClientEvents[T]>
   ) {
     this.io.to('managers').emit(event, ...payload);
   }
 
-  public static emitToUser<T extends keyof ServerToClientEvents>(
-    userId: string,
+  public static emit_to_user<T extends keyof ServerToClientEvents>(
+    user_id: string,
     event: T,
     ...payload: Parameters<ServerToClientEvents[T]>
   ) {
-    this.io.to(userId).emit(event, ...payload);
+    this.io.to(user_id).emit(event, ...payload);
   }
 
   public static broadcast<T extends keyof ServerToClientEvents>(

@@ -1,36 +1,42 @@
 // File: common/types/task.types.ts
-// Shared task domain models – unified with Prisma enums
+// Last change: Corrected import flow to avoid circular dependencies and follow universal type export rule
 
 import type { StageInfo } from './stage.types';
 import type { VehicleInfo } from './vehicle.types';
 import type { AuthUser } from './auth.types';
-import { TaskStatus } from '@prisma/client'; // ✅ Prisma enum je pravda
+import type { TaskPriority } from './task-priority.types';
 
-// Záznam o úlohe (task definition)
+export const enum TaskProgressStatus {
+  PENDING = 'pending',
+  IN_PROGRESS = 'in_progress',
+  COMPLETED = 'completed',
+  FAILED = 'failed',
+  ON_HOLD = 'on_hold',
+}
+
 export interface TaskInfo {
-  id: string | number;
+  id: string;
   title: string;
   description?: string;
   sequence: number;
-  estimatedDuration?: number; // v minutach
+  estimated_duration?: number;
+  priority?: TaskPriority;
 }
 
-// Záznam o priebehu tasku (viazaný na vozidlo)
 export interface TaskProgress {
-  id: string | number;
+  id: string;
   task: Pick<TaskInfo, 'id' | 'title' | 'sequence'>;
   stage: Pick<StageInfo, 'id' | 'name' | 'sequence'>;
 
-  status: TaskStatus; // ✅ enum z Prisma
+  status: TaskProgressStatus;
   notes?: string;
 
-  startedAt?: Date;
-  completedAt?: Date;
+  started_at?: Date;
+  completed_at?: Date;
 
-  // väzby
-  vehicleId?: string;
-  vehicle?: Pick<VehicleInfo, 'id' | 'brand' | 'model' | 'registration'>;
+  vehicle_id?: string;
+  vehicle?: Pick<VehicleInfo, 'id' | 'brand' | 'model' | 'registration_number'>;
 
-  workerId?: string;
+  worker_id?: string;
   worker?: Pick<AuthUser, 'id' | 'name'>;
 }

@@ -3,7 +3,7 @@
 
 import React, { createContext, useState, useEffect, useContext, ReactNode, useRef } from 'react';
 import type { ThemeSettings, HslColor } from 'common/types/theme.types';
-import type { ProjectOrgType } from 'common/types/org-type.types';
+import type { ProjectOrgType } from 'common/types/organization.types';
 import type { ThemeMode } from 'common/types/theme-mode.types';
 
 import { SYSTEM_COLORS } from 'common/configs/universal-colors.config';
