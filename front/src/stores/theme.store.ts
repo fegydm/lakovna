@@ -1,16 +1,12 @@
 // File: front/src/stores/theme.store.ts
 // Theme store for Lakovňa (v5) – refactored from old AppRole to ProjectOrgType
 
-import { createStore } from "common/utils/store.utils";
-import type { HslColor, ThemeSettings } from "common/types/theme.types";
-import type { ThemeMode } from "common/types/theme-mode.types";
-import type { ProjectOrgType } from "common/types/organization.types";
-import { PROJECT_ROLE_COLORS } from "common/configs/project-colors.config";
-import { SYSTEM_COLORS } from "common/configs/universal-colors.config";
+import { createStore } from "../utils/store.utils";
+import type { HslColor, ThemeSettings, ThemeMode, ProjectOrgType } from "common/types/project.types";
+import { PROJECT_COLOR_CONFIG } from "common/configs/project-colors.config";
+import { PROJECT_ORG_TYPES } from "common/configs/enums.config";
 
-
-
-interface ThemeState {
+export interface ThemeState {
   mode: ThemeMode;
   activeOrg: ProjectOrgType;
   roleColors: Record<ProjectOrgType, HslColor>;
@@ -19,8 +15,8 @@ interface ThemeState {
 // 🟢 Store instance
 export const themeStore = createStore<ThemeState>({
   mode: "light",
-  activeOrg: "bodyshop", // default org type
-  roleColors: { ...PROJECT_ROLE_COLORS },
+  activeOrg: PROJECT_ORG_TYPES.BODYSHOP, // default org type
+  roleColors: { ...PROJECT_COLOR_CONFIG.projectRoleColors },
 });
 
 // 🟠 Hook pre React komponenty
@@ -47,7 +43,7 @@ export const getThemeSettings = (): ThemeSettings => {
   const state = themeStore.getState();
   return {
     primaryColor: state.roleColors[state.activeOrg],
-    secondaryColor: SYSTEM_COLORS.textSecondary,
+    secondaryColor: PROJECT_COLOR_CONFIG.systemColors.textSecondary as HslColor,
     mode: state.mode,
     typography: { fontSizeBase: 16 },
     layout: { borderRadius: 8 },

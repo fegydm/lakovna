@@ -10,7 +10,7 @@ import { SYSTEM_COLORS } from 'common/configs/universal-colors.config';
 import { DESIGN_CONSTANTS } from 'common/configs/ui.config';
 import { PROJECT_ROLE_COLORS, CSS_ROLE_MAP } from 'common/configs/project-colors.config';
 import { getUserRoleColor, saveUserRoleColor, getThemeMode, saveThemeMode } 
-  from 'common/utils/front/theme-storage.utils';
+  from 'front/src/utils/theme-storage.utils';
 
 import { semanticLevelsManager, DOTS_ROLE_COLORS, DOTS_STATUS_COLORS } from 'common/utils/dot-colors.utils';
 import { generateSystemVariables, hslToCss } from 'common/utils/color.utils';

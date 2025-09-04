@@ -1,75 +1,83 @@
 // File: back/src/controllers/vehicle.controller.ts
-// Last change: Fixed imports to use unified prisma client
+// Last change: Refactored to remove direct Prisma access and align with conventions.
 
 import { Request, Response } from 'express';
-import { prisma } from '../core/prisma.client.js';
+import * as vehicle_service from '../services/vehicle.service';
 
-export const getAllVehicles = async (req: Request, res: Response) => {
+// Helper to convert object keys to camelCase for API responses.
+const to_camel_case = (obj: any): any => {
+  if (Array.isArray(obj)) {
+    return obj.map(v => to_camel_case(v));
+  } else if (obj !== null && typeof obj === 'object') {
+    return Object.keys(obj).reduce((acc, key) => {
+      const camel_key = key.replace(/([-_][a-z])/gi, ($1) =>
+        $1.toUpperCase().replace('-', '').replace('_', '')
+      );
+      acc[camel_key] = to_camel_case(obj[key]);
+      return acc;
+    }, {} as { [key: string]: any });
+  }
+  return obj;
+};
+
+
+export const get_all_vehicles = async (req: Request, res: Response) => {
   try {
-    const vehicles = await prisma.vehicle.findMany({
-      include: { customer: true, currentStage: true },
-    });
-    res.status(200).json(vehicles);
+    const vehicles = await vehicle_service.get_all_vehicles_service();
+    res.status(200).json(to_camel_case(vehicles));
   } catch (error) {
     console.error('[VEHICLE] Error fetching vehicles:', error);
     res.status(500).json({ message: 'Failed to fetch vehicles.' });
   }
 };
 
-export const getVehicleById = async (req: Request, res: Response) => {
+export const get_vehicle_by_id = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
-    const vehicle = await prisma.vehicle.findUnique({
-      where: { id },
-      include: { customer: true, currentStage: true, taskProgress: true },
-    });
+    const vehicle = await vehicle_service.get_vehicle_by_id_service(id);
     if (!vehicle) {
       return res.status(404).json({ message: 'Vehicle not found.' });
     }
-    res.status(200).json(vehicle);
+    res.status(200).json(to_camel_case(vehicle));
   } catch (error) {
     console.error(`[VEHICLE] Error fetching vehicle ${id}:`, error);
     res.status(500).json({ message: 'Failed to fetch vehicle.' });
   }
 };
 
-export const createVehicle = async (req: Request, res: Response) => {
-  const { brand, model, registration, customerId } = req.body;
-  if (!brand || !model || !registration || !customerId) {
-    return res.status(400).json({ message: 'Brand, model, registration, and customerId are required.' });
+export const create_vehicle = async (req: Request, res: Response) => {
+  // Assuming frontend sends camelCase keys, which Prisma handles gracefully.
+  const { brand, model, registrationNumber, customerId } = req.body;
+  if (!brand || !model || !registrationNumber || !customerId) {
+    return res.status(400).json({ message: 'brand, model, registrationNumber, and customerId are required.' });
   }
 
   try {
-    const newVehicle = await prisma.vehicle.create({
-      data: req.body,
-    });
-    res.status(201).json(newVehicle);
+    // The service layer expects data that can be passed to Prisma.
+    // req.body can be passed directly if keys match what Prisma expects.
+    const new_vehicle = await vehicle_service.create_vehicle_service(req.body);
+    res.status(201).json(to_camel_case(new_vehicle));
   } catch (error) {
     console.error('[VEHICLE] Error creating vehicle:', error);
     res.status(500).json({ message: 'Failed to create vehicle.' });
   }
 };
 
-export const updateVehicle = async (req: Request, res: Response) => {
+export const update_vehicle = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
-    const updatedVehicle = await prisma.vehicle.update({
-      where: { id },
-      data: req.body,
-    });
-    res.status(200).json(updatedVehicle);
+    const updated_vehicle = await vehicle_service.update_vehicle_service(id, req.body);
+    res.status(200).json(to_camel_case(updated_vehicle));
   } catch (error) {
     console.error(`[VEHICLE] Error updating vehicle ${id}:`, error);
     res.status(500).json({ message: 'Failed to update vehicle.' });
   }
 };
 
-export const deleteVehicle = async (req: Request, res: Response) => {
+export const delete_vehicle = async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
-    await prisma.vehicle.delete({
-      where: { id },
-    });
+    await vehicle_service.delete_vehicle_service(id);
     res.status(204).send();
   } catch (error) {
     console.error(`[VEHICLE] Error deleting vehicle ${id}:`, error);

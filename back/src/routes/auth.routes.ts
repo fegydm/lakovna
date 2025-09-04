@@ -9,8 +9,8 @@ import { rate_limiter } from '../middlewares/rate-limiter.middleware';
 import * as auth_controller from '../controllers/auth.controller';
 import { sign_token } from '../auth/auth.utils';
 import type { AuthUser } from 'common/types/universal.types';
-import { APP_PATHS } from 'common/configs/paths.config';
-import { PROJECT_CONFIG } from 'common/configs/project.config';
+import { APP_PATHS } from 'common/configs/_backaup/paths.config';
+import { PROJECT_CONFIG } from 'common/configs/_backaup/project backup.config';
 
 const auth_router = Router();
 const login_limiter = rate_limiter(15 * 60 * 1000, 10);

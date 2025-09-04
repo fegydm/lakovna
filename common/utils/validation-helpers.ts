@@ -1,31 +1,31 @@
 // File: common/utils/validation-helpers.ts
-// Last change: Refactored to contain only simple, universal validation functions
+// Last change: Refactored to contain only simple, universal validation functions.
 
-export const is_valid_email = (email: string): boolean => {
-  const email_regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return email_regex.test(email);
+export const isValidEmail = (email: string): boolean => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
 };
 
-export const is_valid_registration = (registration: string): boolean => {
-  const regex_sk = /^[A-Z]{2}\s?\d{3}\s?[A-Z]{2}$/;
-  return regex_sk.test(registration);
+export const isValidRegistration = (registration: string): boolean => {
+  const regexSk = /^[A-Z]{2}\s?\d{3}\s?[A-Z]{2}$/;
+  return regexSk.test(registration);
 };
 
-export const is_valid_vin = (vin: string): boolean => {
+export const isValidVin = (vin: string): boolean => {
   return vin.length === 17 && /^[A-HJ-NPR-Z0-9]+$/i.test(vin);
 };
 
-export const validate_required = (value: any): boolean => {
+export const validateRequired = (value: any): boolean => {
   if (!value || (typeof value === 'string' && value.trim() === '')) {
     return false;
   }
   return true;
 };
 
-export const validate_min_length = (value: string, min: number): boolean => {
+export const validateMinLength = (value: string, min: number): boolean => {
   return value.length >= min;
 };
 
-export const validate_max_length = (value: string, max: number): boolean => {
+export const validateMaxLength = (value: string, max: number): boolean => {
   return value.length <= max;
 };

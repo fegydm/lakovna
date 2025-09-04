@@ -5,7 +5,7 @@ import React from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/auth.context';
 import { useTranslation } from '../../contexts/translation.context';
-import { APP_PATHS } from 'common/configs/paths.config';
+import { APP_PATHS } from 'common/configs/_backaup/paths.config';
 import './protected-route.guard.css';
 
 const LoadingIndicator: React.FC = () => {

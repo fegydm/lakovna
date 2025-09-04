@@ -1,12 +1,13 @@
 // File: back/src/routes/dashboard.routes.ts
-// Last change: Created routes for dashboard data
-
 import { Router } from 'express';
-import * as dashboardController from '../controllers/dashboard.controller.js';
+import { getDashboardStats, getDashboardAlerts } from '../controllers/dashboard.controller';
+import { protect } from '../middlewares/jwt-auth.middleware';
+import { AccessRole } from 'common/types/access-role.types';
 
-const dashboardRouter = Router();
+const router = Router();
 
-// This route will be protected by the global JWT middleware in index.ts
-dashboardRouter.get('/stats', dashboardController.getDashboardStats);
+// Dashboard je len pre vlastníkov a manažérov
+router.get('/stats', protect([AccessRole.OWNER, AccessRole.MANAGER]), getDashboardStats);
+router.get('/alerts', protect([AccessRole.OWNER, AccessRole.MANAGER]), getDashboardAlerts);
 
-export default dashboardRouter;
+export default router;

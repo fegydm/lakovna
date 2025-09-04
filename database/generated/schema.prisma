@@ -12,43 +12,6 @@ generator client {
 }
 
 // ==================================================
-// UNIVERSAL ENUMS
-// ==================================================
-
-enum AccessRole {
-  superadmin
-  developer
-  owner
-  manager
-  coordinator
-  worker
-  partner
-  viewer
-}
-
-enum AuthMethod {
-  password
-  google
-  rfid
-  qr
-  usb
-}
-
-enum MembershipStatus {
-  pending
-  active
-  inactive
-}
-
-enum TaskProgressStatus {
-  pending
-  in_progress
-  completed
-  failed
-  on_hold
-}
-
-// ==================================================
 // MAIN MODELS
 // ==================================================
 
@@ -83,21 +46,21 @@ model Organization {
 }
 
 model Membership {
-  id              String           @id @default(cuid())
-  user            User             @relation(fields: [user_id], references: [id])
+  id              String         @id @default(cuid())
+  user            User           @relation(fields: [user_id], references: [id])
   user_id         String
-  organization    Organization     @relation(fields: [organization_id], references: [id])
+  organization    Organization   @relation(fields: [organization_id], references: [id])
   organization_id String
-  access_role     AccessRole
+  access_role     String // Changed to String to be defined in common
   business_role   String?
-  status          MembershipStatus
-  auth_methods    AuthMethod[]
-  rfid_tag        String?          @unique
-  qr_code         String?          @unique
-  usb_key_id      String?          @unique
+  status          String // Changed to String to be defined in common
+  auth_methods    String[] // Changed to String[] to be defined in common
+  rfid_tag        String?        @unique
+  qr_code         String?        @unique
+  usb_key_id      String?        @unique
   task_progress   TaskProgress[]
-  created_at      DateTime         @default(now())
-  updated_at      DateTime         @updatedAt
+  created_at      DateTime       @default(now())
+  updated_at      DateTime       @updatedAt
 
   @@unique([user_id, organization_id])
   @@map("memberships")
@@ -108,7 +71,7 @@ model Invite {
   organization    Organization @relation(fields: [organization_id], references: [id])
   organization_id String
   email           String
-  access_role     AccessRole
+  access_role     String // Changed to String to be defined in common
   token           String       @unique
   expires_at      DateTime
   created_at      DateTime     @default(now())
@@ -184,17 +147,17 @@ model Task {
 }
 
 model TaskProgress {
-  id                   String             @id @default(cuid())
-  status               TaskProgressStatus
+  id                   String      @id @default(cuid())
+  status               String // Changed to String to be defined in common
   notes                String?
   started_at           DateTime?
   completed_at         DateTime?
-  task                 Task               @relation(fields: [task_id], references: [id])
+  task                 Task        @relation(fields: [task_id], references: [id])
   task_id              String
-  worker               Membership?        @relation(fields: [worker_membership_id], references: [id])
+  worker               Membership? @relation(fields: [worker_membership_id], references: [id])
   worker_membership_id String?
-  created_at           DateTime           @default(now())
-  updated_at           DateTime           @updatedAt
+  created_at           DateTime    @default(now())
+  updated_at           DateTime    @updatedAt
 
   @@map("task_progress")
 }

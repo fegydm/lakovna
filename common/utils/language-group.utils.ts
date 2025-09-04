@@ -1,54 +1,55 @@
 // File: common/utils/language-group.utils.ts
-// Last change: Updated functions to use snake_case for consistency
+// Last change: Aligned functions to use camelCase and replaced hardcoded values with constants.
 
-import type { Language, GroupedLanguage } from '../types/geo.types';
+import type { Language, GroupedLanguage } from '../types/project.types';
+import { GROUPED_LANGUAGE_TYPES } from '../configs/01-constants.config';
 
-export const group_languages_by_priority = (
+export const groupLanguagesByPriority = (
   languages: Language[], 
-  primary_lc: string, 
-  secondary_lc: string | null, 
-  tertiary_lc: string | null
-): { priority_languages: GroupedLanguage[]; other_languages: GroupedLanguage[] } => {
-  const priority_languages: GroupedLanguage[] = [];
-  const other_languages: GroupedLanguage[] = [];
+  primaryLc: string, 
+  secondaryLc: string | null, 
+  tertiaryLc: string | null
+): { priorityLanguages: GroupedLanguage[]; otherLanguages: GroupedLanguage[] } => {
+  const priorityLanguages: GroupedLanguage[] = [];
+  const otherLanguages: GroupedLanguage[] = [];
 
   languages.forEach(lang => {
-    const grouped_lang: GroupedLanguage = { ...lang, group: 'other' };
+    const groupedLang: GroupedLanguage = { ...lang, group: GROUPED_LANGUAGE_TYPES.OTHER };
     
-    if (lang.lc_iso2 === primary_lc) {
-      grouped_lang.group = 'primary';
-      priority_languages.push(grouped_lang);
-    } else if (lang.lc_iso2 === secondary_lc) {
-      grouped_lang.group = 'secondary';
-      priority_languages.push(grouped_lang);
-    } else if (lang.lc_iso2 === tertiary_lc) {
-      grouped_lang.group = 'recent';
-      priority_languages.push(grouped_lang);
+    if (lang.lcIso2 === primaryLc) {
+      groupedLang.group = GROUPED_LANGUAGE_TYPES.PRIMARY;
+      priorityLanguages.push(groupedLang);
+    } else if (lang.lcIso2 === secondaryLc) {
+      groupedLang.group = GROUPED_LANGUAGE_TYPES.SECONDARY;
+      priorityLanguages.push(groupedLang);
+    } else if (lang.lcIso2 === tertiaryLc) {
+      groupedLang.group = GROUPED_LANGUAGE_TYPES.RECENT;
+      priorityLanguages.push(groupedLang);
     } else {
-      other_languages.push(grouped_lang);
+      otherLanguages.push(groupedLang);
     }
   });
 
-  priority_languages.sort((a, b) => {
-    const order = [primary_lc, secondary_lc, tertiary_lc];
-    const index_a = order.indexOf(a.lc_iso2);
-    const index_b = order.indexOf(b.lc_iso2);
-    return index_a - index_b;
+  priorityLanguages.sort((a, b) => {
+    const order = [primaryLc, secondaryLc, tertiaryLc];
+    const indexA = order.indexOf(a.lcIso2);
+    const indexB = order.indexOf(b.lcIso2);
+    return indexA - indexB;
   });
 
-  other_languages.sort((a, b) => a.name_en.localeCompare(b.name_en));
+  otherLanguages.sort((a, b) => a.nameEn.localeCompare(b.nameEn));
 
-  return { priority_languages, other_languages };
+  return { priorityLanguages, otherLanguages };
 };
 
-export const filter_languages = (languages: Language[], search_term: string): Language[] => {
-  if (!search_term.trim()) return languages;
-  const lower_search_term = search_term.toLowerCase();
+export const filterLanguages = (languages: Language[], searchTerm: string): Language[] => {
+  if (!searchTerm.trim()) return languages;
+  const lowerSearchTerm = searchTerm.toLowerCase();
   
   return languages.filter(
     lang =>
-      lang.lc_iso2.toLowerCase().includes(lower_search_term) ||
-      lang.name_en.toLowerCase().includes(lower_search_term) ||
-      lang.native_name.toLowerCase().includes(lower_search_term)
+      lang.lcIso2.toLowerCase().includes(lowerSearchTerm) ||
+      lang.nameEn.toLowerCase().includes(lowerSearchTerm) ||
+      lang.nativeName.toLowerCase().includes(lowerSearchTerm)
   );
 };

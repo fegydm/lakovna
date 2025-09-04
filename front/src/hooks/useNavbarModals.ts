@@ -2,7 +2,7 @@
 // Handles all modal open/close logic and related actions for Navbar
 
 import { useState } from 'react';
-import type { AuthStatus } from 'common/types/auth.types';
+import type { AuthStatus } from 'common/types/auth backup.types';
 
 export type ModalType =
   | 'avatar'

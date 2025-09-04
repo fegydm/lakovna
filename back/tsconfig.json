@@ -3,6 +3,6 @@
   "compilerOptions": {
     "outDir": "./dist"
   },
-  "include": ["src", "../common"],
+  "include": ["src", "../common", "../front/src/utils/cookie.utils.ts", "../front/src/utils/store.utils.ts", "../front/src/utils/ui.utils.ts", "../front/src/utils/theme-storage.utils.ts", "../front/src/utils/theme.utils.ts"],
   "exclude": ["node_modules", "dist"]
 }

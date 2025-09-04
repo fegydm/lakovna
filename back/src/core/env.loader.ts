@@ -1,28 +1,28 @@
 // File: back/src/core/env-loader.ts
-// Last change: Refactored and simplified to use a single, centralized environment loader
+// Last change: Refactored to be a clean, dependency-free environment loader using project naming conventions.
 
 import { readFileSync, existsSync } from 'fs';
 import { resolve } from 'path';
 
-export function load_env() {
-  const env_path = resolve(process.cwd(), 'environments/.env');
+export function loadEnv() {
+  const envPath = resolve(process.cwd(), 'environments/.env');
 
-  if (existsSync(env_path)) {
+  if (existsSync(envPath)) {
     try {
-      const env_file = readFileSync(env_path, 'utf8');
-      env_file.split('\n').forEach((line) => {
+      const envFile = readFileSync(envPath, 'utf8');
+      envFile.split('\n').forEach((line) => {
         const trimmed = line.trim();
         if (trimmed && !trimmed.startsWith('#')) {
-          const [key, ...value_parts] = trimmed.split('=');
-          if (key && value_parts.length > 0) {
-            const value = value_parts.join('=').replace(/^["']|["']$/g, '');
+          const [key, ...valueParts] = trimmed.split('=');
+          if (key && valueParts.length > 0) {
+            const value = valueParts.join('=').replace(/^["']|["']$/g, '');
             process.env[key.trim()] = value;
           }
         }
       });
-      console.log(`[ENV] Loaded environment from ${env_path}`);
+      console.log(`[ENV] Loaded environment from ${envPath}`);
     } catch (error) {
-      console.error(`[ENV] Failed to load ${env_path}`, error);
+      console.error(`[ENV] Failed to load ${envPath}`, error);
     }
   }
 }

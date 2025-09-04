@@ -1,22 +1,22 @@
 // File: common/utils/color.utils.ts
 // Last change: Universal color conversion & generation utilities (no project-specific imports)
 
-import type { HslColor } from '../types/color.types';
+import type { HslColor } from '../types/project.types';
 
-export const hsl_to_css = (color: HslColor): string =>
+export const hslToCss = (color: HslColor): string =>
   `${color.h} ${color.s}% ${color.l}%`;
 
-export const create_semantic_color = (base_color: HslColor, level: number): HslColor => ({
-  h: base_color.h,
-  s: base_color.s,
+export const createSemanticColor = (baseColor: HslColor, level: number): HslColor => ({
+  h: baseColor.h,
+  s: baseColor.s,
   l: Math.max(0, Math.min(100, level)),
 });
 
-export const determine_contrast_color = (color: HslColor): string => {
+export const determineContrastColor = (color: HslColor): string => {
   return color.l > 50 ? '0 0% 0%' : '0 0% 100%';
 };
 
-export const hex_to_hsl = (hex: string): HslColor => {
+export const hexToHsl = (hex: string): HslColor => {
   const s = hex.trim().replace(/^#/, '').toLowerCase();
   const expand = (ch: string) => ch + ch;
   let r: number, g: number, b: number;
@@ -60,12 +60,12 @@ export const hex_to_hsl = (hex: string): HslColor => {
   };
 };
 
-export const hsl_to_hex = (color: HslColor): string => {
+export const hslToHex = (color: HslColor): string => {
   const h = color.h / 360;
   const s = color.s / 100;
   const l = color.l / 100;
 
-  const hue_to_rgb = (p: number, q: number, t: number) => {
+  const hueToRgb = (p: number, q: number, t: number) => {
     if (t < 0) t += 1;
     if (t > 1) t -= 1;
     if (t < 1 / 6) return p + (q - p) * 6 * t;
@@ -81,20 +81,20 @@ export const hsl_to_hex = (color: HslColor): string => {
   } else {
     const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
     const p = 2 * l - q;
-    r = hue_to_rgb(p, q, h + 1 / 3);
-    g = hue_to_rgb(p, q, h);
-    b = hue_to_rgb(p, q, h - 1 / 3);
+    r = hueToRgb(p, q, h + 1 / 3);
+    g = hueToRgb(p, q, h);
+    b = hueToRgb(p, q, h - 1 / 3);
   }
 
-  const to_hex = (c: number) => {
+  const toHex = (c: number) => {
     const hex = Math.round(c * 255).toString(16);
     return hex.length === 1 ? '0' + hex : hex;
   };
 
-  return `#${to_hex(r)}${to_hex(g)}${to_hex(b)}`;
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
 };
 
-export const is_valid_hsl_color = (color: any): color is HslColor => {
+export const isValidHslColor = (color: any): color is HslColor => {
   return (
     typeof color === 'object' &&
     color !== null &&

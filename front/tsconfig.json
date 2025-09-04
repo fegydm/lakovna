@@ -11,11 +11,11 @@
     "../common/types",
     "../common/configs",
     "../common/utils"
-, "../back/src/core/passport.setup.ts", "../back/src/core/websocket.manager.ts"  ],
+, "../back/src/core/passport.setup.ts", "../back/src/core/websocket.manager.ts", "../back/src/utils/back"  ],
   "exclude": [
     "node_modules",
     "dist",
     "../common/configs/back",
-    "../common/utils/back"
+    "../back/src/utils/back"
   ]
 }

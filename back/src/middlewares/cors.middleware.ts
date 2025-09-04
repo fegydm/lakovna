@@ -2,7 +2,7 @@
 // Last change: Corrected to use alias and reference the new CORS configuration path
 
 import { Request, Response, NextFunction } from 'express';
-import { PROJECT_CONFIG } from 'common/configs/project.config';
+import { PROJECT_CONFIG } from 'common/configs/_backaup/project backup.config';
 
 export const custom_cors_middleware = (req: Request, res: Response, next: NextFunction) => {
   const allowed_origins = PROJECT_CONFIG.routing.cors.allowed_origins;

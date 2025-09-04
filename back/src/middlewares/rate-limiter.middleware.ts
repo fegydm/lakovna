@@ -1,5 +1,5 @@
 // File: back/src/middlewares/rate-limiter.middleware.ts
-// Last change: Refactored to use snake_case naming and explicit types for consistency
+// Last change: Finalized lightweight in-memory rate limiter
 
 import { Request, Response, NextFunction } from 'express';
 
@@ -12,7 +12,7 @@ const requests = new Map<string, RateLimitRecord>();
 
 export const rate_limiter = (window_ms: number, max_requests: number) => {
   return (req: Request, res: Response, next: NextFunction) => {
-    const ip = req.ip || '127.0.0.1';
+    const ip = req.ip || req.socket.remoteAddress || '127.0.0.1';
     const now = Date.now();
     const record = requests.get(ip);
 
@@ -27,8 +27,12 @@ export const rate_limiter = (window_ms: number, max_requests: number) => {
       return next();
     }
 
+    const retry_after = Math.ceil((window_ms - (now - record.first_request)) / 1000);
+
+    res.setHeader('Retry-After', retry_after.toString());
     res.status(429).json({
-      message: 'Too many requests from this IP, please try again later.',
+      is_success: false,
+      error: 'Too many requests from this IP, please try again later.',
     });
   };
 };

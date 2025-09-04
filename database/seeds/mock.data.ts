@@ -2,7 +2,7 @@
 // Last change: Enhanced with system admin ghost user and complete relational structure
 
 import type { AccessRole } from '../../common/types/access-role.types';
-import { AuthMethod, MembershipStatus } from '../../common/types/auth.types';
+import { AuthMethod, MembershipStatus } from '../../common/types/auth backup.types';
 import type { TaskProgressStatus } from '../../common/types/task.types';
 import type { TaskPriority } from '../../common/types/task-priority.types';
 

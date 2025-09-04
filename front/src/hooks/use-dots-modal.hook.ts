@@ -3,8 +3,8 @@
 
 import { useMemo } from "react";
 import type { DotCategory } from "common/types/dot-system.types";
-import type { AuthStatus } from "common/types/auth.types";
-import { DOT_CATEGORIES, DOT_STATUSES } from "common/configs/dot-system.config";
+import type { AuthStatus } from "common/types/auth backup.types";
+import { DOT_CATEGORIES, DOT_STATUSES } from "common/configs/_backaup/dot-system.config";
 
 type DotsArray = string[];
 

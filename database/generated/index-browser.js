@@ -250,38 +250,7 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-exports.AccessRole = exports.$Enums.AccessRole = {
-  superadmin: 'superadmin',
-  developer: 'developer',
-  owner: 'owner',
-  manager: 'manager',
-  coordinator: 'coordinator',
-  worker: 'worker',
-  partner: 'partner',
-  viewer: 'viewer'
-};
 
-exports.MembershipStatus = exports.$Enums.MembershipStatus = {
-  pending: 'pending',
-  active: 'active',
-  inactive: 'inactive'
-};
-
-exports.AuthMethod = exports.$Enums.AuthMethod = {
-  password: 'password',
-  google: 'google',
-  rfid: 'rfid',
-  qr: 'qr',
-  usb: 'usb'
-};
-
-exports.TaskProgressStatus = exports.$Enums.TaskProgressStatus = {
-  pending: 'pending',
-  in_progress: 'in_progress',
-  completed: 'completed',
-  failed: 'failed',
-  on_hold: 'on_hold'
-};
 
 exports.Prisma.ModelName = {
   User: 'User',

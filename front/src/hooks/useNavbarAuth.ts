@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from "react";
 import { useAuthOptional } from "../contexts/auth.optional";
-import { getCookie, setCookie } from "common/utils/front/cookie.utils";
+import { getCookie, setCookie } from "front/src/utils/cookie.utils";
 import { ZODIAC_SIGNS, type ZodiacSign } from "common/constants/zodiac.constants";
 import type { DotCategory } from "common/types/dot-system.types";
 

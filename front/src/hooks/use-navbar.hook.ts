@@ -7,13 +7,13 @@ import { useTheme } from '../contexts/theme.context';
 import { useAuthOptional } from '../contexts/auth.optional';
 import { useTranslation } from '../contexts/translation.context';
 import { AccessRole } from 'common/types/access-role.types';
-import { ACCESS_ROLE_ORDER } from 'common/configs/access-role.config';
-import { AuthStatus } from 'common/types/auth.types';
-import { AUTH_STATUS_LABELS } from 'common/configs/auth.config';
+import { ACCESS_ROLE_ORDER } from 'common/configs/access-role.configgg';
+import { AuthStatus } from 'common/types/auth backup.types';
+import { AUTH_STATUS_LABELS } from 'common/configs/_backaup/auth.config';
 import { DOT_CATEGORY_MAP } from 'common/configs/dot-category.config';
 import { ZODIAC_SIGNS } from 'common/constants/zodiac.constants';
-import { getLocalStorage, setLocalStorage } from 'common/utils/front/theme-storage.utils';
-import { APP_PATHS } from 'common/configs/paths.config';
+import { getLocalStorage, setLocalStorage } from 'front/src/utils/theme-storage.utils';
+import { APP_PATHS } from 'common/configs/_backaup/paths.config';
 
 type ModalType =
   | 'avatar'

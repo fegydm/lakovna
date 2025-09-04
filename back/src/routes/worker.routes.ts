@@ -2,7 +2,7 @@
 // Last change: Replaced WorkerRole with AccessRole (common enum)
 
 import { Router } from 'express';
-import * as workerController from '../controllers/worker.controller.js';
+import * as workerController from '../controllers/user.controller.js';
 import { protect } from '../middlewares/auth.middleware.js';
 import { AccessRole } from 'common/types/access-role.types';
 

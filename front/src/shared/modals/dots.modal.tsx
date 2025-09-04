@@ -4,7 +4,7 @@
 import React, { FC } from "react";
 import { Modal } from "../base/modal.base";
 import type { DotCategory } from "common/types/dot-system.types";
-import type { AuthStatus } from "common/types/auth.types";
+import type { AuthStatus } from "common/types/auth backup.types";
 import { useDotsModal } from "../../hooks/use-dots-modal.hook";
 import { useTranslation } from "../../contexts/translation.context";
 import "./dots.modal.css";

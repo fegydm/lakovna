@@ -1,30 +1,27 @@
 // File: common/utils/language-flag.utils.ts
-// Last change: Updated to use consolidated LANGUAGE_CONFIG object and snake_case naming
+// Last change: Updated to use correct I18N_CONFIG export and removed internal comments.
 
-import { LANGUAGE_CONFIG } from '../configs/language.config';
+import { I18N_CONFIG } from '../configs/05-i18n.config';
 
-// --- Helpers ---
-const normalize_code = (code?: string): string =>
-  (code && /^[a-z]{2}$/i.test(code) ? code.toLowerCase() : LANGUAGE_CONFIG.fallback_country_code);
+const normalizeCode = (code?: string): string =>
+  (code && /^[a-z]{2}$/i.test(code) ? code.toLowerCase() : I18N_CONFIG.fallbackCountryCode);
 
-// --- URL builders ---
-export const get_local_flag_url = (country_code?: string): string => {
-  const code = normalize_code(country_code);
-  return `${LANGUAGE_CONFIG.flag_base_url}${code}${LANGUAGE_CONFIG.flag_file_extension}`;
+export const getLocalFlagUrl = (countryCode?: string): string => {
+  const code = normalizeCode(countryCode);
+  return `${I18N_CONFIG.flagBaseUrl}${code}${I18N_CONFIG.flagFileExtension}`;
 };
 
-export const get_cdn_flag_url = (country_code?: string): string => {
-  const code = normalize_code(country_code);
-  return `${LANGUAGE_CONFIG.flag_cdn_url}${code}${LANGUAGE_CONFIG.flag_file_extension}`;
+export const getCdnFlagUrl = (countryCode?: string): string => {
+  const code = normalizeCode(countryCode);
+  return `${I18N_CONFIG.flagCdnUrl}${code}${I18N_CONFIG.flagFileExtension}`;
 };
 
-// --- Unified resolver ---
-export const get_flag_url = (
-  country_code?: string,
-  options: { prefer_local?: boolean } = { prefer_local: true }
+export const getFlagUrl = (
+  countryCode?: string,
+  options: { preferLocal?: boolean } = { preferLocal: true }
 ): string => {
-  const code = normalize_code(country_code);
-  return options.prefer_local
-    ? get_local_flag_url(code)
-    : get_cdn_flag_url(code);
+  const code = normalizeCode(countryCode);
+  return options.preferLocal
+    ? getLocalFlagUrl(code)
+    : getCdnFlagUrl(code);
 };

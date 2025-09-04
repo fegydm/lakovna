@@ -6,7 +6,7 @@ import { Routes, Route } from "react-router-dom";
 import { AppLayout } from "./shared/layouts/app.layout";
 import ProtectedRoute from "./shared/guards/protected-route.guard";
 import { PROJECT_CATEGORY_PATHS } from "common/configs/project-paths";
-import { APP_PATHS } from "common/configs/paths.config";
+import { APP_PATHS } from "common/configs/_backaup/paths.config";
 
 const HomePage = lazy(() => import("./apps/home/home"));
 const Page404 = lazy(() => import("./apps/portal/404/404.page"));

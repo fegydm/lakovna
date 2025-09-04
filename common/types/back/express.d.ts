@@ -1,7 +1,7 @@
 // File: common/types/back/express.d.ts
-// Last change: Consolidated Express Request interface extensions, including useragent
+// Last change: Corrected the import path for AuthUser.
 
-import type { AuthUser } from '../auth.types';
+import type { AuthUser } from '../project.types';
 
 declare global {
   namespace Express {
@@ -10,6 +10,7 @@ declare global {
       useragent?: {
         isBot: boolean;
       };
+      cookies: Record<string, string>;
     }
   }
 }

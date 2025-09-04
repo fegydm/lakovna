@@ -60,72 +60,6 @@ export type TaskProgress = $Result.DefaultSelection<Prisma.$TaskProgressPayload>
 export type Session = $Result.DefaultSelection<Prisma.$SessionPayload>
 
 /**
- * Enums
- */
-export namespace $Enums {
-  export const AccessRole: {
-  superadmin: 'superadmin',
-  developer: 'developer',
-  owner: 'owner',
-  manager: 'manager',
-  coordinator: 'coordinator',
-  worker: 'worker',
-  partner: 'partner',
-  viewer: 'viewer'
-};
-
-export type AccessRole = (typeof AccessRole)[keyof typeof AccessRole]
-
-
-export const AuthMethod: {
-  password: 'password',
-  google: 'google',
-  rfid: 'rfid',
-  qr: 'qr',
-  usb: 'usb'
-};
-
-export type AuthMethod = (typeof AuthMethod)[keyof typeof AuthMethod]
-
-
-export const MembershipStatus: {
-  pending: 'pending',
-  active: 'active',
-  inactive: 'inactive'
-};
-
-export type MembershipStatus = (typeof MembershipStatus)[keyof typeof MembershipStatus]
-
-
-export const TaskProgressStatus: {
-  pending: 'pending',
-  in_progress: 'in_progress',
-  completed: 'completed',
-  failed: 'failed',
-  on_hold: 'on_hold'
-};
-
-export type TaskProgressStatus = (typeof TaskProgressStatus)[keyof typeof TaskProgressStatus]
-
-}
-
-export type AccessRole = $Enums.AccessRole
-
-export const AccessRole: typeof $Enums.AccessRole
-
-export type AuthMethod = $Enums.AuthMethod
-
-export const AuthMethod: typeof $Enums.AuthMethod
-
-export type MembershipStatus = $Enums.MembershipStatus
-
-export const MembershipStatus: typeof $Enums.MembershipStatus
-
-export type TaskProgressStatus = $Enums.TaskProgressStatus
-
-export const TaskProgressStatus: typeof $Enums.TaskProgressStatus
-
-/**
  * ##  Prisma Client ʲˢ
  *
  * Type-safe database client for TypeScript & Node.js
@@ -4174,9 +4108,9 @@ export namespace Prisma {
     id: string | null
     user_id: string | null
     organization_id: string | null
-    access_role: $Enums.AccessRole | null
+    access_role: string | null
     business_role: string | null
-    status: $Enums.MembershipStatus | null
+    status: string | null
     rfid_tag: string | null
     qr_code: string | null
     usb_key_id: string | null
@@ -4188,9 +4122,9 @@ export namespace Prisma {
     id: string | null
     user_id: string | null
     organization_id: string | null
-    access_role: $Enums.AccessRole | null
+    access_role: string | null
     business_role: string | null
-    status: $Enums.MembershipStatus | null
+    status: string | null
     rfid_tag: string | null
     qr_code: string | null
     usb_key_id: string | null
@@ -4335,10 +4269,10 @@ export namespace Prisma {
     id: string
     user_id: string
     organization_id: string
-    access_role: $Enums.AccessRole
+    access_role: string
     business_role: string | null
-    status: $Enums.MembershipStatus
-    auth_methods: $Enums.AuthMethod[]
+    status: string
+    auth_methods: string[]
     rfid_tag: string | null
     qr_code: string | null
     usb_key_id: string | null
@@ -4458,10 +4392,10 @@ export namespace Prisma {
       id: string
       user_id: string
       organization_id: string
-      access_role: $Enums.AccessRole
+      access_role: string
       business_role: string | null
-      status: $Enums.MembershipStatus
-      auth_methods: $Enums.AuthMethod[]
+      status: string
+      auth_methods: string[]
       rfid_tag: string | null
       qr_code: string | null
       usb_key_id: string | null
@@ -4896,10 +4830,10 @@ export namespace Prisma {
     readonly id: FieldRef<"Membership", 'String'>
     readonly user_id: FieldRef<"Membership", 'String'>
     readonly organization_id: FieldRef<"Membership", 'String'>
-    readonly access_role: FieldRef<"Membership", 'AccessRole'>
+    readonly access_role: FieldRef<"Membership", 'String'>
     readonly business_role: FieldRef<"Membership", 'String'>
-    readonly status: FieldRef<"Membership", 'MembershipStatus'>
-    readonly auth_methods: FieldRef<"Membership", 'AuthMethod[]'>
+    readonly status: FieldRef<"Membership", 'String'>
+    readonly auth_methods: FieldRef<"Membership", 'String[]'>
     readonly rfid_tag: FieldRef<"Membership", 'String'>
     readonly qr_code: FieldRef<"Membership", 'String'>
     readonly usb_key_id: FieldRef<"Membership", 'String'>
@@ -5357,7 +5291,7 @@ export namespace Prisma {
     id: string | null
     organization_id: string | null
     email: string | null
-    access_role: $Enums.AccessRole | null
+    access_role: string | null
     token: string | null
     expires_at: Date | null
     created_at: Date | null
@@ -5367,7 +5301,7 @@ export namespace Prisma {
     id: string | null
     organization_id: string | null
     email: string | null
-    access_role: $Enums.AccessRole | null
+    access_role: string | null
     token: string | null
     expires_at: Date | null
     created_at: Date | null
@@ -5492,7 +5426,7 @@ export namespace Prisma {
     id: string
     organization_id: string
     email: string
-    access_role: $Enums.AccessRole
+    access_role: string
     token: string
     expires_at: Date
     created_at: Date
@@ -5578,7 +5512,7 @@ export namespace Prisma {
       id: string
       organization_id: string
       email: string
-      access_role: $Enums.AccessRole
+      access_role: string
       token: string
       expires_at: Date
       created_at: Date
@@ -6009,7 +5943,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Invite", 'String'>
     readonly organization_id: FieldRef<"Invite", 'String'>
     readonly email: FieldRef<"Invite", 'String'>
-    readonly access_role: FieldRef<"Invite", 'AccessRole'>
+    readonly access_role: FieldRef<"Invite", 'String'>
     readonly token: FieldRef<"Invite", 'String'>
     readonly expires_at: FieldRef<"Invite", 'DateTime'>
     readonly created_at: FieldRef<"Invite", 'DateTime'>
@@ -10210,7 +10144,7 @@ export namespace Prisma {
 
   export type TaskProgressMinAggregateOutputType = {
     id: string | null
-    status: $Enums.TaskProgressStatus | null
+    status: string | null
     notes: string | null
     started_at: Date | null
     completed_at: Date | null
@@ -10222,7 +10156,7 @@ export namespace Prisma {
 
   export type TaskProgressMaxAggregateOutputType = {
     id: string | null
-    status: $Enums.TaskProgressStatus | null
+    status: string | null
     notes: string | null
     started_at: Date | null
     completed_at: Date | null
@@ -10357,7 +10291,7 @@ export namespace Prisma {
 
   export type TaskProgressGroupByOutputType = {
     id: string
-    status: $Enums.TaskProgressStatus
+    status: string
     notes: string | null
     started_at: Date | null
     completed_at: Date | null
@@ -10460,7 +10394,7 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      status: $Enums.TaskProgressStatus
+      status: string
       notes: string | null
       started_at: Date | null
       completed_at: Date | null
@@ -10894,7 +10828,7 @@ export namespace Prisma {
    */
   interface TaskProgressFieldRefs {
     readonly id: FieldRef<"TaskProgress", 'String'>
-    readonly status: FieldRef<"TaskProgress", 'TaskProgressStatus'>
+    readonly status: FieldRef<"TaskProgress", 'String'>
     readonly notes: FieldRef<"TaskProgress", 'String'>
     readonly started_at: FieldRef<"TaskProgress", 'DateTime'>
     readonly completed_at: FieldRef<"TaskProgress", 'DateTime'>
@@ -12552,48 +12486,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'AccessRole'
-   */
-  export type EnumAccessRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AccessRole'>
-    
-
-
-  /**
-   * Reference to a field of type 'AccessRole[]'
-   */
-  export type ListEnumAccessRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AccessRole[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'MembershipStatus'
-   */
-  export type EnumMembershipStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MembershipStatus'>
-    
-
-
-  /**
-   * Reference to a field of type 'MembershipStatus[]'
-   */
-  export type ListEnumMembershipStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MembershipStatus[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'AuthMethod[]'
-   */
-  export type ListEnumAuthMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AuthMethod[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'AuthMethod'
-   */
-  export type EnumAuthMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AuthMethod'>
-    
-
-
-  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -12604,20 +12496,6 @@ export namespace Prisma {
    * Reference to a field of type 'Int[]'
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'TaskProgressStatus'
-   */
-  export type EnumTaskProgressStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TaskProgressStatus'>
-    
-
-
-  /**
-   * Reference to a field of type 'TaskProgressStatus[]'
-   */
-  export type ListEnumTaskProgressStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TaskProgressStatus[]'>
     
 
 
@@ -12789,10 +12667,10 @@ export namespace Prisma {
     id?: StringFilter<"Membership"> | string
     user_id?: StringFilter<"Membership"> | string
     organization_id?: StringFilter<"Membership"> | string
-    access_role?: EnumAccessRoleFilter<"Membership"> | $Enums.AccessRole
+    access_role?: StringFilter<"Membership"> | string
     business_role?: StringNullableFilter<"Membership"> | string | null
-    status?: EnumMembershipStatusFilter<"Membership"> | $Enums.MembershipStatus
-    auth_methods?: EnumAuthMethodNullableListFilter<"Membership">
+    status?: StringFilter<"Membership"> | string
+    auth_methods?: StringNullableListFilter<"Membership">
     rfid_tag?: StringNullableFilter<"Membership"> | string | null
     qr_code?: StringNullableFilter<"Membership"> | string | null
     usb_key_id?: StringNullableFilter<"Membership"> | string | null
@@ -12832,10 +12710,10 @@ export namespace Prisma {
     NOT?: MembershipWhereInput | MembershipWhereInput[]
     user_id?: StringFilter<"Membership"> | string
     organization_id?: StringFilter<"Membership"> | string
-    access_role?: EnumAccessRoleFilter<"Membership"> | $Enums.AccessRole
+    access_role?: StringFilter<"Membership"> | string
     business_role?: StringNullableFilter<"Membership"> | string | null
-    status?: EnumMembershipStatusFilter<"Membership"> | $Enums.MembershipStatus
-    auth_methods?: EnumAuthMethodNullableListFilter<"Membership">
+    status?: StringFilter<"Membership"> | string
+    auth_methods?: StringNullableListFilter<"Membership">
     created_at?: DateTimeFilter<"Membership"> | Date | string
     updated_at?: DateTimeFilter<"Membership"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -12868,10 +12746,10 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Membership"> | string
     user_id?: StringWithAggregatesFilter<"Membership"> | string
     organization_id?: StringWithAggregatesFilter<"Membership"> | string
-    access_role?: EnumAccessRoleWithAggregatesFilter<"Membership"> | $Enums.AccessRole
+    access_role?: StringWithAggregatesFilter<"Membership"> | string
     business_role?: StringNullableWithAggregatesFilter<"Membership"> | string | null
-    status?: EnumMembershipStatusWithAggregatesFilter<"Membership"> | $Enums.MembershipStatus
-    auth_methods?: EnumAuthMethodNullableListFilter<"Membership">
+    status?: StringWithAggregatesFilter<"Membership"> | string
+    auth_methods?: StringNullableListFilter<"Membership">
     rfid_tag?: StringNullableWithAggregatesFilter<"Membership"> | string | null
     qr_code?: StringNullableWithAggregatesFilter<"Membership"> | string | null
     usb_key_id?: StringNullableWithAggregatesFilter<"Membership"> | string | null
@@ -12886,7 +12764,7 @@ export namespace Prisma {
     id?: StringFilter<"Invite"> | string
     organization_id?: StringFilter<"Invite"> | string
     email?: StringFilter<"Invite"> | string
-    access_role?: EnumAccessRoleFilter<"Invite"> | $Enums.AccessRole
+    access_role?: StringFilter<"Invite"> | string
     token?: StringFilter<"Invite"> | string
     expires_at?: DateTimeFilter<"Invite"> | Date | string
     created_at?: DateTimeFilter<"Invite"> | Date | string
@@ -12912,7 +12790,7 @@ export namespace Prisma {
     NOT?: InviteWhereInput | InviteWhereInput[]
     organization_id?: StringFilter<"Invite"> | string
     email?: StringFilter<"Invite"> | string
-    access_role?: EnumAccessRoleFilter<"Invite"> | $Enums.AccessRole
+    access_role?: StringFilter<"Invite"> | string
     expires_at?: DateTimeFilter<"Invite"> | Date | string
     created_at?: DateTimeFilter<"Invite"> | Date | string
     organization?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
@@ -12938,7 +12816,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Invite"> | string
     organization_id?: StringWithAggregatesFilter<"Invite"> | string
     email?: StringWithAggregatesFilter<"Invite"> | string
-    access_role?: EnumAccessRoleWithAggregatesFilter<"Invite"> | $Enums.AccessRole
+    access_role?: StringWithAggregatesFilter<"Invite"> | string
     token?: StringWithAggregatesFilter<"Invite"> | string
     expires_at?: DateTimeWithAggregatesFilter<"Invite"> | Date | string
     created_at?: DateTimeWithAggregatesFilter<"Invite"> | Date | string
@@ -13270,7 +13148,7 @@ export namespace Prisma {
     OR?: TaskProgressWhereInput[]
     NOT?: TaskProgressWhereInput | TaskProgressWhereInput[]
     id?: StringFilter<"TaskProgress"> | string
-    status?: EnumTaskProgressStatusFilter<"TaskProgress"> | $Enums.TaskProgressStatus
+    status?: StringFilter<"TaskProgress"> | string
     notes?: StringNullableFilter<"TaskProgress"> | string | null
     started_at?: DateTimeNullableFilter<"TaskProgress"> | Date | string | null
     completed_at?: DateTimeNullableFilter<"TaskProgress"> | Date | string | null
@@ -13301,7 +13179,7 @@ export namespace Prisma {
     AND?: TaskProgressWhereInput | TaskProgressWhereInput[]
     OR?: TaskProgressWhereInput[]
     NOT?: TaskProgressWhereInput | TaskProgressWhereInput[]
-    status?: EnumTaskProgressStatusFilter<"TaskProgress"> | $Enums.TaskProgressStatus
+    status?: StringFilter<"TaskProgress"> | string
     notes?: StringNullableFilter<"TaskProgress"> | string | null
     started_at?: DateTimeNullableFilter<"TaskProgress"> | Date | string | null
     completed_at?: DateTimeNullableFilter<"TaskProgress"> | Date | string | null
@@ -13333,7 +13211,7 @@ export namespace Prisma {
     OR?: TaskProgressScalarWhereWithAggregatesInput[]
     NOT?: TaskProgressScalarWhereWithAggregatesInput | TaskProgressScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"TaskProgress"> | string
-    status?: EnumTaskProgressStatusWithAggregatesFilter<"TaskProgress"> | $Enums.TaskProgressStatus
+    status?: StringWithAggregatesFilter<"TaskProgress"> | string
     notes?: StringNullableWithAggregatesFilter<"TaskProgress"> | string | null
     started_at?: DateTimeNullableWithAggregatesFilter<"TaskProgress"> | Date | string | null
     completed_at?: DateTimeNullableWithAggregatesFilter<"TaskProgress"> | Date | string | null
@@ -13564,10 +13442,10 @@ export namespace Prisma {
 
   export type MembershipCreateInput = {
     id?: string
-    access_role: $Enums.AccessRole
+    access_role: string
     business_role?: string | null
-    status: $Enums.MembershipStatus
-    auth_methods?: MembershipCreateauth_methodsInput | $Enums.AuthMethod[]
+    status: string
+    auth_methods?: MembershipCreateauth_methodsInput | string[]
     rfid_tag?: string | null
     qr_code?: string | null
     usb_key_id?: string | null
@@ -13582,10 +13460,10 @@ export namespace Prisma {
     id?: string
     user_id: string
     organization_id: string
-    access_role: $Enums.AccessRole
+    access_role: string
     business_role?: string | null
-    status: $Enums.MembershipStatus
-    auth_methods?: MembershipCreateauth_methodsInput | $Enums.AuthMethod[]
+    status: string
+    auth_methods?: MembershipCreateauth_methodsInput | string[]
     rfid_tag?: string | null
     qr_code?: string | null
     usb_key_id?: string | null
@@ -13596,10 +13474,10 @@ export namespace Prisma {
 
   export type MembershipUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    access_role?: EnumAccessRoleFieldUpdateOperationsInput | $Enums.AccessRole
+    access_role?: StringFieldUpdateOperationsInput | string
     business_role?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-    auth_methods?: MembershipUpdateauth_methodsInput | $Enums.AuthMethod[]
+    status?: StringFieldUpdateOperationsInput | string
+    auth_methods?: MembershipUpdateauth_methodsInput | string[]
     rfid_tag?: NullableStringFieldUpdateOperationsInput | string | null
     qr_code?: NullableStringFieldUpdateOperationsInput | string | null
     usb_key_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13614,10 +13492,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     user_id?: StringFieldUpdateOperationsInput | string
     organization_id?: StringFieldUpdateOperationsInput | string
-    access_role?: EnumAccessRoleFieldUpdateOperationsInput | $Enums.AccessRole
+    access_role?: StringFieldUpdateOperationsInput | string
     business_role?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-    auth_methods?: MembershipUpdateauth_methodsInput | $Enums.AuthMethod[]
+    status?: StringFieldUpdateOperationsInput | string
+    auth_methods?: MembershipUpdateauth_methodsInput | string[]
     rfid_tag?: NullableStringFieldUpdateOperationsInput | string | null
     qr_code?: NullableStringFieldUpdateOperationsInput | string | null
     usb_key_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13630,10 +13508,10 @@ export namespace Prisma {
     id?: string
     user_id: string
     organization_id: string
-    access_role: $Enums.AccessRole
+    access_role: string
     business_role?: string | null
-    status: $Enums.MembershipStatus
-    auth_methods?: MembershipCreateauth_methodsInput | $Enums.AuthMethod[]
+    status: string
+    auth_methods?: MembershipCreateauth_methodsInput | string[]
     rfid_tag?: string | null
     qr_code?: string | null
     usb_key_id?: string | null
@@ -13643,10 +13521,10 @@ export namespace Prisma {
 
   export type MembershipUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    access_role?: EnumAccessRoleFieldUpdateOperationsInput | $Enums.AccessRole
+    access_role?: StringFieldUpdateOperationsInput | string
     business_role?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-    auth_methods?: MembershipUpdateauth_methodsInput | $Enums.AuthMethod[]
+    status?: StringFieldUpdateOperationsInput | string
+    auth_methods?: MembershipUpdateauth_methodsInput | string[]
     rfid_tag?: NullableStringFieldUpdateOperationsInput | string | null
     qr_code?: NullableStringFieldUpdateOperationsInput | string | null
     usb_key_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13658,10 +13536,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     user_id?: StringFieldUpdateOperationsInput | string
     organization_id?: StringFieldUpdateOperationsInput | string
-    access_role?: EnumAccessRoleFieldUpdateOperationsInput | $Enums.AccessRole
+    access_role?: StringFieldUpdateOperationsInput | string
     business_role?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-    auth_methods?: MembershipUpdateauth_methodsInput | $Enums.AuthMethod[]
+    status?: StringFieldUpdateOperationsInput | string
+    auth_methods?: MembershipUpdateauth_methodsInput | string[]
     rfid_tag?: NullableStringFieldUpdateOperationsInput | string | null
     qr_code?: NullableStringFieldUpdateOperationsInput | string | null
     usb_key_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13672,7 +13550,7 @@ export namespace Prisma {
   export type InviteCreateInput = {
     id?: string
     email: string
-    access_role: $Enums.AccessRole
+    access_role: string
     token: string
     expires_at: Date | string
     created_at?: Date | string
@@ -13683,7 +13561,7 @@ export namespace Prisma {
     id?: string
     organization_id: string
     email: string
-    access_role: $Enums.AccessRole
+    access_role: string
     token: string
     expires_at: Date | string
     created_at?: Date | string
@@ -13692,7 +13570,7 @@ export namespace Prisma {
   export type InviteUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    access_role?: EnumAccessRoleFieldUpdateOperationsInput | $Enums.AccessRole
+    access_role?: StringFieldUpdateOperationsInput | string
     token?: StringFieldUpdateOperationsInput | string
     expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13703,7 +13581,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     organization_id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    access_role?: EnumAccessRoleFieldUpdateOperationsInput | $Enums.AccessRole
+    access_role?: StringFieldUpdateOperationsInput | string
     token?: StringFieldUpdateOperationsInput | string
     expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13713,7 +13591,7 @@ export namespace Prisma {
     id?: string
     organization_id: string
     email: string
-    access_role: $Enums.AccessRole
+    access_role: string
     token: string
     expires_at: Date | string
     created_at?: Date | string
@@ -13722,7 +13600,7 @@ export namespace Prisma {
   export type InviteUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    access_role?: EnumAccessRoleFieldUpdateOperationsInput | $Enums.AccessRole
+    access_role?: StringFieldUpdateOperationsInput | string
     token?: StringFieldUpdateOperationsInput | string
     expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13732,7 +13610,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     organization_id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    access_role?: EnumAccessRoleFieldUpdateOperationsInput | $Enums.AccessRole
+    access_role?: StringFieldUpdateOperationsInput | string
     token?: StringFieldUpdateOperationsInput | string
     expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14101,7 +13979,7 @@ export namespace Prisma {
 
   export type TaskProgressCreateInput = {
     id?: string
-    status: $Enums.TaskProgressStatus
+    status: string
     notes?: string | null
     started_at?: Date | string | null
     completed_at?: Date | string | null
@@ -14113,7 +13991,7 @@ export namespace Prisma {
 
   export type TaskProgressUncheckedCreateInput = {
     id?: string
-    status: $Enums.TaskProgressStatus
+    status: string
     notes?: string | null
     started_at?: Date | string | null
     completed_at?: Date | string | null
@@ -14125,7 +14003,7 @@ export namespace Prisma {
 
   export type TaskProgressUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: EnumTaskProgressStatusFieldUpdateOperationsInput | $Enums.TaskProgressStatus
+    status?: StringFieldUpdateOperationsInput | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     started_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -14137,7 +14015,7 @@ export namespace Prisma {
 
   export type TaskProgressUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: EnumTaskProgressStatusFieldUpdateOperationsInput | $Enums.TaskProgressStatus
+    status?: StringFieldUpdateOperationsInput | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     started_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -14149,7 +14027,7 @@ export namespace Prisma {
 
   export type TaskProgressCreateManyInput = {
     id?: string
-    status: $Enums.TaskProgressStatus
+    status: string
     notes?: string | null
     started_at?: Date | string | null
     completed_at?: Date | string | null
@@ -14161,7 +14039,7 @@ export namespace Prisma {
 
   export type TaskProgressUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: EnumTaskProgressStatusFieldUpdateOperationsInput | $Enums.TaskProgressStatus
+    status?: StringFieldUpdateOperationsInput | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     started_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -14171,7 +14049,7 @@ export namespace Prisma {
 
   export type TaskProgressUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: EnumTaskProgressStatusFieldUpdateOperationsInput | $Enums.TaskProgressStatus
+    status?: StringFieldUpdateOperationsInput | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     started_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -14449,25 +14327,11 @@ export namespace Prisma {
     updated_at?: SortOrder
   }
 
-  export type EnumAccessRoleFilter<$PrismaModel = never> = {
-    equals?: $Enums.AccessRole | EnumAccessRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.AccessRole[] | ListEnumAccessRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.AccessRole[] | ListEnumAccessRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumAccessRoleFilter<$PrismaModel> | $Enums.AccessRole
-  }
-
-  export type EnumMembershipStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.MembershipStatus | EnumMembershipStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.MembershipStatus[] | ListEnumMembershipStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.MembershipStatus[] | ListEnumMembershipStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumMembershipStatusFilter<$PrismaModel> | $Enums.MembershipStatus
-  }
-
-  export type EnumAuthMethodNullableListFilter<$PrismaModel = never> = {
-    equals?: $Enums.AuthMethod[] | ListEnumAuthMethodFieldRefInput<$PrismaModel> | null
-    has?: $Enums.AuthMethod | EnumAuthMethodFieldRefInput<$PrismaModel> | null
-    hasEvery?: $Enums.AuthMethod[] | ListEnumAuthMethodFieldRefInput<$PrismaModel>
-    hasSome?: $Enums.AuthMethod[] | ListEnumAuthMethodFieldRefInput<$PrismaModel>
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
     isEmpty?: boolean
   }
 
@@ -14537,26 +14401,6 @@ export namespace Prisma {
     usb_key_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
-  }
-
-  export type EnumAccessRoleWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.AccessRole | EnumAccessRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.AccessRole[] | ListEnumAccessRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.AccessRole[] | ListEnumAccessRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumAccessRoleWithAggregatesFilter<$PrismaModel> | $Enums.AccessRole
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumAccessRoleFilter<$PrismaModel>
-    _max?: NestedEnumAccessRoleFilter<$PrismaModel>
-  }
-
-  export type EnumMembershipStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.MembershipStatus | EnumMembershipStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.MembershipStatus[] | ListEnumMembershipStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.MembershipStatus[] | ListEnumMembershipStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumMembershipStatusWithAggregatesFilter<$PrismaModel> | $Enums.MembershipStatus
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumMembershipStatusFilter<$PrismaModel>
-    _max?: NestedEnumMembershipStatusFilter<$PrismaModel>
   }
 
   export type InviteCountOrderByAggregateInput = {
@@ -14880,13 +14724,6 @@ export namespace Prisma {
     estimated_duration?: SortOrder
   }
 
-  export type EnumTaskProgressStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.TaskProgressStatus | EnumTaskProgressStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.TaskProgressStatus[] | ListEnumTaskProgressStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.TaskProgressStatus[] | ListEnumTaskProgressStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumTaskProgressStatusFilter<$PrismaModel> | $Enums.TaskProgressStatus
-  }
-
   export type TaskScalarRelationFilter = {
     is?: TaskWhereInput
     isNot?: TaskWhereInput
@@ -14931,16 +14768,6 @@ export namespace Prisma {
     worker_membership_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
-  }
-
-  export type EnumTaskProgressStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.TaskProgressStatus | EnumTaskProgressStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.TaskProgressStatus[] | ListEnumTaskProgressStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.TaskProgressStatus[] | ListEnumTaskProgressStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumTaskProgressStatusWithAggregatesFilter<$PrismaModel> | $Enums.TaskProgressStatus
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumTaskProgressStatusFilter<$PrismaModel>
-    _max?: NestedEnumTaskProgressStatusFilter<$PrismaModel>
   }
 
   export type SessionCountOrderByAggregateInput = {
@@ -15194,7 +15021,7 @@ export namespace Prisma {
   }
 
   export type MembershipCreateauth_methodsInput = {
-    set: $Enums.AuthMethod[]
+    set: string[]
   }
 
   export type UserCreateNestedOneWithoutMembershipsInput = {
@@ -15223,17 +15050,9 @@ export namespace Prisma {
     connect?: TaskProgressWhereUniqueInput | TaskProgressWhereUniqueInput[]
   }
 
-  export type EnumAccessRoleFieldUpdateOperationsInput = {
-    set?: $Enums.AccessRole
-  }
-
-  export type EnumMembershipStatusFieldUpdateOperationsInput = {
-    set?: $Enums.MembershipStatus
-  }
-
   export type MembershipUpdateauth_methodsInput = {
-    set?: $Enums.AuthMethod[]
-    push?: $Enums.AuthMethod | $Enums.AuthMethod[]
+    set?: string[]
+    push?: string | string[]
   }
 
   export type UserUpdateOneRequiredWithoutMembershipsNestedInput = {
@@ -15566,10 +15385,6 @@ export namespace Prisma {
     connect?: MembershipWhereUniqueInput
   }
 
-  export type EnumTaskProgressStatusFieldUpdateOperationsInput = {
-    set?: $Enums.TaskProgressStatus
-  }
-
   export type TaskUpdateOneRequiredWithoutTask_progressNestedInput = {
     create?: XOR<TaskCreateWithoutTask_progressInput, TaskUncheckedCreateWithoutTask_progressInput>
     connectOrCreate?: TaskCreateOrConnectWithoutTask_progressInput
@@ -15710,40 +15525,6 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type NestedEnumAccessRoleFilter<$PrismaModel = never> = {
-    equals?: $Enums.AccessRole | EnumAccessRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.AccessRole[] | ListEnumAccessRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.AccessRole[] | ListEnumAccessRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumAccessRoleFilter<$PrismaModel> | $Enums.AccessRole
-  }
-
-  export type NestedEnumMembershipStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.MembershipStatus | EnumMembershipStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.MembershipStatus[] | ListEnumMembershipStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.MembershipStatus[] | ListEnumMembershipStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumMembershipStatusFilter<$PrismaModel> | $Enums.MembershipStatus
-  }
-
-  export type NestedEnumAccessRoleWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.AccessRole | EnumAccessRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.AccessRole[] | ListEnumAccessRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.AccessRole[] | ListEnumAccessRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumAccessRoleWithAggregatesFilter<$PrismaModel> | $Enums.AccessRole
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumAccessRoleFilter<$PrismaModel>
-    _max?: NestedEnumAccessRoleFilter<$PrismaModel>
-  }
-
-  export type NestedEnumMembershipStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.MembershipStatus | EnumMembershipStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.MembershipStatus[] | ListEnumMembershipStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.MembershipStatus[] | ListEnumMembershipStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumMembershipStatusWithAggregatesFilter<$PrismaModel> | $Enums.MembershipStatus
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumMembershipStatusFilter<$PrismaModel>
-    _max?: NestedEnumMembershipStatusFilter<$PrismaModel>
-  }
-
   export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -15823,29 +15604,12 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
-  export type NestedEnumTaskProgressStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.TaskProgressStatus | EnumTaskProgressStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.TaskProgressStatus[] | ListEnumTaskProgressStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.TaskProgressStatus[] | ListEnumTaskProgressStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumTaskProgressStatusFilter<$PrismaModel> | $Enums.TaskProgressStatus
-  }
-
-  export type NestedEnumTaskProgressStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.TaskProgressStatus | EnumTaskProgressStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.TaskProgressStatus[] | ListEnumTaskProgressStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.TaskProgressStatus[] | ListEnumTaskProgressStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumTaskProgressStatusWithAggregatesFilter<$PrismaModel> | $Enums.TaskProgressStatus
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumTaskProgressStatusFilter<$PrismaModel>
-    _max?: NestedEnumTaskProgressStatusFilter<$PrismaModel>
-  }
-
   export type MembershipCreateWithoutUserInput = {
     id?: string
-    access_role: $Enums.AccessRole
+    access_role: string
     business_role?: string | null
-    status: $Enums.MembershipStatus
-    auth_methods?: MembershipCreateauth_methodsInput | $Enums.AuthMethod[]
+    status: string
+    auth_methods?: MembershipCreateauth_methodsInput | string[]
     rfid_tag?: string | null
     qr_code?: string | null
     usb_key_id?: string | null
@@ -15858,10 +15622,10 @@ export namespace Prisma {
   export type MembershipUncheckedCreateWithoutUserInput = {
     id?: string
     organization_id: string
-    access_role: $Enums.AccessRole
+    access_role: string
     business_role?: string | null
-    status: $Enums.MembershipStatus
-    auth_methods?: MembershipCreateauth_methodsInput | $Enums.AuthMethod[]
+    status: string
+    auth_methods?: MembershipCreateauth_methodsInput | string[]
     rfid_tag?: string | null
     qr_code?: string | null
     usb_key_id?: string | null
@@ -15903,10 +15667,10 @@ export namespace Prisma {
     id?: StringFilter<"Membership"> | string
     user_id?: StringFilter<"Membership"> | string
     organization_id?: StringFilter<"Membership"> | string
-    access_role?: EnumAccessRoleFilter<"Membership"> | $Enums.AccessRole
+    access_role?: StringFilter<"Membership"> | string
     business_role?: StringNullableFilter<"Membership"> | string | null
-    status?: EnumMembershipStatusFilter<"Membership"> | $Enums.MembershipStatus
-    auth_methods?: EnumAuthMethodNullableListFilter<"Membership">
+    status?: StringFilter<"Membership"> | string
+    auth_methods?: StringNullableListFilter<"Membership">
     rfid_tag?: StringNullableFilter<"Membership"> | string | null
     qr_code?: StringNullableFilter<"Membership"> | string | null
     usb_key_id?: StringNullableFilter<"Membership"> | string | null
@@ -15916,10 +15680,10 @@ export namespace Prisma {
 
   export type MembershipCreateWithoutOrganizationInput = {
     id?: string
-    access_role: $Enums.AccessRole
+    access_role: string
     business_role?: string | null
-    status: $Enums.MembershipStatus
-    auth_methods?: MembershipCreateauth_methodsInput | $Enums.AuthMethod[]
+    status: string
+    auth_methods?: MembershipCreateauth_methodsInput | string[]
     rfid_tag?: string | null
     qr_code?: string | null
     usb_key_id?: string | null
@@ -15932,10 +15696,10 @@ export namespace Prisma {
   export type MembershipUncheckedCreateWithoutOrganizationInput = {
     id?: string
     user_id: string
-    access_role: $Enums.AccessRole
+    access_role: string
     business_role?: string | null
-    status: $Enums.MembershipStatus
-    auth_methods?: MembershipCreateauth_methodsInput | $Enums.AuthMethod[]
+    status: string
+    auth_methods?: MembershipCreateauth_methodsInput | string[]
     rfid_tag?: string | null
     qr_code?: string | null
     usb_key_id?: string | null
@@ -15957,7 +15721,7 @@ export namespace Prisma {
   export type InviteCreateWithoutOrganizationInput = {
     id?: string
     email: string
-    access_role: $Enums.AccessRole
+    access_role: string
     token: string
     expires_at: Date | string
     created_at?: Date | string
@@ -15966,7 +15730,7 @@ export namespace Prisma {
   export type InviteUncheckedCreateWithoutOrganizationInput = {
     id?: string
     email: string
-    access_role: $Enums.AccessRole
+    access_role: string
     token: string
     expires_at: Date | string
     created_at?: Date | string
@@ -16115,7 +15879,7 @@ export namespace Prisma {
     id?: StringFilter<"Invite"> | string
     organization_id?: StringFilter<"Invite"> | string
     email?: StringFilter<"Invite"> | string
-    access_role?: EnumAccessRoleFilter<"Invite"> | $Enums.AccessRole
+    access_role?: StringFilter<"Invite"> | string
     token?: StringFilter<"Invite"> | string
     expires_at?: DateTimeFilter<"Invite"> | Date | string
     created_at?: DateTimeFilter<"Invite"> | Date | string
@@ -16255,7 +16019,7 @@ export namespace Prisma {
 
   export type TaskProgressCreateWithoutWorkerInput = {
     id?: string
-    status: $Enums.TaskProgressStatus
+    status: string
     notes?: string | null
     started_at?: Date | string | null
     completed_at?: Date | string | null
@@ -16266,7 +16030,7 @@ export namespace Prisma {
 
   export type TaskProgressUncheckedCreateWithoutWorkerInput = {
     id?: string
-    status: $Enums.TaskProgressStatus
+    status: string
     notes?: string | null
     started_at?: Date | string | null
     completed_at?: Date | string | null
@@ -16376,7 +16140,7 @@ export namespace Prisma {
     OR?: TaskProgressScalarWhereInput[]
     NOT?: TaskProgressScalarWhereInput | TaskProgressScalarWhereInput[]
     id?: StringFilter<"TaskProgress"> | string
-    status?: EnumTaskProgressStatusFilter<"TaskProgress"> | $Enums.TaskProgressStatus
+    status?: StringFilter<"TaskProgress"> | string
     notes?: StringNullableFilter<"TaskProgress"> | string | null
     started_at?: DateTimeNullableFilter<"TaskProgress"> | Date | string | null
     completed_at?: DateTimeNullableFilter<"TaskProgress"> | Date | string | null
@@ -16947,7 +16711,7 @@ export namespace Prisma {
 
   export type TaskProgressCreateWithoutTaskInput = {
     id?: string
-    status: $Enums.TaskProgressStatus
+    status: string
     notes?: string | null
     started_at?: Date | string | null
     completed_at?: Date | string | null
@@ -16958,7 +16722,7 @@ export namespace Prisma {
 
   export type TaskProgressUncheckedCreateWithoutTaskInput = {
     id?: string
-    status: $Enums.TaskProgressStatus
+    status: string
     notes?: string | null
     started_at?: Date | string | null
     completed_at?: Date | string | null
@@ -17124,10 +16888,10 @@ export namespace Prisma {
 
   export type MembershipCreateWithoutTask_progressInput = {
     id?: string
-    access_role: $Enums.AccessRole
+    access_role: string
     business_role?: string | null
-    status: $Enums.MembershipStatus
-    auth_methods?: MembershipCreateauth_methodsInput | $Enums.AuthMethod[]
+    status: string
+    auth_methods?: MembershipCreateauth_methodsInput | string[]
     rfid_tag?: string | null
     qr_code?: string | null
     usb_key_id?: string | null
@@ -17141,10 +16905,10 @@ export namespace Prisma {
     id?: string
     user_id: string
     organization_id: string
-    access_role: $Enums.AccessRole
+    access_role: string
     business_role?: string | null
-    status: $Enums.MembershipStatus
-    auth_methods?: MembershipCreateauth_methodsInput | $Enums.AuthMethod[]
+    status: string
+    auth_methods?: MembershipCreateauth_methodsInput | string[]
     rfid_tag?: string | null
     qr_code?: string | null
     usb_key_id?: string | null
@@ -17209,10 +16973,10 @@ export namespace Prisma {
 
   export type MembershipUpdateWithoutTask_progressInput = {
     id?: StringFieldUpdateOperationsInput | string
-    access_role?: EnumAccessRoleFieldUpdateOperationsInput | $Enums.AccessRole
+    access_role?: StringFieldUpdateOperationsInput | string
     business_role?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-    auth_methods?: MembershipUpdateauth_methodsInput | $Enums.AuthMethod[]
+    status?: StringFieldUpdateOperationsInput | string
+    auth_methods?: MembershipUpdateauth_methodsInput | string[]
     rfid_tag?: NullableStringFieldUpdateOperationsInput | string | null
     qr_code?: NullableStringFieldUpdateOperationsInput | string | null
     usb_key_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17226,10 +16990,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     user_id?: StringFieldUpdateOperationsInput | string
     organization_id?: StringFieldUpdateOperationsInput | string
-    access_role?: EnumAccessRoleFieldUpdateOperationsInput | $Enums.AccessRole
+    access_role?: StringFieldUpdateOperationsInput | string
     business_role?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-    auth_methods?: MembershipUpdateauth_methodsInput | $Enums.AuthMethod[]
+    status?: StringFieldUpdateOperationsInput | string
+    auth_methods?: MembershipUpdateauth_methodsInput | string[]
     rfid_tag?: NullableStringFieldUpdateOperationsInput | string | null
     qr_code?: NullableStringFieldUpdateOperationsInput | string | null
     usb_key_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17240,10 +17004,10 @@ export namespace Prisma {
   export type MembershipCreateManyUserInput = {
     id?: string
     organization_id: string
-    access_role: $Enums.AccessRole
+    access_role: string
     business_role?: string | null
-    status: $Enums.MembershipStatus
-    auth_methods?: MembershipCreateauth_methodsInput | $Enums.AuthMethod[]
+    status: string
+    auth_methods?: MembershipCreateauth_methodsInput | string[]
     rfid_tag?: string | null
     qr_code?: string | null
     usb_key_id?: string | null
@@ -17253,10 +17017,10 @@ export namespace Prisma {
 
   export type MembershipUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    access_role?: EnumAccessRoleFieldUpdateOperationsInput | $Enums.AccessRole
+    access_role?: StringFieldUpdateOperationsInput | string
     business_role?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-    auth_methods?: MembershipUpdateauth_methodsInput | $Enums.AuthMethod[]
+    status?: StringFieldUpdateOperationsInput | string
+    auth_methods?: MembershipUpdateauth_methodsInput | string[]
     rfid_tag?: NullableStringFieldUpdateOperationsInput | string | null
     qr_code?: NullableStringFieldUpdateOperationsInput | string | null
     usb_key_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17269,10 +17033,10 @@ export namespace Prisma {
   export type MembershipUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     organization_id?: StringFieldUpdateOperationsInput | string
-    access_role?: EnumAccessRoleFieldUpdateOperationsInput | $Enums.AccessRole
+    access_role?: StringFieldUpdateOperationsInput | string
     business_role?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-    auth_methods?: MembershipUpdateauth_methodsInput | $Enums.AuthMethod[]
+    status?: StringFieldUpdateOperationsInput | string
+    auth_methods?: MembershipUpdateauth_methodsInput | string[]
     rfid_tag?: NullableStringFieldUpdateOperationsInput | string | null
     qr_code?: NullableStringFieldUpdateOperationsInput | string | null
     usb_key_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17284,10 +17048,10 @@ export namespace Prisma {
   export type MembershipUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     organization_id?: StringFieldUpdateOperationsInput | string
-    access_role?: EnumAccessRoleFieldUpdateOperationsInput | $Enums.AccessRole
+    access_role?: StringFieldUpdateOperationsInput | string
     business_role?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-    auth_methods?: MembershipUpdateauth_methodsInput | $Enums.AuthMethod[]
+    status?: StringFieldUpdateOperationsInput | string
+    auth_methods?: MembershipUpdateauth_methodsInput | string[]
     rfid_tag?: NullableStringFieldUpdateOperationsInput | string | null
     qr_code?: NullableStringFieldUpdateOperationsInput | string | null
     usb_key_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17298,10 +17062,10 @@ export namespace Prisma {
   export type MembershipCreateManyOrganizationInput = {
     id?: string
     user_id: string
-    access_role: $Enums.AccessRole
+    access_role: string
     business_role?: string | null
-    status: $Enums.MembershipStatus
-    auth_methods?: MembershipCreateauth_methodsInput | $Enums.AuthMethod[]
+    status: string
+    auth_methods?: MembershipCreateauth_methodsInput | string[]
     rfid_tag?: string | null
     qr_code?: string | null
     usb_key_id?: string | null
@@ -17312,7 +17076,7 @@ export namespace Prisma {
   export type InviteCreateManyOrganizationInput = {
     id?: string
     email: string
-    access_role: $Enums.AccessRole
+    access_role: string
     token: string
     expires_at: Date | string
     created_at?: Date | string
@@ -17354,10 +17118,10 @@ export namespace Prisma {
 
   export type MembershipUpdateWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    access_role?: EnumAccessRoleFieldUpdateOperationsInput | $Enums.AccessRole
+    access_role?: StringFieldUpdateOperationsInput | string
     business_role?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-    auth_methods?: MembershipUpdateauth_methodsInput | $Enums.AuthMethod[]
+    status?: StringFieldUpdateOperationsInput | string
+    auth_methods?: MembershipUpdateauth_methodsInput | string[]
     rfid_tag?: NullableStringFieldUpdateOperationsInput | string | null
     qr_code?: NullableStringFieldUpdateOperationsInput | string | null
     usb_key_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17370,10 +17134,10 @@ export namespace Prisma {
   export type MembershipUncheckedUpdateWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
     user_id?: StringFieldUpdateOperationsInput | string
-    access_role?: EnumAccessRoleFieldUpdateOperationsInput | $Enums.AccessRole
+    access_role?: StringFieldUpdateOperationsInput | string
     business_role?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-    auth_methods?: MembershipUpdateauth_methodsInput | $Enums.AuthMethod[]
+    status?: StringFieldUpdateOperationsInput | string
+    auth_methods?: MembershipUpdateauth_methodsInput | string[]
     rfid_tag?: NullableStringFieldUpdateOperationsInput | string | null
     qr_code?: NullableStringFieldUpdateOperationsInput | string | null
     usb_key_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17385,10 +17149,10 @@ export namespace Prisma {
   export type MembershipUncheckedUpdateManyWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
     user_id?: StringFieldUpdateOperationsInput | string
-    access_role?: EnumAccessRoleFieldUpdateOperationsInput | $Enums.AccessRole
+    access_role?: StringFieldUpdateOperationsInput | string
     business_role?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
-    auth_methods?: MembershipUpdateauth_methodsInput | $Enums.AuthMethod[]
+    status?: StringFieldUpdateOperationsInput | string
+    auth_methods?: MembershipUpdateauth_methodsInput | string[]
     rfid_tag?: NullableStringFieldUpdateOperationsInput | string | null
     qr_code?: NullableStringFieldUpdateOperationsInput | string | null
     usb_key_id?: NullableStringFieldUpdateOperationsInput | string | null
@@ -17399,7 +17163,7 @@ export namespace Prisma {
   export type InviteUpdateWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    access_role?: EnumAccessRoleFieldUpdateOperationsInput | $Enums.AccessRole
+    access_role?: StringFieldUpdateOperationsInput | string
     token?: StringFieldUpdateOperationsInput | string
     expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17408,7 +17172,7 @@ export namespace Prisma {
   export type InviteUncheckedUpdateWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    access_role?: EnumAccessRoleFieldUpdateOperationsInput | $Enums.AccessRole
+    access_role?: StringFieldUpdateOperationsInput | string
     token?: StringFieldUpdateOperationsInput | string
     expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17417,7 +17181,7 @@ export namespace Prisma {
   export type InviteUncheckedUpdateManyWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    access_role?: EnumAccessRoleFieldUpdateOperationsInput | $Enums.AccessRole
+    access_role?: StringFieldUpdateOperationsInput | string
     token?: StringFieldUpdateOperationsInput | string
     expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17533,7 +17297,7 @@ export namespace Prisma {
 
   export type TaskProgressCreateManyWorkerInput = {
     id?: string
-    status: $Enums.TaskProgressStatus
+    status: string
     notes?: string | null
     started_at?: Date | string | null
     completed_at?: Date | string | null
@@ -17544,7 +17308,7 @@ export namespace Prisma {
 
   export type TaskProgressUpdateWithoutWorkerInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: EnumTaskProgressStatusFieldUpdateOperationsInput | $Enums.TaskProgressStatus
+    status?: StringFieldUpdateOperationsInput | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     started_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -17555,7 +17319,7 @@ export namespace Prisma {
 
   export type TaskProgressUncheckedUpdateWithoutWorkerInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: EnumTaskProgressStatusFieldUpdateOperationsInput | $Enums.TaskProgressStatus
+    status?: StringFieldUpdateOperationsInput | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     started_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -17566,7 +17330,7 @@ export namespace Prisma {
 
   export type TaskProgressUncheckedUpdateManyWithoutWorkerInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: EnumTaskProgressStatusFieldUpdateOperationsInput | $Enums.TaskProgressStatus
+    status?: StringFieldUpdateOperationsInput | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     started_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -17771,7 +17535,7 @@ export namespace Prisma {
 
   export type TaskProgressCreateManyTaskInput = {
     id?: string
-    status: $Enums.TaskProgressStatus
+    status: string
     notes?: string | null
     started_at?: Date | string | null
     completed_at?: Date | string | null
@@ -17782,7 +17546,7 @@ export namespace Prisma {
 
   export type TaskProgressUpdateWithoutTaskInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: EnumTaskProgressStatusFieldUpdateOperationsInput | $Enums.TaskProgressStatus
+    status?: StringFieldUpdateOperationsInput | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     started_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -17793,7 +17557,7 @@ export namespace Prisma {
 
   export type TaskProgressUncheckedUpdateWithoutTaskInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: EnumTaskProgressStatusFieldUpdateOperationsInput | $Enums.TaskProgressStatus
+    status?: StringFieldUpdateOperationsInput | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     started_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -17804,7 +17568,7 @@ export namespace Prisma {
 
   export type TaskProgressUncheckedUpdateManyWithoutTaskInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: EnumTaskProgressStatusFieldUpdateOperationsInput | $Enums.TaskProgressStatus
+    status?: StringFieldUpdateOperationsInput | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     started_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     completed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
