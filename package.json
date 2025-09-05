@@ -15,7 +15,8 @@
     "prismag": "prisma generate --schema=./database/schema.prisma",
     "prismam": "prisma migrate dev --name init --schema=./database/schema.prisma",
     "prismas": "prisma db seed --schema=./database/schema.prisma",
-    "prismac": "tsx scripts/check-prisma-types.ts --schema=./database/schema.prisma"
+    "prismac": "tsx scripts/check-prisma-types.ts --schema=./database/schema.prisma",
+    "ssot": "npx tsx scripts/check-ssot-consistency.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.14.0",

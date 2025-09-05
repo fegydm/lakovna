@@ -3,6 +3,7 @@
 
 // ZMENA: Importujeme už len potrebné typy z ich nových, špecifických súborov.
 import type { TaskProgressStatus } from './vehicle.types';
+import type { HslColor } from './ui.types';
 
 export interface StageVehicleCount {
   id: string;
@@ -10,7 +11,7 @@ export interface StageVehicleCount {
   sequence: number;
   vehicleCount: number;
   icon?: string;
-  colorHsl?: string;
+  colorHsl?: HslColor | null;
 }
 
 export interface CompletedVehicleTime {

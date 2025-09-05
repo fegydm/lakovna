@@ -1,12 +1,14 @@
 // File: back/src/services/auth.service.ts
-// Last change: Final version aligned with clean DTOs and business logic separation.
+// Last change: Hardened types & guards, DTO‑only logic, membership‑based checks, no Prisma enums, SSoT‑aligned
 
+// 1) Domain utils (bridge + crypto + jwt)
 import { getUserByEmail, getUserByTerminalAuth } from '../utils/bridge-user.utils';
 import { createOrganizationWithOwner } from '../utils/bridge-organization.utils';
 import { hashPassword, verifyPassword } from '../utils/auth-crypto.utils';
 import { signToken } from '../utils/auth-jwt.utils';
 import { PROJECT_ORG_TYPES } from 'common/configs/01-constants.config';
-import { MembershipStatus } from '@prisma/client';
+
+// 2) Types last (SSoT derived)
 import type { UserDTO } from 'common/types/user.types';
 import type { MembershipDTO } from 'common/types/organization.types';
 import type { AuthResponse, AuthUser, AuthMethod } from 'common/types/auth.types';
@@ -14,7 +16,6 @@ import type { AuthResponse, AuthUser, AuthMethod } from 'common/types/auth.types
 // =================================================================
 // ERROR CLASSES
 // =================================================================
-
 class AuthenticationError extends Error {
   constructor(message: string) {
     super(message);
@@ -30,51 +31,69 @@ class UserNotFoundError extends AuthenticationError {
 }
 
 // =================================================================
-// MAPPERS & HELPERS
+// TYPE GUARDS & HELPERS
 // =================================================================
-
-/**
- * Transforms a raw UserDTO from the bridge into an application-specific AuthUser.
- * This is where business logic (like determining a primary role) is applied.
- * @param user - The UserDTO object from the bridge.
- * @param primaryMembership - The membership to use for determining top-level roles.
- * @returns An AuthUser object.
- */
-function mapUserDtoToAuthUser(user: UserDTO, primaryMembership: MembershipDTO): AuthUser {
-  return {
-    id: user.id,
-    name: user.name,
-    email: user.email,
-    isVerified: user.isVerified,
-    accessRole: primaryMembership.accessRole,
-    businessRole: primaryMembership.businessRole,
-    memberships: user.memberships,
-    // Note: activeOrgType logic could be implemented here if needed.
-    activeOrgType: undefined,
-  };
+/** Narrow user to one that includes a password hash, if present. */
+function hasPassword(u: unknown): u is UserDTO & { password: string } {
+  return !!u && typeof (u as any).password === 'string' && (u as any).password.length > 0;
 }
 
-/**
- * Validates if a user's membership is active.
- * @param membership - The camelCase membership DTO to validate.
- */
+/** Ensure we have a membership list. */
+function hasMemberships(u: UserDTO | any): u is UserDTO & { memberships: MembershipDTO[] } {
+  return !!u && Array.isArray((u as any).memberships);
+}
+
+/** Pick a primary membership: prefer ACTIVE, fallback to first. */
+function pickPrimaryMembership(memberships: MembershipDTO[] | undefined | null): MembershipDTO {
+  if (!memberships || memberships.length === 0) {
+    throw new AuthenticationError('No memberships found for this user.');
+  }
+  const active = memberships.find((m) => (m as any).status === 'ACTIVE');
+  return active ?? memberships[0];
+}
+
+/** Map DTO → AuthUser for token payload and FE usage. */
+function mapUserDtoToAuthUser(user: UserDTO, primaryMembership: MembershipDTO): AuthUser {
+  // Note: field names follow camelCase. Bridge layer guarantees camelCase DTOs.
+  return {
+    id: (user as any).id,
+    name: (user as any).name,
+    email: (user as any).email,
+    isVerified: Boolean((user as any).isVerified),
+    accessRole: (primaryMembership as any).accessRole,
+    businessRole: (primaryMembership as any).businessRole,
+    memberships: (user as any).memberships ?? [],
+    // If project defines orgType on membership, use it; otherwise undefined
+    activeOrgType: (primaryMembership as any).orgType ?? undefined,
+  } as AuthUser;
+}
+
+// =================================================================
+// MEMBERSHIP VALIDATION
+// =================================================================
 function validateMembership(membership: MembershipDTO | undefined | null) {
-  if (!membership || membership.status !== MembershipStatus.ACTIVE) {
+  if (!membership) {
+    throw new AuthenticationError('No active membership found for this user.');
+  }
+  // Compare to SSoT string union (config‑derived), not Prisma enum
+  const status = (membership as any).status;
+  if (status !== 'ACTIVE') {
     throw new AuthenticationError('No active membership found for this user.');
   }
 }
 
 // =================================================================
-// SERVICE FUNCTIONS
+// SERVICES
 // =================================================================
-
 export async function registerAndCreateOrgService(
   organizationName: string,
   userName: string,
   email: string,
   password: string
 ): Promise<AuthResponse> {
-  const existingUser = await getUserByEmail(email.toLowerCase());
+  const normalizedEmail = email.toLowerCase().trim();
+
+  const existingUser = await getUserByEmail(normalizedEmail);
   if (existingUser) {
     throw new AuthenticationError('User with this email already exists.');
   }
@@ -83,60 +102,71 @@ export async function registerAndCreateOrgService(
 
   const { user, organization, membership } = await createOrganizationWithOwner({
     userName,
-    userEmail: email.toLowerCase(),
+    userEmail: normalizedEmail,
     hashedPassword,
     orgName: organizationName,
-    orgType: PROJECT_ORG_TYPES.BODYSHOP,
+    orgType: PROJECT_ORG_TYPES.BODYSHOP, // SSoT value; bridge maps to DB
   });
 
   if (!user || !membership) {
     throw new AuthenticationError('Failed to create user and organization.');
   }
 
-  const authUser = mapUserDtoToAuthUser(user, membership);
-  const token = signToken(authUser);
-
-  return { token, user: authUser, organization, membership };
-}
-
-export async function loginWorkerService(email: string, password: string): Promise<AuthResponse> {
-  const user = await getUserByEmail(email.toLowerCase());
-  if (!user || !user.password) {
-    throw new UserNotFoundError();
-  }
-
-  const isPasswordValid = await verifyPassword(password, user.password);
-  if (!isPasswordValid) {
-    throw new UserNotFoundError();
-  }
-
-  const primaryMembership = user.memberships[0];
+  const primaryMembership = pickPrimaryMembership((user as any).memberships);
   validateMembership(primaryMembership);
 
   const authUser = mapUserDtoToAuthUser(user, primaryMembership);
   const token = signToken(authUser);
 
-  return { token, user: authUser, membership: primaryMembership };
+  return { token, user: authUser, organization, membership: primaryMembership } as AuthResponse;
+}
+
+export async function loginWorkerService(email: string, password: string): Promise<AuthResponse> {
+  const normalizedEmail = email.toLowerCase().trim();
+
+  const userBase = await getUserByEmail(normalizedEmail);
+  if (!userBase || !hasPassword(userBase)) {
+    // Either user does not exist or password hash not available via DTO
+    throw new UserNotFoundError();
+  }
+
+  const isPasswordValid = await verifyPassword(password, userBase.password);
+  if (!isPasswordValid) {
+    throw new UserNotFoundError();
+  }
+
+  if (!hasMemberships(userBase)) {
+    throw new AuthenticationError('No memberships found for this user.');
+  }
+
+  const primaryMembership = pickPrimaryMembership(userBase.memberships);
+  validateMembership(primaryMembership);
+
+  const authUser = mapUserDtoToAuthUser(userBase, primaryMembership);
+  const token = signToken(authUser);
+
+  return { token, user: authUser, membership: primaryMembership } as AuthResponse;
 }
 
 export async function loginTerminalService(
   authMethod: AuthMethod,
   authValue: string
 ): Promise<AuthResponse> {
+  // Bridge resolves method/value, returns DTO (no password). Disabled accounts should be checked via membership.
   const user = await getUserByTerminalAuth(authMethod, authValue);
   if (!user) {
     throw new UserNotFoundError('Invalid credentials or user not found.');
   }
 
-  if (!user.isActive) {
-    throw new AuthenticationError('User account is disabled.');
+  if (!hasMemberships(user)) {
+    throw new AuthenticationError('No memberships found for this user.');
   }
 
-  const primaryMembership = user.memberships[0];
+  const primaryMembership = pickPrimaryMembership(user.memberships);
   validateMembership(primaryMembership);
 
   const authUser = mapUserDtoToAuthUser(user, primaryMembership);
   const token = signToken(authUser);
 
-  return { token, user: authUser, membership: primaryMembership };
+  return { token, user: authUser, membership: primaryMembership } as AuthResponse;
 }

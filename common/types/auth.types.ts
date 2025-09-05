@@ -10,7 +10,6 @@ import {
 } from '../configs/01-constants.config';
 import { PROJECT_CONFIG } from '../configs/project.config';
 import type { ProjectCategory, ProjectOrgType } from './shared.types';
-import type { UserDTO } from './user.types';
 import type { OrganizationDTO, MembershipDTO } from './organization.types';
 
 export interface Invite {
@@ -82,7 +81,7 @@ export interface AuthUser {
  */
 export interface AuthMembership {
   organizationId: string;
-  role: AccessRole;
+  accessRole: AccessRole; // OPRAVENÉ
   businessRole?: BusinessRole | null;
   status: MembershipStatus;
 }

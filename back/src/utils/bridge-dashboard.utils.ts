@@ -11,6 +11,7 @@ import type {
   StageVehicleCount,
   StuckTaskInfo,
 } from 'common/types/dashboard.types';
+import { parseHslString } from 'common/utils/color.utils';
 
 const ONE_DAY_IN_MS = 24 * 60 * 60 * 1000;
 const FOUR_HOURS_IN_MS = 4 * 60 * 60 * 1000;
@@ -67,31 +68,25 @@ export async function getStageVehicleCounts(): Promise<StageVehicleCount[]> {
       id: true,
       name: true,
       icon: true,
-      colorHsl: true,
+      colorHsl: true, // Stále načítavame string z DB
       sequence: true,
       _count: { select: { vehiclesInStage: true } },
-      tasks: {
-        select: { id: true, title: true, priority: true },
-        orderBy: { sequence: 'asc' },
-      },
     },
     orderBy: { sequence: 'asc' },
   });
 
+  // ZMENA: Pri mapovaní transformujeme string na HslColor objekt
   return stagesFromDb.map((stage) => ({
     id: stage.id,
     name: stage.name,
     icon: stage.icon ?? undefined,
-    colorHsl: stage.colorHsl ?? undefined,
+    colorHsl: parseHslString(stage.colorHsl), // Transformácia
     sequence: stage.sequence,
     vehicleCount: stage._count.vehiclesInStage,
-    tasks: stage.tasks.map((task) => ({
-      id: task.id,
-      title: task.title,
-      priority: task.priority ?? undefined,
-    })),
   }));
 }
+
+
 
 export async function getDelayedVehicles(): Promise<DelayedVehicleInfo[]> {
   const vehiclesFromDb = await prisma.vehicle.findMany({

@@ -13198,12 +13198,12 @@ export namespace Prisma {
 
   export type StageWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    key?: string
     organizationId_sequence?: StageOrganizationIdSequenceCompoundUniqueInput
     organizationId_key?: StageOrganizationIdKeyCompoundUniqueInput
     AND?: StageWhereInput | StageWhereInput[]
     OR?: StageWhereInput[]
     NOT?: StageWhereInput | StageWhereInput[]
+    key?: StringFilter<"Stage"> | string
     name?: StringFilter<"Stage"> | string
     icon?: StringNullableFilter<"Stage"> | string | null
     colorHsl?: StringNullableFilter<"Stage"> | string | null
@@ -13217,7 +13217,7 @@ export namespace Prisma {
     organization?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
     tasks?: TaskListRelationFilter
     vehiclesInStage?: VehicleListRelationFilter
-  }, "id" | "key" | "organizationId_sequence" | "organizationId_key">
+  }, "id" | "organizationId_sequence" | "organizationId_key">
 
   export type StageOrderByWithAggregationInput = {
     id?: SortOrder
