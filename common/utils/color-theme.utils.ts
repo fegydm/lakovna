@@ -1,7 +1,7 @@
 // File: common/utils/color-theme.utils.ts
-// Last change: Consolidated color and theme utilities into a single universal file.
+// Last change: Updated type imports after atomization.
 
-import type { HslColor, ThemeMode } from '../types/project.types';
+import type { HslColor, ThemeMode } from '../types/ui.types';
 
 /**
  * Converts an HSL color object to a CSS hsl() string.

@@ -2,7 +2,7 @@
 // COMPLETE CORRECTED CODE
 
 import jwt, { SignOptions } from 'jsonwebtoken';
-import { AuthUser, JWTPayload } from 'common/types/project.types';
+import { AuthUser, JWTPayload } from 'common/types/auth.types';
 
 if (!process.env.JWT_SECRET) {
   throw new Error('JWT_SECRET environment variable is required');

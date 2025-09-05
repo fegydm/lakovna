@@ -1,7 +1,8 @@
 // File: common/configs/05-i18n.config.ts
-// Last change: Created consolidated i18n config file.
+// Last change: Updated type imports after atomization.
 
-import type { Language } from '../types/project.types';
+// ZMENA: Importujeme zo `shared.types.ts`, kam typ `Language` teraz patrí.
+import type { Language } from '../types/shared.types';
 
 export const I18N_CONFIG = {
   languageRestrictions: null as Record<string, string[]> | null,

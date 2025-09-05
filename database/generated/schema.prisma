@@ -1,5 +1,5 @@
 // File: database/schema.prisma
-// Last change: Added Session model for database-backed session storage
+// Last change: Fully synchronized with SSoT constants, added missing Vehicle.status field.
 
 datasource db {
   provider = "postgresql"
@@ -12,6 +12,62 @@ generator client {
 }
 
 // ==================================================
+// ENUMS (fully synchronized with 01-constants.config.ts)
+// ==================================================
+
+enum AccessRole {
+  SUPERADMIN
+  DEVELOPER
+  OWNER
+  MANAGER
+  COORDINATOR
+  WORKER
+  PARTNER
+  VIEWER
+}
+
+enum MembershipStatus {
+  ACTIVE
+  PENDING
+  INACTIVE
+  SUSPENDED
+}
+
+enum TaskPriority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL // DOPLNENÉ
+  URGENT
+}
+
+enum TaskProgressStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  FAILED // DOPLNENÉ
+  ON_HOLD // DOPLNENÉ
+  BLOCKED
+  CANCELLED
+}
+
+// NOVÉ: Enumy pre typy, ktoré boli predtým String
+enum ProjectOrgType {
+  BODYSHOP
+  SERVICE
+  DEALER
+  TUNING
+  WRAPSHOP
+  DETAILING
+}
+
+enum ProjectCategory {
+  PAINT
+  MECHANICAL
+  FULL_SERVICE
+}
+
+// ==================================================
 // MAIN MODELS
 // ==================================================
 
@@ -20,154 +76,157 @@ model User {
   email       String       @unique
   name        String
   password    String?
-  is_verified Boolean      @default(false)
-  is_active   Boolean      @default(true)
+  isVerified  Boolean      @default(false) @map("is_verified")
+  isActive    Boolean      @default(true) @map("is_active")
   memberships Membership[]
-  created_at  DateTime     @default(now())
-  updated_at  DateTime     @updatedAt
+  createdAt   DateTime     @default(now()) @map("created_at")
+  updatedAt   DateTime     @updatedAt @map("updated_at")
 
   @@map("users")
 }
 
 model Organization {
-  id          String       @id @default(cuid())
+  id          String         @id @default(cuid())
   name        String
-  type        String
+  type        ProjectOrgType // ZMENA: Používame enum
   description String?
-  is_verified Boolean      @default(false)
+  isVerified  Boolean        @default(false) @map("is_verified")
   memberships Membership[]
   invites     Invite[]
   stages      Stage[]
   vehicles    Vehicle[]
-  created_at  DateTime     @default(now())
-  updated_at  DateTime     @updatedAt
+  createdAt   DateTime       @default(now()) @map("created_at")
+  updatedAt   DateTime       @updatedAt @map("updated_at")
 
   @@map("organizations")
 }
 
 model Membership {
-  id              String         @id @default(cuid())
-  user            User           @relation(fields: [user_id], references: [id])
-  user_id         String
-  organization    Organization   @relation(fields: [organization_id], references: [id])
-  organization_id String
-  access_role     String // Changed to String to be defined in common
-  business_role   String?
-  status          String // Changed to String to be defined in common
-  auth_methods    String[] // Changed to String[] to be defined in common
-  rfid_tag        String?        @unique
-  qr_code         String?        @unique
-  usb_key_id      String?        @unique
-  task_progress   TaskProgress[]
-  created_at      DateTime       @default(now())
-  updated_at      DateTime       @updatedAt
+  id             String           @id @default(cuid())
+  user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId         String           @map("user_id")
+  organization   Organization     @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId String           @map("organization_id")
+  accessRole     AccessRole       @map("access_role")
+  businessRole   String?          @map("business_role")
+  status         MembershipStatus
+  authMethods    String[]         @map("auth_methods")
+  rfidTag        String?          @unique @map("rfid_tag")
+  qrCode         String?          @unique @map("qr_code")
+  usbKeyId       String?          @unique @map("usb_key_id")
+  taskProgress   TaskProgress[]
+  createdAt      DateTime         @default(now()) @map("created_at")
+  updatedAt      DateTime         @updatedAt @map("updated_at")
 
-  @@unique([user_id, organization_id])
+  @@unique([userId, organizationId])
   @@map("memberships")
 }
 
 model Invite {
-  id              String       @id @default(cuid())
-  organization    Organization @relation(fields: [organization_id], references: [id])
-  organization_id String
-  email           String
-  access_role     String // Changed to String to be defined in common
-  token           String       @unique
-  expires_at      DateTime
-  created_at      DateTime     @default(now())
+  id             String       @id @default(cuid())
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId String       @map("organization_id")
+  email          String
+  accessRole     AccessRole   @map("access_role")
+  token          String       @unique
+  expiresAt      DateTime     @map("expires_at")
+  createdAt      DateTime     @default(now()) @map("created_at")
 
+  @@unique([organizationId, email])
   @@map("invites")
 }
 
 model Vehicle {
-  id                   String       @id @default(cuid())
-  vin                  String?      @unique
-  brand                String
-  model                String
-  year                 Int?
-  registration_number  String
-  customer_name        String
-  customer_email       String?
-  customer_phone       String?
-  is_active            Boolean      @default(true)
-  notes                String?
-  qr_code_token        String       @unique
-  tracking_token       String       @unique
-  entry_time           DateTime     @default(now())
-  estimated_completion DateTime?
-  organization         Organization @relation(fields: [organization_id], references: [id])
-  organization_id      String
-  current_stage        Stage?       @relation(name: "CurrentStage", fields: [current_stage_id], references: [id])
-  current_stage_id     String?
-  tasks                Task[]
-  created_at           DateTime     @default(now())
-  updated_at           DateTime     @updatedAt
+  id                  String             @id @default(cuid())
+  vin                 String?            @unique
+  brand               String
+  model               String
+  year                Int?
+  registrationNumber  String             @map("registration_number")
+  customerName        String             @map("customer_name")
+  customerEmail       String?            @map("customer_email")
+  customerPhone       String?            @map("customer_phone")
+  isActive            Boolean            @default(true) @map("is_active")
+  status              TaskProgressStatus @default(PENDING) @map("status") // PRIDANÉ
+  notes               String?
+  qrCodeToken         String             @unique @map("qr_code_token")
+  trackingToken       String             @unique @map("tracking_token")
+  entryTime           DateTime           @default(now()) @map("entry_time")
+  estimatedCompletion DateTime?          @map("estimated_completion")
+  organization        Organization       @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId      String             @map("organization_id")
+  currentStage        Stage?             @relation(name: "CurrentStageVehicles", fields: [currentStageId], references: [id], onUpdate: NoAction, onDelete: SetNull)
+  currentStageId      String?            @map("current_stage_id")
+  tasks               Task[]
+  createdAt           DateTime           @default(now()) @map("created_at")
+  updatedAt           DateTime           @updatedAt @map("updated_at")
 
   @@map("vehicles")
 }
 
 model Stage {
-  id                String       @id @default(cuid())
-  name              String
-  icon              String?
-  color_hsl         String?
-  category          String?
-  sequence          Int
-  is_active         Boolean      @default(true)
-  is_required       Boolean      @default(false)
-  organization      Organization @relation(fields: [organization_id], references: [id])
-  organization_id   String
-  tasks             Task[]
-  vehicles_in_stage Vehicle[]    @relation("CurrentStage")
-  created_at        DateTime     @default(now())
-  updated_at        DateTime     @updatedAt
+  id              String           @id @default(cuid())
+  key             String           @unique
+  name            String
+  icon            String?
+  colorHsl        String?          @map("color_hsl")
+  category        ProjectCategory? // ZMENA: Používame enum
+  sequence        Int
+  isActive        Boolean          @default(true) @map("is_active")
+  isRequired      Boolean          @default(false) @map("is_required")
+  organization    Organization     @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId  String           @map("organization_id")
+  tasks           Task[]
+  vehiclesInStage Vehicle[]        @relation("CurrentStageVehicles")
+  createdAt       DateTime         @default(now()) @map("created_at")
+  updatedAt       DateTime         @updatedAt @map("updated_at")
 
-  @@unique([organization_id, sequence])
+  @@unique([organizationId, sequence])
+  @@unique([organizationId, key])
   @@map("stages")
 }
 
 model Task {
-  id                 String         @id @default(cuid())
-  title              String
-  sequence           Int
-  description        String?
-  estimated_duration Int?
-  priority           String?
-  is_completed       Boolean        @default(false)
-  vehicle            Vehicle        @relation(fields: [vehicle_id], references: [id])
-  vehicle_id         String
-  stage              Stage          @relation(fields: [stage_id], references: [id])
-  stage_id           String
-  task_progress      TaskProgress[]
-  created_at         DateTime       @default(now())
-  updated_at         DateTime       @updatedAt
+  id                String         @id @default(cuid())
+  title             String
+  sequence          Int
+  description       String?
+  estimatedDuration Int?           @map("estimated_duration")
+  priority          TaskPriority?
+  vehicle           Vehicle        @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  vehicleId         String         @map("vehicle_id")
+  stage             Stage          @relation(fields: [stageId], references: [id], onDelete: Cascade)
+  stageId           String         @map("stage_id")
+  taskProgress      TaskProgress[]
+  createdAt         DateTime       @default(now()) @map("created_at")
+  updatedAt         DateTime       @updatedAt @map("updated_at")
 
-  @@unique([vehicle_id, stage_id, sequence])
+  @@unique([vehicleId, stageId, sequence])
   @@map("tasks")
 }
 
 model TaskProgress {
-  id                   String      @id @default(cuid())
-  status               String // Changed to String to be defined in common
-  notes                String?
-  started_at           DateTime?
-  completed_at         DateTime?
-  task                 Task        @relation(fields: [task_id], references: [id])
-  task_id              String
-  worker               Membership? @relation(fields: [worker_membership_id], references: [id])
-  worker_membership_id String?
-  created_at           DateTime    @default(now())
-  updated_at           DateTime    @updatedAt
+  id                 String             @id @default(cuid())
+  status             TaskProgressStatus
+  notes              String?
+  startedAt          DateTime?          @map("started_at")
+  completedAt        DateTime?          @map("completed_at")
+  task               Task               @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  taskId             String             @map("task_id")
+  worker             Membership?        @relation(fields: [workerMembershipId], references: [id], onDelete: SetNull)
+  workerMembershipId String?            @map("worker_membership_id")
+  createdAt          DateTime           @default(now()) @map("created_at")
+  updatedAt          DateTime           @updatedAt @map("updated_at")
 
   @@map("task_progress")
 }
 
 model Session {
-  id         String   @id @default(cuid())
-  sid        String   @unique
-  data       String
-  expires_at DateTime
-  created_at DateTime @default(now())
+  id        String   @id @default(cuid())
+  sid       String   @unique
+  data      String
+  expiresAt DateTime @map("expires_at")
+  createdAt DateTime @default(now()) @map("created_at")
 
   @@map("sessions")
 }

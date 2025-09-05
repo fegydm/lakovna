@@ -1,21 +1,74 @@
 // File: common/utils/color.utils.ts
-// Last change: Universal color conversion & generation utilities (no project-specific imports)
+// Last change: Updated type imports and added JSDoc documentation.
 
-import type { HslColor } from '../types/project.types';
+// ZMENA: Importujeme z ui.types.ts, kam HslColor po refaktoringu patrí.
+import type { HslColor } from '../types/ui.types';
 
+
+// =====================================================================
+// PRIDANÉ: Funkcie pre Bridge vrstvu (DB <-> Aplikácia)
+// =====================================================================
+
+/**
+ * Parses a "h,s,l" string from the database into an HslColor object.
+ * Returns null if the string is invalid or null/undefined.
+ * @param hslString The HSL string from the database (e.g., "220,89,60").
+ */
+export const parseHslString = (hslString: string | null | undefined): HslColor | null => {
+  if (!hslString) {
+    return null;
+  }
+  const parts = hslString.split(',').map(Number);
+  if (parts.length === 3 && !parts.some(isNaN)) {
+    return { h: parts[0], s: parts[1], l: parts[2] };
+  }
+  return null; // Invalid format
+};
+
+/**
+ * Formats an HslColor object into a "h,s,l" string for saving to the database.
+ * @param color The HslColor object.
+ * @returns A string for database storage (e.g., "220,89,60").
+ */
+export const formatHslObject = (color: HslColor): string => {
+  return `${color.h},${color.s},${color.l}`;
+};
+
+
+/**
+ * Converts an HslColor object to a string of values for use inside the CSS hsl() function.
+ * @param color The HslColor object.
+ * @returns A string like "220 89% 54%".
+ */
 export const hslToCss = (color: HslColor): string =>
   `${color.h} ${color.s}% ${color.l}%`;
 
+/**
+ * Creates a new HslColor based on a base color but with a specific lightness level.
+ * @param baseColor The base HslColor to take hue and saturation from.
+ * @param level The desired lightness (0-100).
+ * @returns A new HslColor object.
+ */
 export const createSemanticColor = (baseColor: HslColor, level: number): HslColor => ({
   h: baseColor.h,
   s: baseColor.s,
   l: Math.max(0, Math.min(100, level)),
 });
 
+/**
+ * Determines a contrasting color (black or white) for a given HslColor.
+ * @param color The HslColor object.
+ * @returns A CSS HSL value string for black or white.
+ */
 export const determineContrastColor = (color: HslColor): string => {
-  return color.l > 50 ? '0 0% 0%' : '0 0% 100%';
+  return color.l > 50 ? '0 0% 0%' : '0 0% 100%'; // Black for light, White for dark
 };
 
+/**
+ * Converts a HEX color string to an HslColor object.
+ * @param hex The hex color string (e.g., "#3498db" or "3498db").
+ * @returns An HslColor object.
+ */
 export const hexToHsl = (hex: string): HslColor => {
   const s = hex.trim().replace(/^#/, '').toLowerCase();
   const expand = (ch: string) => ch + ch;
@@ -30,7 +83,8 @@ export const hexToHsl = (hex: string): HslColor => {
     g = parseInt(s.slice(2, 4), 16);
     b = parseInt(s.slice(4, 6), 16);
   } else {
-    return { h: 0, s: 0, l: 50 };
+    // Return a default color for invalid input
+    return { h: 0, s: 0, l: 50 }; 
   }
 
   const rf = r / 255, gf = g / 255, bf = b / 255;
@@ -60,6 +114,11 @@ export const hexToHsl = (hex: string): HslColor => {
   };
 };
 
+/**
+ * Converts an HslColor object to a HEX color string.
+ * @param color The HslColor object.
+ * @returns A hex color string (e.g., "#3498db").
+ */
 export const hslToHex = (color: HslColor): string => {
   const h = color.h / 360;
   const s = color.s / 100;
@@ -94,6 +153,11 @@ export const hslToHex = (color: HslColor): string => {
   return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
 };
 
+/**
+ * Type guard to check if an object is a valid HslColor.
+ * @param color The value to check.
+ * @returns True if the value is a valid HslColor object.
+ */
 export const isValidHslColor = (color: any): color is HslColor => {
   return (
     typeof color === 'object' &&
@@ -104,21 +168,45 @@ export const isValidHslColor = (color: any): color is HslColor => {
   );
 };
 
+/**
+ * Increases the lightness of a color by a given amount.
+ * @param color The original HslColor object.
+ * @param amount The amount to increase lightness by (0-100).
+ * @returns A new, lighter HslColor object.
+ */
 export const lighten = (color: HslColor, amount: number): HslColor => ({
   ...color,
   l: Math.min(100, color.l + amount),
 });
 
+/**
+ * Decreases the lightness of a color by a given amount.
+ * @param color The original HslColor object.
+ * @param amount The amount to decrease lightness by (0-100).
+ * @returns A new, darker HslColor object.
+ */
 export const darken = (color: HslColor, amount: number): HslColor => ({
   ...color,
   l: Math.max(0, color.l - amount),
 });
 
+/**
+ * Increases the saturation of a color by a given amount.
+ * @param color The original HslColor object.
+ * @param amount The amount to increase saturation by (0-100).
+ * @returns A new, more saturated HslColor object.
+ */
 export const saturate = (color: HslColor, amount: number): HslColor => ({
   ...color,
   s: Math.min(100, color.s + amount),
 });
 
+/**
+ * Decreases the saturation of a color by a given amount.
+ * @param color The original HslColor object.
+ * @param amount The amount to decrease saturation by (0-100).
+ * @returns A new, less saturated HslColor object.
+ */
 export const desaturate = (color: HslColor, amount: number): HslColor => ({
   ...color,
   s: Math.max(0, color.s - amount),

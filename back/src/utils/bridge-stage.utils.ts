@@ -1,35 +1,23 @@
 // File: back/src/utils/bridge-stage.utils.ts
-// Last change: Fixed all type errors related to Prisma inputs and mapper compatibility.
+// Last change: Implemented data transformation for HslColor type consistency.
 
 import { prisma } from '../core/prisma.client';
 import type { Prisma } from '@prisma/client';
-import { mapPrismaStageToCommon } from './prisma-mappers.utils';
-import type { HslColor } from 'common/types/project.types';
+import {
+  CreateStagePayload,
+  StageDTO,
+  StageDetailsDTO,
+  StageWithVehicleCheckDTO,
+  UpdateStagePayload,
+} from 'common/types/stage.types';
 
-interface CreateStageData {
-  name: string;
-  icon?: string;
-  colorHsl?: HslColor | null;
-  sequence: number;
-  organizationId: string;
-  isActive?: boolean;
-  isRequired?: boolean;
-}
+import { formatHslObject, parseHslString } from 'common/utils/color.utils';
 
-interface UpdateStageData {
-  name?: string;
-  icon?: string;
-  colorHsl?: HslColor | null;
-  sequence?: number;
-  isActive?: boolean;
-  isRequired?: boolean;
-}
-
-export async function getAllStagesForOrg(organizationId: string) {
-  const stages = await prisma.stage.findMany({
+export async function getAllStagesForOrg(organizationId: string): Promise<StageDTO[]> {
+  const stagesFromDb = await prisma.stage.findMany({
     where: {
-      organization_id: organizationId,
-      is_active: true,
+      organizationId: organizationId,
+      isActive: true,
     },
     orderBy: { sequence: 'asc' },
     include: {
@@ -38,151 +26,145 @@ export async function getAllStagesForOrg(organizationId: string) {
       },
     },
   });
-  return stages.map(mapPrismaStageToCommon);
+
+  // ZMENA: Transformujeme DB string na HslColor objekt pre každý stage
+  return stagesFromDb.map(stage => ({
+    ...stage,
+    colorHsl: parseHslString(stage.colorHsl),
+  }));
 }
 
-export async function getStageById(stageId: string) {
-  const stage = await prisma.stage.findUnique({
+export async function getStageById(stageId: string): Promise<StageDetailsDTO | null> {
+  const stageFromDb = await prisma.stage.findUnique({
     where: { id: stageId },
     include: {
-      tasks: {
-        orderBy: { sequence: 'asc' },
-      },
-      vehicles_in_stage: {
-        select: { id: true, brand: true, model: true, registration_number: true },
+      tasks: { orderBy: { sequence: 'asc' } },
+      vehiclesInStage: {
+        select: { id: true, brand: true, model: true, registrationNumber: true },
       },
     },
   });
-  return stage ? mapPrismaStageToCommon(stage) : null;
+
+  if (!stageFromDb) return null;
+
+  // ZMENA: Transformujeme DB string na HslColor objekt
+  return {
+    ...stageFromDb,
+    colorHsl: parseHslString(stageFromDb.colorHsl),
+  };
 }
 
-export async function createStage(data: CreateStageData) {
-  const colorHslString = data.colorHsl ? `${data.colorHsl.h},${data.colorHsl.s},${data.colorHsl.l}` : null;
-  const stage = await prisma.stage.create({
+export async function createStage(data: CreateStagePayload): Promise<StageDTO> {
+  // ZMENA: Používame centrálnu utilitu na formátovanie objektu na string pre DB
+  const colorHslString = data.colorHsl ? formatHslObject(data.colorHsl) : undefined;
+
+  const newStage = await prisma.stage.create({
     data: {
       name: data.name,
       icon: data.icon,
-      color_hsl: colorHslString,
+      colorHsl: colorHslString,
       sequence: data.sequence,
-      organization_id: data.organizationId,
-      is_active: data.isActive ?? true,
-      is_required: data.isRequired ?? false,
+      organizationId: data.organizationId,
+      isActive: data.isActive,
+      isRequired: data.isRequired,
+      key: data.name.toLowerCase().replace(/\s+/g, '_'),
     },
     include: {
-      tasks: {
-        orderBy: { sequence: 'asc' },
-      },
+      tasks: { orderBy: { sequence: 'asc' } },
     },
   });
-  return mapPrismaStageToCommon(stage);
+
+  return {
+    ...newStage,
+    colorHsl: parseHslString(newStage.colorHsl),
+  };
 }
 
-export async function updateStage(stageId: string, data: UpdateStageData) {
+export async function updateStage(stageId: string, data: UpdateStagePayload): Promise<StageDTO> {
   let colorHslString: string | null | undefined = undefined;
   if (data.colorHsl === null) {
     colorHslString = null;
   } else if (data.colorHsl) {
-    colorHslString = `${data.colorHsl.h},${data.colorHsl.s},${data.colorHsl.l}`;
+    // ZMENA: Používame centrálnu utilitu
+    colorHslString = formatHslObject(data.colorHsl);
   }
 
-  const stage = await prisma.stage.update({
+  const updatedStage = await prisma.stage.update({
     where: { id: stageId },
     data: {
       name: data.name,
       icon: data.icon,
-      color_hsl: colorHslString,
+      colorHsl: colorHslString,
       sequence: data.sequence,
-      is_active: data.isActive,
-      is_required: data.isRequired,
+      isActive: data.isActive,
+      isRequired: data.isRequired,
     },
     include: {
-      tasks: {
-        orderBy: { sequence: 'asc' },
-      },
+      tasks: { orderBy: { sequence: 'asc' } },
     },
   });
-  return mapPrismaStageToCommon(stage);
+
+  return {
+    ...updatedStage,
+    colorHsl: parseHslString(updatedStage.colorHsl),
+  };
 }
 
-export async function deleteStage(stageId: string) {
+export async function deleteStage(stageId: string): Promise<{ success: boolean }> {
   await prisma.stage.delete({
     where: { id: stageId },
   });
   return { success: true };
 }
 
-export async function checkStageExists(stageId: string): Promise<boolean> {
-  const stage = await prisma.stage.findUnique({
-    where: { id: stageId },
-    select: { id: true },
-  });
-  return !!stage;
-}
-
-export async function checkSequenceExistsInOrg(
-  organizationId: string,
-  sequence: number,
-  excludeStageId?: string
-): Promise<boolean> {
+export async function checkSequenceExistsInOrg(organizationId: string, sequence: number, excludeStageId?: string): Promise<boolean> {
   const whereClause: Prisma.StageWhereInput = {
-    organization_id: organizationId,
+    organizationId,
     sequence,
   };
-
   if (excludeStageId) {
     whereClause.id = { not: excludeStageId };
   }
-
-  const stage = await prisma.stage.findFirst({
-    where: whereClause,
-    select: { id: true },
-  });
-  return !!stage;
+  const count = await prisma.stage.count({ where: whereClause });
+  return count > 0;
 }
 
 export async function countVehiclesInStage(stageId: string): Promise<number> {
   return prisma.vehicle.count({
-    where: { current_stage_id: stageId },
+    where: { currentStageId: stageId },
   });
 }
 
-export async function getStageWithVehiclesCheck(stageId: string) {
-  const stage = await prisma.stage.findUnique({
+export async function getStageWithVehiclesCheck(stageId: string): Promise<StageWithVehicleCheckDTO | null> {
+  const stageFromDb = await prisma.stage.findUnique({
     where: { id: stageId },
     include: {
-      vehicles_in_stage: {
-        select: { id: true },
+      _count: {
+        select: { vehiclesInStage: true },
       },
+      tasks: { orderBy: { sequence: 'asc' } },
     },
   });
 
-  if (!stage) return null;
-  
-  const mappedStage = mapPrismaStageToCommon(stage as any);
+  if (!stageFromDb) return null;
+
+  // ZMENA: Transformujeme DB string na HslColor objekt aj tu
+  const transformedStage: StageDTO = {
+    ...stageFromDb,
+    colorHsl: parseHslString(stageFromDb.colorHsl),
+  };
 
   return {
-    stage: mappedStage,
-    hasVehicles: stage.vehicles_in_stage.length > 0,
-    vehicleCount: stage.vehicles_in_stage.length,
+    stage: transformedStage,
+    hasVehicles: stageFromDb._count.vehiclesInStage > 0,
+    vehicleCount: stageFromDb._count.vehiclesInStage,
   };
 }
 
-export async function verifyStageBelongsToOrg(
-  stageId: string,
-  organizationId: string
-): Promise<boolean> {
-  const stage = await prisma.stage.findUnique({
-    where: { id: stageId },
-    select: { organization_id: true },
+export async function verifyStageBelongsToOrg(stageId: string, organizationId: string): Promise<boolean> {
+  const stage = await prisma.stage.findFirst({
+    where: { id: stageId, organizationId: organizationId },
+    select: { id: true },
   });
-  return stage?.organization_id === organizationId;
-}
-
-export async function getStagesCountForOrg(organizationId: string): Promise<number> {
-  return prisma.stage.count({
-    where: {
-      organization_id: organizationId,
-      is_active: true,
-    },
-  });
+  return !!stage;
 }

@@ -60,6 +60,104 @@ export type TaskProgress = $Result.DefaultSelection<Prisma.$TaskProgressPayload>
 export type Session = $Result.DefaultSelection<Prisma.$SessionPayload>
 
 /**
+ * Enums
+ */
+export namespace $Enums {
+  export const AccessRole: {
+  SUPERADMIN: 'SUPERADMIN',
+  DEVELOPER: 'DEVELOPER',
+  OWNER: 'OWNER',
+  MANAGER: 'MANAGER',
+  COORDINATOR: 'COORDINATOR',
+  WORKER: 'WORKER',
+  PARTNER: 'PARTNER',
+  VIEWER: 'VIEWER'
+};
+
+export type AccessRole = (typeof AccessRole)[keyof typeof AccessRole]
+
+
+export const MembershipStatus: {
+  ACTIVE: 'ACTIVE',
+  PENDING: 'PENDING',
+  INACTIVE: 'INACTIVE',
+  SUSPENDED: 'SUSPENDED'
+};
+
+export type MembershipStatus = (typeof MembershipStatus)[keyof typeof MembershipStatus]
+
+
+export const TaskPriority: {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH',
+  CRITICAL: 'CRITICAL',
+  URGENT: 'URGENT'
+};
+
+export type TaskPriority = (typeof TaskPriority)[keyof typeof TaskPriority]
+
+
+export const TaskProgressStatus: {
+  PENDING: 'PENDING',
+  IN_PROGRESS: 'IN_PROGRESS',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED',
+  ON_HOLD: 'ON_HOLD',
+  BLOCKED: 'BLOCKED',
+  CANCELLED: 'CANCELLED'
+};
+
+export type TaskProgressStatus = (typeof TaskProgressStatus)[keyof typeof TaskProgressStatus]
+
+
+export const ProjectOrgType: {
+  BODYSHOP: 'BODYSHOP',
+  SERVICE: 'SERVICE',
+  DEALER: 'DEALER',
+  TUNING: 'TUNING',
+  WRAPSHOP: 'WRAPSHOP',
+  DETAILING: 'DETAILING'
+};
+
+export type ProjectOrgType = (typeof ProjectOrgType)[keyof typeof ProjectOrgType]
+
+
+export const ProjectCategory: {
+  PAINT: 'PAINT',
+  MECHANICAL: 'MECHANICAL',
+  FULL_SERVICE: 'FULL_SERVICE'
+};
+
+export type ProjectCategory = (typeof ProjectCategory)[keyof typeof ProjectCategory]
+
+}
+
+export type AccessRole = $Enums.AccessRole
+
+export const AccessRole: typeof $Enums.AccessRole
+
+export type MembershipStatus = $Enums.MembershipStatus
+
+export const MembershipStatus: typeof $Enums.MembershipStatus
+
+export type TaskPriority = $Enums.TaskPriority
+
+export const TaskPriority: typeof $Enums.TaskPriority
+
+export type TaskProgressStatus = $Enums.TaskProgressStatus
+
+export const TaskProgressStatus: typeof $Enums.TaskProgressStatus
+
+export type ProjectOrgType = $Enums.ProjectOrgType
+
+export const ProjectOrgType: typeof $Enums.ProjectOrgType
+
+export type ProjectCategory = $Enums.ProjectCategory
+
+export const ProjectCategory: typeof $Enums.ProjectCategory
+
+/**
  * ##  Prisma Client ʲˢ
  *
  * Type-safe database client for TypeScript & Node.js
@@ -1673,11 +1771,11 @@ export namespace Prisma {
    */
 
   export type MembershipCountOutputType = {
-    task_progress: number
+    taskProgress: number
   }
 
   export type MembershipCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    task_progress?: boolean | MembershipCountOutputTypeCountTask_progressArgs
+    taskProgress?: boolean | MembershipCountOutputTypeCountTaskProgressArgs
   }
 
   // Custom InputTypes
@@ -1694,7 +1792,7 @@ export namespace Prisma {
   /**
    * MembershipCountOutputType without action
    */
-  export type MembershipCountOutputTypeCountTask_progressArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type MembershipCountOutputTypeCountTaskProgressArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TaskProgressWhereInput
   }
 
@@ -1736,12 +1834,12 @@ export namespace Prisma {
 
   export type StageCountOutputType = {
     tasks: number
-    vehicles_in_stage: number
+    vehiclesInStage: number
   }
 
   export type StageCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tasks?: boolean | StageCountOutputTypeCountTasksArgs
-    vehicles_in_stage?: boolean | StageCountOutputTypeCountVehicles_in_stageArgs
+    vehiclesInStage?: boolean | StageCountOutputTypeCountVehiclesInStageArgs
   }
 
   // Custom InputTypes
@@ -1765,7 +1863,7 @@ export namespace Prisma {
   /**
    * StageCountOutputType without action
    */
-  export type StageCountOutputTypeCountVehicles_in_stageArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type StageCountOutputTypeCountVehiclesInStageArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: VehicleWhereInput
   }
 
@@ -1775,11 +1873,11 @@ export namespace Prisma {
    */
 
   export type TaskCountOutputType = {
-    task_progress: number
+    taskProgress: number
   }
 
   export type TaskCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    task_progress?: boolean | TaskCountOutputTypeCountTask_progressArgs
+    taskProgress?: boolean | TaskCountOutputTypeCountTaskProgressArgs
   }
 
   // Custom InputTypes
@@ -1796,7 +1894,7 @@ export namespace Prisma {
   /**
    * TaskCountOutputType without action
    */
-  export type TaskCountOutputTypeCountTask_progressArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TaskCountOutputTypeCountTaskProgressArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TaskProgressWhereInput
   }
 
@@ -1820,10 +1918,10 @@ export namespace Prisma {
     email: string | null
     name: string | null
     password: string | null
-    is_verified: boolean | null
-    is_active: boolean | null
-    created_at: Date | null
-    updated_at: Date | null
+    isVerified: boolean | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -1831,10 +1929,10 @@ export namespace Prisma {
     email: string | null
     name: string | null
     password: string | null
-    is_verified: boolean | null
-    is_active: boolean | null
-    created_at: Date | null
-    updated_at: Date | null
+    isVerified: boolean | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -1842,10 +1940,10 @@ export namespace Prisma {
     email: number
     name: number
     password: number
-    is_verified: number
-    is_active: number
-    created_at: number
-    updated_at: number
+    isVerified: number
+    isActive: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -1855,10 +1953,10 @@ export namespace Prisma {
     email?: true
     name?: true
     password?: true
-    is_verified?: true
-    is_active?: true
-    created_at?: true
-    updated_at?: true
+    isVerified?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -1866,10 +1964,10 @@ export namespace Prisma {
     email?: true
     name?: true
     password?: true
-    is_verified?: true
-    is_active?: true
-    created_at?: true
-    updated_at?: true
+    isVerified?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -1877,10 +1975,10 @@ export namespace Prisma {
     email?: true
     name?: true
     password?: true
-    is_verified?: true
-    is_active?: true
-    created_at?: true
-    updated_at?: true
+    isVerified?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -1961,10 +2059,10 @@ export namespace Prisma {
     email: string
     name: string
     password: string | null
-    is_verified: boolean
-    is_active: boolean
-    created_at: Date
-    updated_at: Date
+    isVerified: boolean
+    isActive: boolean
+    createdAt: Date
+    updatedAt: Date
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -1989,10 +2087,10 @@ export namespace Prisma {
     email?: boolean
     name?: boolean
     password?: boolean
-    is_verified?: boolean
-    is_active?: boolean
-    created_at?: boolean
-    updated_at?: boolean
+    isVerified?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     memberships?: boolean | User$membershipsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
@@ -2002,10 +2100,10 @@ export namespace Prisma {
     email?: boolean
     name?: boolean
     password?: boolean
-    is_verified?: boolean
-    is_active?: boolean
-    created_at?: boolean
-    updated_at?: boolean
+    isVerified?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -2013,10 +2111,10 @@ export namespace Prisma {
     email?: boolean
     name?: boolean
     password?: boolean
-    is_verified?: boolean
-    is_active?: boolean
-    created_at?: boolean
-    updated_at?: boolean
+    isVerified?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -2024,13 +2122,13 @@ export namespace Prisma {
     email?: boolean
     name?: boolean
     password?: boolean
-    is_verified?: boolean
-    is_active?: boolean
-    created_at?: boolean
-    updated_at?: boolean
+    isVerified?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "password" | "is_verified" | "is_active" | "created_at" | "updated_at", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "password" | "isVerified" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     memberships?: boolean | User$membershipsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -2048,10 +2146,10 @@ export namespace Prisma {
       email: string
       name: string
       password: string | null
-      is_verified: boolean
-      is_active: boolean
-      created_at: Date
-      updated_at: Date
+      isVerified: boolean
+      isActive: boolean
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -2480,10 +2578,10 @@ export namespace Prisma {
     readonly email: FieldRef<"User", 'String'>
     readonly name: FieldRef<"User", 'String'>
     readonly password: FieldRef<"User", 'String'>
-    readonly is_verified: FieldRef<"User", 'Boolean'>
-    readonly is_active: FieldRef<"User", 'Boolean'>
-    readonly created_at: FieldRef<"User", 'DateTime'>
-    readonly updated_at: FieldRef<"User", 'DateTime'>
+    readonly isVerified: FieldRef<"User", 'Boolean'>
+    readonly isActive: FieldRef<"User", 'Boolean'>
+    readonly createdAt: FieldRef<"User", 'DateTime'>
+    readonly updatedAt: FieldRef<"User", 'DateTime'>
   }
     
 
@@ -2927,21 +3025,21 @@ export namespace Prisma {
   export type OrganizationMinAggregateOutputType = {
     id: string | null
     name: string | null
-    type: string | null
+    type: $Enums.ProjectOrgType | null
     description: string | null
-    is_verified: boolean | null
-    created_at: Date | null
-    updated_at: Date | null
+    isVerified: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type OrganizationMaxAggregateOutputType = {
     id: string | null
     name: string | null
-    type: string | null
+    type: $Enums.ProjectOrgType | null
     description: string | null
-    is_verified: boolean | null
-    created_at: Date | null
-    updated_at: Date | null
+    isVerified: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type OrganizationCountAggregateOutputType = {
@@ -2949,9 +3047,9 @@ export namespace Prisma {
     name: number
     type: number
     description: number
-    is_verified: number
-    created_at: number
-    updated_at: number
+    isVerified: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -2961,9 +3059,9 @@ export namespace Prisma {
     name?: true
     type?: true
     description?: true
-    is_verified?: true
-    created_at?: true
-    updated_at?: true
+    isVerified?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type OrganizationMaxAggregateInputType = {
@@ -2971,9 +3069,9 @@ export namespace Prisma {
     name?: true
     type?: true
     description?: true
-    is_verified?: true
-    created_at?: true
-    updated_at?: true
+    isVerified?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type OrganizationCountAggregateInputType = {
@@ -2981,9 +3079,9 @@ export namespace Prisma {
     name?: true
     type?: true
     description?: true
-    is_verified?: true
-    created_at?: true
-    updated_at?: true
+    isVerified?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -3062,11 +3160,11 @@ export namespace Prisma {
   export type OrganizationGroupByOutputType = {
     id: string
     name: string
-    type: string
+    type: $Enums.ProjectOrgType
     description: string | null
-    is_verified: boolean
-    created_at: Date
-    updated_at: Date
+    isVerified: boolean
+    createdAt: Date
+    updatedAt: Date
     _count: OrganizationCountAggregateOutputType | null
     _min: OrganizationMinAggregateOutputType | null
     _max: OrganizationMaxAggregateOutputType | null
@@ -3091,9 +3189,9 @@ export namespace Prisma {
     name?: boolean
     type?: boolean
     description?: boolean
-    is_verified?: boolean
-    created_at?: boolean
-    updated_at?: boolean
+    isVerified?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     memberships?: boolean | Organization$membershipsArgs<ExtArgs>
     invites?: boolean | Organization$invitesArgs<ExtArgs>
     stages?: boolean | Organization$stagesArgs<ExtArgs>
@@ -3106,9 +3204,9 @@ export namespace Prisma {
     name?: boolean
     type?: boolean
     description?: boolean
-    is_verified?: boolean
-    created_at?: boolean
-    updated_at?: boolean
+    isVerified?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }, ExtArgs["result"]["organization"]>
 
   export type OrganizationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -3116,9 +3214,9 @@ export namespace Prisma {
     name?: boolean
     type?: boolean
     description?: boolean
-    is_verified?: boolean
-    created_at?: boolean
-    updated_at?: boolean
+    isVerified?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }, ExtArgs["result"]["organization"]>
 
   export type OrganizationSelectScalar = {
@@ -3126,12 +3224,12 @@ export namespace Prisma {
     name?: boolean
     type?: boolean
     description?: boolean
-    is_verified?: boolean
-    created_at?: boolean
-    updated_at?: boolean
+    isVerified?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type OrganizationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "type" | "description" | "is_verified" | "created_at" | "updated_at", ExtArgs["result"]["organization"]>
+  export type OrganizationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "type" | "description" | "isVerified" | "createdAt" | "updatedAt", ExtArgs["result"]["organization"]>
   export type OrganizationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     memberships?: boolean | Organization$membershipsArgs<ExtArgs>
     invites?: boolean | Organization$invitesArgs<ExtArgs>
@@ -3153,11 +3251,11 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
-      type: string
+      type: $Enums.ProjectOrgType
       description: string | null
-      is_verified: boolean
-      created_at: Date
-      updated_at: Date
+      isVerified: boolean
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["organization"]>
     composites: {}
   }
@@ -3587,11 +3685,11 @@ export namespace Prisma {
   interface OrganizationFieldRefs {
     readonly id: FieldRef<"Organization", 'String'>
     readonly name: FieldRef<"Organization", 'String'>
-    readonly type: FieldRef<"Organization", 'String'>
+    readonly type: FieldRef<"Organization", 'ProjectOrgType'>
     readonly description: FieldRef<"Organization", 'String'>
-    readonly is_verified: FieldRef<"Organization", 'Boolean'>
-    readonly created_at: FieldRef<"Organization", 'DateTime'>
-    readonly updated_at: FieldRef<"Organization", 'DateTime'>
+    readonly isVerified: FieldRef<"Organization", 'Boolean'>
+    readonly createdAt: FieldRef<"Organization", 'DateTime'>
+    readonly updatedAt: FieldRef<"Organization", 'DateTime'>
   }
     
 
@@ -4106,90 +4204,90 @@ export namespace Prisma {
 
   export type MembershipMinAggregateOutputType = {
     id: string | null
-    user_id: string | null
-    organization_id: string | null
-    access_role: string | null
-    business_role: string | null
-    status: string | null
-    rfid_tag: string | null
-    qr_code: string | null
-    usb_key_id: string | null
-    created_at: Date | null
-    updated_at: Date | null
+    userId: string | null
+    organizationId: string | null
+    accessRole: $Enums.AccessRole | null
+    businessRole: string | null
+    status: $Enums.MembershipStatus | null
+    rfidTag: string | null
+    qrCode: string | null
+    usbKeyId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type MembershipMaxAggregateOutputType = {
     id: string | null
-    user_id: string | null
-    organization_id: string | null
-    access_role: string | null
-    business_role: string | null
-    status: string | null
-    rfid_tag: string | null
-    qr_code: string | null
-    usb_key_id: string | null
-    created_at: Date | null
-    updated_at: Date | null
+    userId: string | null
+    organizationId: string | null
+    accessRole: $Enums.AccessRole | null
+    businessRole: string | null
+    status: $Enums.MembershipStatus | null
+    rfidTag: string | null
+    qrCode: string | null
+    usbKeyId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type MembershipCountAggregateOutputType = {
     id: number
-    user_id: number
-    organization_id: number
-    access_role: number
-    business_role: number
+    userId: number
+    organizationId: number
+    accessRole: number
+    businessRole: number
     status: number
-    auth_methods: number
-    rfid_tag: number
-    qr_code: number
-    usb_key_id: number
-    created_at: number
-    updated_at: number
+    authMethods: number
+    rfidTag: number
+    qrCode: number
+    usbKeyId: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
 
   export type MembershipMinAggregateInputType = {
     id?: true
-    user_id?: true
-    organization_id?: true
-    access_role?: true
-    business_role?: true
+    userId?: true
+    organizationId?: true
+    accessRole?: true
+    businessRole?: true
     status?: true
-    rfid_tag?: true
-    qr_code?: true
-    usb_key_id?: true
-    created_at?: true
-    updated_at?: true
+    rfidTag?: true
+    qrCode?: true
+    usbKeyId?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type MembershipMaxAggregateInputType = {
     id?: true
-    user_id?: true
-    organization_id?: true
-    access_role?: true
-    business_role?: true
+    userId?: true
+    organizationId?: true
+    accessRole?: true
+    businessRole?: true
     status?: true
-    rfid_tag?: true
-    qr_code?: true
-    usb_key_id?: true
-    created_at?: true
-    updated_at?: true
+    rfidTag?: true
+    qrCode?: true
+    usbKeyId?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type MembershipCountAggregateInputType = {
     id?: true
-    user_id?: true
-    organization_id?: true
-    access_role?: true
-    business_role?: true
+    userId?: true
+    organizationId?: true
+    accessRole?: true
+    businessRole?: true
     status?: true
-    auth_methods?: true
-    rfid_tag?: true
-    qr_code?: true
-    usb_key_id?: true
-    created_at?: true
-    updated_at?: true
+    authMethods?: true
+    rfidTag?: true
+    qrCode?: true
+    usbKeyId?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -4267,17 +4365,17 @@ export namespace Prisma {
 
   export type MembershipGroupByOutputType = {
     id: string
-    user_id: string
-    organization_id: string
-    access_role: string
-    business_role: string | null
-    status: string
-    auth_methods: string[]
-    rfid_tag: string | null
-    qr_code: string | null
-    usb_key_id: string | null
-    created_at: Date
-    updated_at: Date
+    userId: string
+    organizationId: string
+    accessRole: $Enums.AccessRole
+    businessRole: string | null
+    status: $Enums.MembershipStatus
+    authMethods: string[]
+    rfidTag: string | null
+    qrCode: string | null
+    usbKeyId: string | null
+    createdAt: Date
+    updatedAt: Date
     _count: MembershipCountAggregateOutputType | null
     _min: MembershipMinAggregateOutputType | null
     _max: MembershipMaxAggregateOutputType | null
@@ -4299,77 +4397,77 @@ export namespace Prisma {
 
   export type MembershipSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    user_id?: boolean
-    organization_id?: boolean
-    access_role?: boolean
-    business_role?: boolean
+    userId?: boolean
+    organizationId?: boolean
+    accessRole?: boolean
+    businessRole?: boolean
     status?: boolean
-    auth_methods?: boolean
-    rfid_tag?: boolean
-    qr_code?: boolean
-    usb_key_id?: boolean
-    created_at?: boolean
-    updated_at?: boolean
+    authMethods?: boolean
+    rfidTag?: boolean
+    qrCode?: boolean
+    usbKeyId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
-    task_progress?: boolean | Membership$task_progressArgs<ExtArgs>
+    taskProgress?: boolean | Membership$taskProgressArgs<ExtArgs>
     _count?: boolean | MembershipCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["membership"]>
 
   export type MembershipSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    user_id?: boolean
-    organization_id?: boolean
-    access_role?: boolean
-    business_role?: boolean
+    userId?: boolean
+    organizationId?: boolean
+    accessRole?: boolean
+    businessRole?: boolean
     status?: boolean
-    auth_methods?: boolean
-    rfid_tag?: boolean
-    qr_code?: boolean
-    usb_key_id?: boolean
-    created_at?: boolean
-    updated_at?: boolean
+    authMethods?: boolean
+    rfidTag?: boolean
+    qrCode?: boolean
+    usbKeyId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["membership"]>
 
   export type MembershipSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    user_id?: boolean
-    organization_id?: boolean
-    access_role?: boolean
-    business_role?: boolean
+    userId?: boolean
+    organizationId?: boolean
+    accessRole?: boolean
+    businessRole?: boolean
     status?: boolean
-    auth_methods?: boolean
-    rfid_tag?: boolean
-    qr_code?: boolean
-    usb_key_id?: boolean
-    created_at?: boolean
-    updated_at?: boolean
+    authMethods?: boolean
+    rfidTag?: boolean
+    qrCode?: boolean
+    usbKeyId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["membership"]>
 
   export type MembershipSelectScalar = {
     id?: boolean
-    user_id?: boolean
-    organization_id?: boolean
-    access_role?: boolean
-    business_role?: boolean
+    userId?: boolean
+    organizationId?: boolean
+    accessRole?: boolean
+    businessRole?: boolean
     status?: boolean
-    auth_methods?: boolean
-    rfid_tag?: boolean
-    qr_code?: boolean
-    usb_key_id?: boolean
-    created_at?: boolean
-    updated_at?: boolean
+    authMethods?: boolean
+    rfidTag?: boolean
+    qrCode?: boolean
+    usbKeyId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type MembershipOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "user_id" | "organization_id" | "access_role" | "business_role" | "status" | "auth_methods" | "rfid_tag" | "qr_code" | "usb_key_id" | "created_at" | "updated_at", ExtArgs["result"]["membership"]>
+  export type MembershipOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "organizationId" | "accessRole" | "businessRole" | "status" | "authMethods" | "rfidTag" | "qrCode" | "usbKeyId" | "createdAt" | "updatedAt", ExtArgs["result"]["membership"]>
   export type MembershipInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
-    task_progress?: boolean | Membership$task_progressArgs<ExtArgs>
+    taskProgress?: boolean | Membership$taskProgressArgs<ExtArgs>
     _count?: boolean | MembershipCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type MembershipIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4386,21 +4484,21 @@ export namespace Prisma {
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
       organization: Prisma.$OrganizationPayload<ExtArgs>
-      task_progress: Prisma.$TaskProgressPayload<ExtArgs>[]
+      taskProgress: Prisma.$TaskProgressPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      user_id: string
-      organization_id: string
-      access_role: string
-      business_role: string | null
-      status: string
-      auth_methods: string[]
-      rfid_tag: string | null
-      qr_code: string | null
-      usb_key_id: string | null
-      created_at: Date
-      updated_at: Date
+      userId: string
+      organizationId: string
+      accessRole: $Enums.AccessRole
+      businessRole: string | null
+      status: $Enums.MembershipStatus
+      authMethods: string[]
+      rfidTag: string | null
+      qrCode: string | null
+      usbKeyId: string | null
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["membership"]>
     composites: {}
   }
@@ -4797,7 +4895,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     organization<T extends OrganizationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganizationDefaultArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    task_progress<T extends Membership$task_progressArgs<ExtArgs> = {}>(args?: Subset<T, Membership$task_progressArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    taskProgress<T extends Membership$taskProgressArgs<ExtArgs> = {}>(args?: Subset<T, Membership$taskProgressArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4828,17 +4926,17 @@ export namespace Prisma {
    */
   interface MembershipFieldRefs {
     readonly id: FieldRef<"Membership", 'String'>
-    readonly user_id: FieldRef<"Membership", 'String'>
-    readonly organization_id: FieldRef<"Membership", 'String'>
-    readonly access_role: FieldRef<"Membership", 'String'>
-    readonly business_role: FieldRef<"Membership", 'String'>
-    readonly status: FieldRef<"Membership", 'String'>
-    readonly auth_methods: FieldRef<"Membership", 'String[]'>
-    readonly rfid_tag: FieldRef<"Membership", 'String'>
-    readonly qr_code: FieldRef<"Membership", 'String'>
-    readonly usb_key_id: FieldRef<"Membership", 'String'>
-    readonly created_at: FieldRef<"Membership", 'DateTime'>
-    readonly updated_at: FieldRef<"Membership", 'DateTime'>
+    readonly userId: FieldRef<"Membership", 'String'>
+    readonly organizationId: FieldRef<"Membership", 'String'>
+    readonly accessRole: FieldRef<"Membership", 'AccessRole'>
+    readonly businessRole: FieldRef<"Membership", 'String'>
+    readonly status: FieldRef<"Membership", 'MembershipStatus'>
+    readonly authMethods: FieldRef<"Membership", 'String[]'>
+    readonly rfidTag: FieldRef<"Membership", 'String'>
+    readonly qrCode: FieldRef<"Membership", 'String'>
+    readonly usbKeyId: FieldRef<"Membership", 'String'>
+    readonly createdAt: FieldRef<"Membership", 'DateTime'>
+    readonly updatedAt: FieldRef<"Membership", 'DateTime'>
   }
     
 
@@ -5235,9 +5333,9 @@ export namespace Prisma {
   }
 
   /**
-   * Membership.task_progress
+   * Membership.taskProgress
    */
-  export type Membership$task_progressArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Membership$taskProgressArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the TaskProgress
      */
@@ -5289,64 +5387,64 @@ export namespace Prisma {
 
   export type InviteMinAggregateOutputType = {
     id: string | null
-    organization_id: string | null
+    organizationId: string | null
     email: string | null
-    access_role: string | null
+    accessRole: $Enums.AccessRole | null
     token: string | null
-    expires_at: Date | null
-    created_at: Date | null
+    expiresAt: Date | null
+    createdAt: Date | null
   }
 
   export type InviteMaxAggregateOutputType = {
     id: string | null
-    organization_id: string | null
+    organizationId: string | null
     email: string | null
-    access_role: string | null
+    accessRole: $Enums.AccessRole | null
     token: string | null
-    expires_at: Date | null
-    created_at: Date | null
+    expiresAt: Date | null
+    createdAt: Date | null
   }
 
   export type InviteCountAggregateOutputType = {
     id: number
-    organization_id: number
+    organizationId: number
     email: number
-    access_role: number
+    accessRole: number
     token: number
-    expires_at: number
-    created_at: number
+    expiresAt: number
+    createdAt: number
     _all: number
   }
 
 
   export type InviteMinAggregateInputType = {
     id?: true
-    organization_id?: true
+    organizationId?: true
     email?: true
-    access_role?: true
+    accessRole?: true
     token?: true
-    expires_at?: true
-    created_at?: true
+    expiresAt?: true
+    createdAt?: true
   }
 
   export type InviteMaxAggregateInputType = {
     id?: true
-    organization_id?: true
+    organizationId?: true
     email?: true
-    access_role?: true
+    accessRole?: true
     token?: true
-    expires_at?: true
-    created_at?: true
+    expiresAt?: true
+    createdAt?: true
   }
 
   export type InviteCountAggregateInputType = {
     id?: true
-    organization_id?: true
+    organizationId?: true
     email?: true
-    access_role?: true
+    accessRole?: true
     token?: true
-    expires_at?: true
-    created_at?: true
+    expiresAt?: true
+    createdAt?: true
     _all?: true
   }
 
@@ -5424,12 +5522,12 @@ export namespace Prisma {
 
   export type InviteGroupByOutputType = {
     id: string
-    organization_id: string
+    organizationId: string
     email: string
-    access_role: string
+    accessRole: $Enums.AccessRole
     token: string
-    expires_at: Date
-    created_at: Date
+    expiresAt: Date
+    createdAt: Date
     _count: InviteCountAggregateOutputType | null
     _min: InviteMinAggregateOutputType | null
     _max: InviteMaxAggregateOutputType | null
@@ -5451,48 +5549,48 @@ export namespace Prisma {
 
   export type InviteSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    organization_id?: boolean
+    organizationId?: boolean
     email?: boolean
-    access_role?: boolean
+    accessRole?: boolean
     token?: boolean
-    expires_at?: boolean
-    created_at?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["invite"]>
 
   export type InviteSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    organization_id?: boolean
+    organizationId?: boolean
     email?: boolean
-    access_role?: boolean
+    accessRole?: boolean
     token?: boolean
-    expires_at?: boolean
-    created_at?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["invite"]>
 
   export type InviteSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    organization_id?: boolean
+    organizationId?: boolean
     email?: boolean
-    access_role?: boolean
+    accessRole?: boolean
     token?: boolean
-    expires_at?: boolean
-    created_at?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["invite"]>
 
   export type InviteSelectScalar = {
     id?: boolean
-    organization_id?: boolean
+    organizationId?: boolean
     email?: boolean
-    access_role?: boolean
+    accessRole?: boolean
     token?: boolean
-    expires_at?: boolean
-    created_at?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
   }
 
-  export type InviteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "organization_id" | "email" | "access_role" | "token" | "expires_at" | "created_at", ExtArgs["result"]["invite"]>
+  export type InviteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "organizationId" | "email" | "accessRole" | "token" | "expiresAt" | "createdAt", ExtArgs["result"]["invite"]>
   export type InviteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
   }
@@ -5510,12 +5608,12 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      organization_id: string
+      organizationId: string
       email: string
-      access_role: string
+      accessRole: $Enums.AccessRole
       token: string
-      expires_at: Date
-      created_at: Date
+      expiresAt: Date
+      createdAt: Date
     }, ExtArgs["result"]["invite"]>
     composites: {}
   }
@@ -5941,12 +6039,12 @@ export namespace Prisma {
    */
   interface InviteFieldRefs {
     readonly id: FieldRef<"Invite", 'String'>
-    readonly organization_id: FieldRef<"Invite", 'String'>
+    readonly organizationId: FieldRef<"Invite", 'String'>
     readonly email: FieldRef<"Invite", 'String'>
-    readonly access_role: FieldRef<"Invite", 'String'>
+    readonly accessRole: FieldRef<"Invite", 'AccessRole'>
     readonly token: FieldRef<"Invite", 'String'>
-    readonly expires_at: FieldRef<"Invite", 'DateTime'>
-    readonly created_at: FieldRef<"Invite", 'DateTime'>
+    readonly expiresAt: FieldRef<"Invite", 'DateTime'>
+    readonly createdAt: FieldRef<"Invite", 'DateTime'>
   }
     
 
@@ -6387,20 +6485,21 @@ export namespace Prisma {
     brand: string | null
     model: string | null
     year: number | null
-    registration_number: string | null
-    customer_name: string | null
-    customer_email: string | null
-    customer_phone: string | null
-    is_active: boolean | null
+    registrationNumber: string | null
+    customerName: string | null
+    customerEmail: string | null
+    customerPhone: string | null
+    isActive: boolean | null
+    status: $Enums.TaskProgressStatus | null
     notes: string | null
-    qr_code_token: string | null
-    tracking_token: string | null
-    entry_time: Date | null
-    estimated_completion: Date | null
-    organization_id: string | null
-    current_stage_id: string | null
-    created_at: Date | null
-    updated_at: Date | null
+    qrCodeToken: string | null
+    trackingToken: string | null
+    entryTime: Date | null
+    estimatedCompletion: Date | null
+    organizationId: string | null
+    currentStageId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type VehicleMaxAggregateOutputType = {
@@ -6409,20 +6508,21 @@ export namespace Prisma {
     brand: string | null
     model: string | null
     year: number | null
-    registration_number: string | null
-    customer_name: string | null
-    customer_email: string | null
-    customer_phone: string | null
-    is_active: boolean | null
+    registrationNumber: string | null
+    customerName: string | null
+    customerEmail: string | null
+    customerPhone: string | null
+    isActive: boolean | null
+    status: $Enums.TaskProgressStatus | null
     notes: string | null
-    qr_code_token: string | null
-    tracking_token: string | null
-    entry_time: Date | null
-    estimated_completion: Date | null
-    organization_id: string | null
-    current_stage_id: string | null
-    created_at: Date | null
-    updated_at: Date | null
+    qrCodeToken: string | null
+    trackingToken: string | null
+    entryTime: Date | null
+    estimatedCompletion: Date | null
+    organizationId: string | null
+    currentStageId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type VehicleCountAggregateOutputType = {
@@ -6431,20 +6531,21 @@ export namespace Prisma {
     brand: number
     model: number
     year: number
-    registration_number: number
-    customer_name: number
-    customer_email: number
-    customer_phone: number
-    is_active: number
+    registrationNumber: number
+    customerName: number
+    customerEmail: number
+    customerPhone: number
+    isActive: number
+    status: number
     notes: number
-    qr_code_token: number
-    tracking_token: number
-    entry_time: number
-    estimated_completion: number
-    organization_id: number
-    current_stage_id: number
-    created_at: number
-    updated_at: number
+    qrCodeToken: number
+    trackingToken: number
+    entryTime: number
+    estimatedCompletion: number
+    organizationId: number
+    currentStageId: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -6463,20 +6564,21 @@ export namespace Prisma {
     brand?: true
     model?: true
     year?: true
-    registration_number?: true
-    customer_name?: true
-    customer_email?: true
-    customer_phone?: true
-    is_active?: true
+    registrationNumber?: true
+    customerName?: true
+    customerEmail?: true
+    customerPhone?: true
+    isActive?: true
+    status?: true
     notes?: true
-    qr_code_token?: true
-    tracking_token?: true
-    entry_time?: true
-    estimated_completion?: true
-    organization_id?: true
-    current_stage_id?: true
-    created_at?: true
-    updated_at?: true
+    qrCodeToken?: true
+    trackingToken?: true
+    entryTime?: true
+    estimatedCompletion?: true
+    organizationId?: true
+    currentStageId?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type VehicleMaxAggregateInputType = {
@@ -6485,20 +6587,21 @@ export namespace Prisma {
     brand?: true
     model?: true
     year?: true
-    registration_number?: true
-    customer_name?: true
-    customer_email?: true
-    customer_phone?: true
-    is_active?: true
+    registrationNumber?: true
+    customerName?: true
+    customerEmail?: true
+    customerPhone?: true
+    isActive?: true
+    status?: true
     notes?: true
-    qr_code_token?: true
-    tracking_token?: true
-    entry_time?: true
-    estimated_completion?: true
-    organization_id?: true
-    current_stage_id?: true
-    created_at?: true
-    updated_at?: true
+    qrCodeToken?: true
+    trackingToken?: true
+    entryTime?: true
+    estimatedCompletion?: true
+    organizationId?: true
+    currentStageId?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type VehicleCountAggregateInputType = {
@@ -6507,20 +6610,21 @@ export namespace Prisma {
     brand?: true
     model?: true
     year?: true
-    registration_number?: true
-    customer_name?: true
-    customer_email?: true
-    customer_phone?: true
-    is_active?: true
+    registrationNumber?: true
+    customerName?: true
+    customerEmail?: true
+    customerPhone?: true
+    isActive?: true
+    status?: true
     notes?: true
-    qr_code_token?: true
-    tracking_token?: true
-    entry_time?: true
-    estimated_completion?: true
-    organization_id?: true
-    current_stage_id?: true
-    created_at?: true
-    updated_at?: true
+    qrCodeToken?: true
+    trackingToken?: true
+    entryTime?: true
+    estimatedCompletion?: true
+    organizationId?: true
+    currentStageId?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -6616,20 +6720,21 @@ export namespace Prisma {
     brand: string
     model: string
     year: number | null
-    registration_number: string
-    customer_name: string
-    customer_email: string | null
-    customer_phone: string | null
-    is_active: boolean
+    registrationNumber: string
+    customerName: string
+    customerEmail: string | null
+    customerPhone: string | null
+    isActive: boolean
+    status: $Enums.TaskProgressStatus
     notes: string | null
-    qr_code_token: string
-    tracking_token: string
-    entry_time: Date
-    estimated_completion: Date | null
-    organization_id: string
-    current_stage_id: string | null
-    created_at: Date
-    updated_at: Date
+    qrCodeToken: string
+    trackingToken: string
+    entryTime: Date
+    estimatedCompletion: Date | null
+    organizationId: string
+    currentStageId: string | null
+    createdAt: Date
+    updatedAt: Date
     _count: VehicleCountAggregateOutputType | null
     _avg: VehicleAvgAggregateOutputType | null
     _sum: VehicleSumAggregateOutputType | null
@@ -6657,22 +6762,23 @@ export namespace Prisma {
     brand?: boolean
     model?: boolean
     year?: boolean
-    registration_number?: boolean
-    customer_name?: boolean
-    customer_email?: boolean
-    customer_phone?: boolean
-    is_active?: boolean
+    registrationNumber?: boolean
+    customerName?: boolean
+    customerEmail?: boolean
+    customerPhone?: boolean
+    isActive?: boolean
+    status?: boolean
     notes?: boolean
-    qr_code_token?: boolean
-    tracking_token?: boolean
-    entry_time?: boolean
-    estimated_completion?: boolean
-    organization_id?: boolean
-    current_stage_id?: boolean
-    created_at?: boolean
-    updated_at?: boolean
+    qrCodeToken?: boolean
+    trackingToken?: boolean
+    entryTime?: boolean
+    estimatedCompletion?: boolean
+    organizationId?: boolean
+    currentStageId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
-    current_stage?: boolean | Vehicle$current_stageArgs<ExtArgs>
+    currentStage?: boolean | Vehicle$currentStageArgs<ExtArgs>
     tasks?: boolean | Vehicle$tasksArgs<ExtArgs>
     _count?: boolean | VehicleCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["vehicle"]>
@@ -6683,22 +6789,23 @@ export namespace Prisma {
     brand?: boolean
     model?: boolean
     year?: boolean
-    registration_number?: boolean
-    customer_name?: boolean
-    customer_email?: boolean
-    customer_phone?: boolean
-    is_active?: boolean
+    registrationNumber?: boolean
+    customerName?: boolean
+    customerEmail?: boolean
+    customerPhone?: boolean
+    isActive?: boolean
+    status?: boolean
     notes?: boolean
-    qr_code_token?: boolean
-    tracking_token?: boolean
-    entry_time?: boolean
-    estimated_completion?: boolean
-    organization_id?: boolean
-    current_stage_id?: boolean
-    created_at?: boolean
-    updated_at?: boolean
+    qrCodeToken?: boolean
+    trackingToken?: boolean
+    entryTime?: boolean
+    estimatedCompletion?: boolean
+    organizationId?: boolean
+    currentStageId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
-    current_stage?: boolean | Vehicle$current_stageArgs<ExtArgs>
+    currentStage?: boolean | Vehicle$currentStageArgs<ExtArgs>
   }, ExtArgs["result"]["vehicle"]>
 
   export type VehicleSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -6707,22 +6814,23 @@ export namespace Prisma {
     brand?: boolean
     model?: boolean
     year?: boolean
-    registration_number?: boolean
-    customer_name?: boolean
-    customer_email?: boolean
-    customer_phone?: boolean
-    is_active?: boolean
+    registrationNumber?: boolean
+    customerName?: boolean
+    customerEmail?: boolean
+    customerPhone?: boolean
+    isActive?: boolean
+    status?: boolean
     notes?: boolean
-    qr_code_token?: boolean
-    tracking_token?: boolean
-    entry_time?: boolean
-    estimated_completion?: boolean
-    organization_id?: boolean
-    current_stage_id?: boolean
-    created_at?: boolean
-    updated_at?: boolean
+    qrCodeToken?: boolean
+    trackingToken?: boolean
+    entryTime?: boolean
+    estimatedCompletion?: boolean
+    organizationId?: boolean
+    currentStageId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
-    current_stage?: boolean | Vehicle$current_stageArgs<ExtArgs>
+    currentStage?: boolean | Vehicle$currentStageArgs<ExtArgs>
   }, ExtArgs["result"]["vehicle"]>
 
   export type VehicleSelectScalar = {
@@ -6731,43 +6839,44 @@ export namespace Prisma {
     brand?: boolean
     model?: boolean
     year?: boolean
-    registration_number?: boolean
-    customer_name?: boolean
-    customer_email?: boolean
-    customer_phone?: boolean
-    is_active?: boolean
+    registrationNumber?: boolean
+    customerName?: boolean
+    customerEmail?: boolean
+    customerPhone?: boolean
+    isActive?: boolean
+    status?: boolean
     notes?: boolean
-    qr_code_token?: boolean
-    tracking_token?: boolean
-    entry_time?: boolean
-    estimated_completion?: boolean
-    organization_id?: boolean
-    current_stage_id?: boolean
-    created_at?: boolean
-    updated_at?: boolean
+    qrCodeToken?: boolean
+    trackingToken?: boolean
+    entryTime?: boolean
+    estimatedCompletion?: boolean
+    organizationId?: boolean
+    currentStageId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type VehicleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "vin" | "brand" | "model" | "year" | "registration_number" | "customer_name" | "customer_email" | "customer_phone" | "is_active" | "notes" | "qr_code_token" | "tracking_token" | "entry_time" | "estimated_completion" | "organization_id" | "current_stage_id" | "created_at" | "updated_at", ExtArgs["result"]["vehicle"]>
+  export type VehicleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "vin" | "brand" | "model" | "year" | "registrationNumber" | "customerName" | "customerEmail" | "customerPhone" | "isActive" | "status" | "notes" | "qrCodeToken" | "trackingToken" | "entryTime" | "estimatedCompletion" | "organizationId" | "currentStageId" | "createdAt" | "updatedAt", ExtArgs["result"]["vehicle"]>
   export type VehicleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
-    current_stage?: boolean | Vehicle$current_stageArgs<ExtArgs>
+    currentStage?: boolean | Vehicle$currentStageArgs<ExtArgs>
     tasks?: boolean | Vehicle$tasksArgs<ExtArgs>
     _count?: boolean | VehicleCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type VehicleIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
-    current_stage?: boolean | Vehicle$current_stageArgs<ExtArgs>
+    currentStage?: boolean | Vehicle$currentStageArgs<ExtArgs>
   }
   export type VehicleIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
-    current_stage?: boolean | Vehicle$current_stageArgs<ExtArgs>
+    currentStage?: boolean | Vehicle$currentStageArgs<ExtArgs>
   }
 
   export type $VehiclePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Vehicle"
     objects: {
       organization: Prisma.$OrganizationPayload<ExtArgs>
-      current_stage: Prisma.$StagePayload<ExtArgs> | null
+      currentStage: Prisma.$StagePayload<ExtArgs> | null
       tasks: Prisma.$TaskPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -6776,20 +6885,21 @@ export namespace Prisma {
       brand: string
       model: string
       year: number | null
-      registration_number: string
-      customer_name: string
-      customer_email: string | null
-      customer_phone: string | null
-      is_active: boolean
+      registrationNumber: string
+      customerName: string
+      customerEmail: string | null
+      customerPhone: string | null
+      isActive: boolean
+      status: $Enums.TaskProgressStatus
       notes: string | null
-      qr_code_token: string
-      tracking_token: string
-      entry_time: Date
-      estimated_completion: Date | null
-      organization_id: string
-      current_stage_id: string | null
-      created_at: Date
-      updated_at: Date
+      qrCodeToken: string
+      trackingToken: string
+      entryTime: Date
+      estimatedCompletion: Date | null
+      organizationId: string
+      currentStageId: string | null
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["vehicle"]>
     composites: {}
   }
@@ -7185,7 +7295,7 @@ export namespace Prisma {
   export interface Prisma__VehicleClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     organization<T extends OrganizationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganizationDefaultArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    current_stage<T extends Vehicle$current_stageArgs<ExtArgs> = {}>(args?: Subset<T, Vehicle$current_stageArgs<ExtArgs>>): Prisma__StageClient<$Result.GetResult<Prisma.$StagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    currentStage<T extends Vehicle$currentStageArgs<ExtArgs> = {}>(args?: Subset<T, Vehicle$currentStageArgs<ExtArgs>>): Prisma__StageClient<$Result.GetResult<Prisma.$StagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     tasks<T extends Vehicle$tasksArgs<ExtArgs> = {}>(args?: Subset<T, Vehicle$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -7221,20 +7331,21 @@ export namespace Prisma {
     readonly brand: FieldRef<"Vehicle", 'String'>
     readonly model: FieldRef<"Vehicle", 'String'>
     readonly year: FieldRef<"Vehicle", 'Int'>
-    readonly registration_number: FieldRef<"Vehicle", 'String'>
-    readonly customer_name: FieldRef<"Vehicle", 'String'>
-    readonly customer_email: FieldRef<"Vehicle", 'String'>
-    readonly customer_phone: FieldRef<"Vehicle", 'String'>
-    readonly is_active: FieldRef<"Vehicle", 'Boolean'>
+    readonly registrationNumber: FieldRef<"Vehicle", 'String'>
+    readonly customerName: FieldRef<"Vehicle", 'String'>
+    readonly customerEmail: FieldRef<"Vehicle", 'String'>
+    readonly customerPhone: FieldRef<"Vehicle", 'String'>
+    readonly isActive: FieldRef<"Vehicle", 'Boolean'>
+    readonly status: FieldRef<"Vehicle", 'TaskProgressStatus'>
     readonly notes: FieldRef<"Vehicle", 'String'>
-    readonly qr_code_token: FieldRef<"Vehicle", 'String'>
-    readonly tracking_token: FieldRef<"Vehicle", 'String'>
-    readonly entry_time: FieldRef<"Vehicle", 'DateTime'>
-    readonly estimated_completion: FieldRef<"Vehicle", 'DateTime'>
-    readonly organization_id: FieldRef<"Vehicle", 'String'>
-    readonly current_stage_id: FieldRef<"Vehicle", 'String'>
-    readonly created_at: FieldRef<"Vehicle", 'DateTime'>
-    readonly updated_at: FieldRef<"Vehicle", 'DateTime'>
+    readonly qrCodeToken: FieldRef<"Vehicle", 'String'>
+    readonly trackingToken: FieldRef<"Vehicle", 'String'>
+    readonly entryTime: FieldRef<"Vehicle", 'DateTime'>
+    readonly estimatedCompletion: FieldRef<"Vehicle", 'DateTime'>
+    readonly organizationId: FieldRef<"Vehicle", 'String'>
+    readonly currentStageId: FieldRef<"Vehicle", 'String'>
+    readonly createdAt: FieldRef<"Vehicle", 'DateTime'>
+    readonly updatedAt: FieldRef<"Vehicle", 'DateTime'>
   }
     
 
@@ -7631,9 +7742,9 @@ export namespace Prisma {
   }
 
   /**
-   * Vehicle.current_stage
+   * Vehicle.currentStage
    */
-  export type Vehicle$current_stageArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Vehicle$currentStageArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Stage
      */
@@ -7714,44 +7825,47 @@ export namespace Prisma {
 
   export type StageMinAggregateOutputType = {
     id: string | null
+    key: string | null
     name: string | null
     icon: string | null
-    color_hsl: string | null
-    category: string | null
+    colorHsl: string | null
+    category: $Enums.ProjectCategory | null
     sequence: number | null
-    is_active: boolean | null
-    is_required: boolean | null
-    organization_id: string | null
-    created_at: Date | null
-    updated_at: Date | null
+    isActive: boolean | null
+    isRequired: boolean | null
+    organizationId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type StageMaxAggregateOutputType = {
     id: string | null
+    key: string | null
     name: string | null
     icon: string | null
-    color_hsl: string | null
-    category: string | null
+    colorHsl: string | null
+    category: $Enums.ProjectCategory | null
     sequence: number | null
-    is_active: boolean | null
-    is_required: boolean | null
-    organization_id: string | null
-    created_at: Date | null
-    updated_at: Date | null
+    isActive: boolean | null
+    isRequired: boolean | null
+    organizationId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type StageCountAggregateOutputType = {
     id: number
+    key: number
     name: number
     icon: number
-    color_hsl: number
+    colorHsl: number
     category: number
     sequence: number
-    is_active: number
-    is_required: number
-    organization_id: number
-    created_at: number
-    updated_at: number
+    isActive: number
+    isRequired: number
+    organizationId: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -7766,44 +7880,47 @@ export namespace Prisma {
 
   export type StageMinAggregateInputType = {
     id?: true
+    key?: true
     name?: true
     icon?: true
-    color_hsl?: true
+    colorHsl?: true
     category?: true
     sequence?: true
-    is_active?: true
-    is_required?: true
-    organization_id?: true
-    created_at?: true
-    updated_at?: true
+    isActive?: true
+    isRequired?: true
+    organizationId?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type StageMaxAggregateInputType = {
     id?: true
+    key?: true
     name?: true
     icon?: true
-    color_hsl?: true
+    colorHsl?: true
     category?: true
     sequence?: true
-    is_active?: true
-    is_required?: true
-    organization_id?: true
-    created_at?: true
-    updated_at?: true
+    isActive?: true
+    isRequired?: true
+    organizationId?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type StageCountAggregateInputType = {
     id?: true
+    key?: true
     name?: true
     icon?: true
-    color_hsl?: true
+    colorHsl?: true
     category?: true
     sequence?: true
-    is_active?: true
-    is_required?: true
-    organization_id?: true
-    created_at?: true
-    updated_at?: true
+    isActive?: true
+    isRequired?: true
+    organizationId?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -7895,16 +8012,17 @@ export namespace Prisma {
 
   export type StageGroupByOutputType = {
     id: string
+    key: string
     name: string
     icon: string | null
-    color_hsl: string | null
-    category: string | null
+    colorHsl: string | null
+    category: $Enums.ProjectCategory | null
     sequence: number
-    is_active: boolean
-    is_required: boolean
-    organization_id: string
-    created_at: Date
-    updated_at: Date
+    isActive: boolean
+    isRequired: boolean
+    organizationId: string
+    createdAt: Date
+    updatedAt: Date
     _count: StageCountAggregateOutputType | null
     _avg: StageAvgAggregateOutputType | null
     _sum: StageSumAggregateOutputType | null
@@ -7928,71 +8046,75 @@ export namespace Prisma {
 
   export type StageSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    key?: boolean
     name?: boolean
     icon?: boolean
-    color_hsl?: boolean
+    colorHsl?: boolean
     category?: boolean
     sequence?: boolean
-    is_active?: boolean
-    is_required?: boolean
-    organization_id?: boolean
-    created_at?: boolean
-    updated_at?: boolean
+    isActive?: boolean
+    isRequired?: boolean
+    organizationId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     tasks?: boolean | Stage$tasksArgs<ExtArgs>
-    vehicles_in_stage?: boolean | Stage$vehicles_in_stageArgs<ExtArgs>
+    vehiclesInStage?: boolean | Stage$vehiclesInStageArgs<ExtArgs>
     _count?: boolean | StageCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["stage"]>
 
   export type StageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    key?: boolean
     name?: boolean
     icon?: boolean
-    color_hsl?: boolean
+    colorHsl?: boolean
     category?: boolean
     sequence?: boolean
-    is_active?: boolean
-    is_required?: boolean
-    organization_id?: boolean
-    created_at?: boolean
-    updated_at?: boolean
+    isActive?: boolean
+    isRequired?: boolean
+    organizationId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["stage"]>
 
   export type StageSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    key?: boolean
     name?: boolean
     icon?: boolean
-    color_hsl?: boolean
+    colorHsl?: boolean
     category?: boolean
     sequence?: boolean
-    is_active?: boolean
-    is_required?: boolean
-    organization_id?: boolean
-    created_at?: boolean
-    updated_at?: boolean
+    isActive?: boolean
+    isRequired?: boolean
+    organizationId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["stage"]>
 
   export type StageSelectScalar = {
     id?: boolean
+    key?: boolean
     name?: boolean
     icon?: boolean
-    color_hsl?: boolean
+    colorHsl?: boolean
     category?: boolean
     sequence?: boolean
-    is_active?: boolean
-    is_required?: boolean
-    organization_id?: boolean
-    created_at?: boolean
-    updated_at?: boolean
+    isActive?: boolean
+    isRequired?: boolean
+    organizationId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type StageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "icon" | "color_hsl" | "category" | "sequence" | "is_active" | "is_required" | "organization_id" | "created_at" | "updated_at", ExtArgs["result"]["stage"]>
+  export type StageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "key" | "name" | "icon" | "colorHsl" | "category" | "sequence" | "isActive" | "isRequired" | "organizationId" | "createdAt" | "updatedAt", ExtArgs["result"]["stage"]>
   export type StageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     tasks?: boolean | Stage$tasksArgs<ExtArgs>
-    vehicles_in_stage?: boolean | Stage$vehicles_in_stageArgs<ExtArgs>
+    vehiclesInStage?: boolean | Stage$vehiclesInStageArgs<ExtArgs>
     _count?: boolean | StageCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type StageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8007,20 +8129,21 @@ export namespace Prisma {
     objects: {
       organization: Prisma.$OrganizationPayload<ExtArgs>
       tasks: Prisma.$TaskPayload<ExtArgs>[]
-      vehicles_in_stage: Prisma.$VehiclePayload<ExtArgs>[]
+      vehiclesInStage: Prisma.$VehiclePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      key: string
       name: string
       icon: string | null
-      color_hsl: string | null
-      category: string | null
+      colorHsl: string | null
+      category: $Enums.ProjectCategory | null
       sequence: number
-      is_active: boolean
-      is_required: boolean
-      organization_id: string
-      created_at: Date
-      updated_at: Date
+      isActive: boolean
+      isRequired: boolean
+      organizationId: string
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["stage"]>
     composites: {}
   }
@@ -8417,7 +8540,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     organization<T extends OrganizationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganizationDefaultArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     tasks<T extends Stage$tasksArgs<ExtArgs> = {}>(args?: Subset<T, Stage$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    vehicles_in_stage<T extends Stage$vehicles_in_stageArgs<ExtArgs> = {}>(args?: Subset<T, Stage$vehicles_in_stageArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    vehiclesInStage<T extends Stage$vehiclesInStageArgs<ExtArgs> = {}>(args?: Subset<T, Stage$vehiclesInStageArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8448,16 +8571,17 @@ export namespace Prisma {
    */
   interface StageFieldRefs {
     readonly id: FieldRef<"Stage", 'String'>
+    readonly key: FieldRef<"Stage", 'String'>
     readonly name: FieldRef<"Stage", 'String'>
     readonly icon: FieldRef<"Stage", 'String'>
-    readonly color_hsl: FieldRef<"Stage", 'String'>
-    readonly category: FieldRef<"Stage", 'String'>
+    readonly colorHsl: FieldRef<"Stage", 'String'>
+    readonly category: FieldRef<"Stage", 'ProjectCategory'>
     readonly sequence: FieldRef<"Stage", 'Int'>
-    readonly is_active: FieldRef<"Stage", 'Boolean'>
-    readonly is_required: FieldRef<"Stage", 'Boolean'>
-    readonly organization_id: FieldRef<"Stage", 'String'>
-    readonly created_at: FieldRef<"Stage", 'DateTime'>
-    readonly updated_at: FieldRef<"Stage", 'DateTime'>
+    readonly isActive: FieldRef<"Stage", 'Boolean'>
+    readonly isRequired: FieldRef<"Stage", 'Boolean'>
+    readonly organizationId: FieldRef<"Stage", 'String'>
+    readonly createdAt: FieldRef<"Stage", 'DateTime'>
+    readonly updatedAt: FieldRef<"Stage", 'DateTime'>
   }
     
 
@@ -8878,9 +9002,9 @@ export namespace Prisma {
   }
 
   /**
-   * Stage.vehicles_in_stage
+   * Stage.vehiclesInStage
    */
-  export type Stage$vehicles_in_stageArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Stage$vehiclesInStageArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Vehicle
      */
@@ -8934,12 +9058,12 @@ export namespace Prisma {
 
   export type TaskAvgAggregateOutputType = {
     sequence: number | null
-    estimated_duration: number | null
+    estimatedDuration: number | null
   }
 
   export type TaskSumAggregateOutputType = {
     sequence: number | null
-    estimated_duration: number | null
+    estimatedDuration: number | null
   }
 
   export type TaskMinAggregateOutputType = {
@@ -8947,13 +9071,12 @@ export namespace Prisma {
     title: string | null
     sequence: number | null
     description: string | null
-    estimated_duration: number | null
-    priority: string | null
-    is_completed: boolean | null
-    vehicle_id: string | null
-    stage_id: string | null
-    created_at: Date | null
-    updated_at: Date | null
+    estimatedDuration: number | null
+    priority: $Enums.TaskPriority | null
+    vehicleId: string | null
+    stageId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type TaskMaxAggregateOutputType = {
@@ -8961,13 +9084,12 @@ export namespace Prisma {
     title: string | null
     sequence: number | null
     description: string | null
-    estimated_duration: number | null
-    priority: string | null
-    is_completed: boolean | null
-    vehicle_id: string | null
-    stage_id: string | null
-    created_at: Date | null
-    updated_at: Date | null
+    estimatedDuration: number | null
+    priority: $Enums.TaskPriority | null
+    vehicleId: string | null
+    stageId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type TaskCountAggregateOutputType = {
@@ -8975,25 +9097,24 @@ export namespace Prisma {
     title: number
     sequence: number
     description: number
-    estimated_duration: number
+    estimatedDuration: number
     priority: number
-    is_completed: number
-    vehicle_id: number
-    stage_id: number
-    created_at: number
-    updated_at: number
+    vehicleId: number
+    stageId: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
 
   export type TaskAvgAggregateInputType = {
     sequence?: true
-    estimated_duration?: true
+    estimatedDuration?: true
   }
 
   export type TaskSumAggregateInputType = {
     sequence?: true
-    estimated_duration?: true
+    estimatedDuration?: true
   }
 
   export type TaskMinAggregateInputType = {
@@ -9001,13 +9122,12 @@ export namespace Prisma {
     title?: true
     sequence?: true
     description?: true
-    estimated_duration?: true
+    estimatedDuration?: true
     priority?: true
-    is_completed?: true
-    vehicle_id?: true
-    stage_id?: true
-    created_at?: true
-    updated_at?: true
+    vehicleId?: true
+    stageId?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type TaskMaxAggregateInputType = {
@@ -9015,13 +9135,12 @@ export namespace Prisma {
     title?: true
     sequence?: true
     description?: true
-    estimated_duration?: true
+    estimatedDuration?: true
     priority?: true
-    is_completed?: true
-    vehicle_id?: true
-    stage_id?: true
-    created_at?: true
-    updated_at?: true
+    vehicleId?: true
+    stageId?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type TaskCountAggregateInputType = {
@@ -9029,13 +9148,12 @@ export namespace Prisma {
     title?: true
     sequence?: true
     description?: true
-    estimated_duration?: true
+    estimatedDuration?: true
     priority?: true
-    is_completed?: true
-    vehicle_id?: true
-    stage_id?: true
-    created_at?: true
-    updated_at?: true
+    vehicleId?: true
+    stageId?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -9130,13 +9248,12 @@ export namespace Prisma {
     title: string
     sequence: number
     description: string | null
-    estimated_duration: number | null
-    priority: string | null
-    is_completed: boolean
-    vehicle_id: string
-    stage_id: string
-    created_at: Date
-    updated_at: Date
+    estimatedDuration: number | null
+    priority: $Enums.TaskPriority | null
+    vehicleId: string
+    stageId: string
+    createdAt: Date
+    updatedAt: Date
     _count: TaskCountAggregateOutputType | null
     _avg: TaskAvgAggregateOutputType | null
     _sum: TaskSumAggregateOutputType | null
@@ -9163,16 +9280,15 @@ export namespace Prisma {
     title?: boolean
     sequence?: boolean
     description?: boolean
-    estimated_duration?: boolean
+    estimatedDuration?: boolean
     priority?: boolean
-    is_completed?: boolean
-    vehicle_id?: boolean
-    stage_id?: boolean
-    created_at?: boolean
-    updated_at?: boolean
+    vehicleId?: boolean
+    stageId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     vehicle?: boolean | VehicleDefaultArgs<ExtArgs>
     stage?: boolean | StageDefaultArgs<ExtArgs>
-    task_progress?: boolean | Task$task_progressArgs<ExtArgs>
+    taskProgress?: boolean | Task$taskProgressArgs<ExtArgs>
     _count?: boolean | TaskCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["task"]>
 
@@ -9181,13 +9297,12 @@ export namespace Prisma {
     title?: boolean
     sequence?: boolean
     description?: boolean
-    estimated_duration?: boolean
+    estimatedDuration?: boolean
     priority?: boolean
-    is_completed?: boolean
-    vehicle_id?: boolean
-    stage_id?: boolean
-    created_at?: boolean
-    updated_at?: boolean
+    vehicleId?: boolean
+    stageId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     vehicle?: boolean | VehicleDefaultArgs<ExtArgs>
     stage?: boolean | StageDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["task"]>
@@ -9197,13 +9312,12 @@ export namespace Prisma {
     title?: boolean
     sequence?: boolean
     description?: boolean
-    estimated_duration?: boolean
+    estimatedDuration?: boolean
     priority?: boolean
-    is_completed?: boolean
-    vehicle_id?: boolean
-    stage_id?: boolean
-    created_at?: boolean
-    updated_at?: boolean
+    vehicleId?: boolean
+    stageId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     vehicle?: boolean | VehicleDefaultArgs<ExtArgs>
     stage?: boolean | StageDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["task"]>
@@ -9213,20 +9327,19 @@ export namespace Prisma {
     title?: boolean
     sequence?: boolean
     description?: boolean
-    estimated_duration?: boolean
+    estimatedDuration?: boolean
     priority?: boolean
-    is_completed?: boolean
-    vehicle_id?: boolean
-    stage_id?: boolean
-    created_at?: boolean
-    updated_at?: boolean
+    vehicleId?: boolean
+    stageId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type TaskOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "sequence" | "description" | "estimated_duration" | "priority" | "is_completed" | "vehicle_id" | "stage_id" | "created_at" | "updated_at", ExtArgs["result"]["task"]>
+  export type TaskOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "sequence" | "description" | "estimatedDuration" | "priority" | "vehicleId" | "stageId" | "createdAt" | "updatedAt", ExtArgs["result"]["task"]>
   export type TaskInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     vehicle?: boolean | VehicleDefaultArgs<ExtArgs>
     stage?: boolean | StageDefaultArgs<ExtArgs>
-    task_progress?: boolean | Task$task_progressArgs<ExtArgs>
+    taskProgress?: boolean | Task$taskProgressArgs<ExtArgs>
     _count?: boolean | TaskCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TaskIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9243,20 +9356,19 @@ export namespace Prisma {
     objects: {
       vehicle: Prisma.$VehiclePayload<ExtArgs>
       stage: Prisma.$StagePayload<ExtArgs>
-      task_progress: Prisma.$TaskProgressPayload<ExtArgs>[]
+      taskProgress: Prisma.$TaskProgressPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       title: string
       sequence: number
       description: string | null
-      estimated_duration: number | null
-      priority: string | null
-      is_completed: boolean
-      vehicle_id: string
-      stage_id: string
-      created_at: Date
-      updated_at: Date
+      estimatedDuration: number | null
+      priority: $Enums.TaskPriority | null
+      vehicleId: string
+      stageId: string
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["task"]>
     composites: {}
   }
@@ -9653,7 +9765,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     vehicle<T extends VehicleDefaultArgs<ExtArgs> = {}>(args?: Subset<T, VehicleDefaultArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     stage<T extends StageDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StageDefaultArgs<ExtArgs>>): Prisma__StageClient<$Result.GetResult<Prisma.$StagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    task_progress<T extends Task$task_progressArgs<ExtArgs> = {}>(args?: Subset<T, Task$task_progressArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    taskProgress<T extends Task$taskProgressArgs<ExtArgs> = {}>(args?: Subset<T, Task$taskProgressArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9687,13 +9799,12 @@ export namespace Prisma {
     readonly title: FieldRef<"Task", 'String'>
     readonly sequence: FieldRef<"Task", 'Int'>
     readonly description: FieldRef<"Task", 'String'>
-    readonly estimated_duration: FieldRef<"Task", 'Int'>
-    readonly priority: FieldRef<"Task", 'String'>
-    readonly is_completed: FieldRef<"Task", 'Boolean'>
-    readonly vehicle_id: FieldRef<"Task", 'String'>
-    readonly stage_id: FieldRef<"Task", 'String'>
-    readonly created_at: FieldRef<"Task", 'DateTime'>
-    readonly updated_at: FieldRef<"Task", 'DateTime'>
+    readonly estimatedDuration: FieldRef<"Task", 'Int'>
+    readonly priority: FieldRef<"Task", 'TaskPriority'>
+    readonly vehicleId: FieldRef<"Task", 'String'>
+    readonly stageId: FieldRef<"Task", 'String'>
+    readonly createdAt: FieldRef<"Task", 'DateTime'>
+    readonly updatedAt: FieldRef<"Task", 'DateTime'>
   }
     
 
@@ -10090,9 +10201,9 @@ export namespace Prisma {
   }
 
   /**
-   * Task.task_progress
+   * Task.taskProgress
    */
-  export type Task$task_progressArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Task$taskProgressArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the TaskProgress
      */
@@ -10144,38 +10255,38 @@ export namespace Prisma {
 
   export type TaskProgressMinAggregateOutputType = {
     id: string | null
-    status: string | null
+    status: $Enums.TaskProgressStatus | null
     notes: string | null
-    started_at: Date | null
-    completed_at: Date | null
-    task_id: string | null
-    worker_membership_id: string | null
-    created_at: Date | null
-    updated_at: Date | null
+    startedAt: Date | null
+    completedAt: Date | null
+    taskId: string | null
+    workerMembershipId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type TaskProgressMaxAggregateOutputType = {
     id: string | null
-    status: string | null
+    status: $Enums.TaskProgressStatus | null
     notes: string | null
-    started_at: Date | null
-    completed_at: Date | null
-    task_id: string | null
-    worker_membership_id: string | null
-    created_at: Date | null
-    updated_at: Date | null
+    startedAt: Date | null
+    completedAt: Date | null
+    taskId: string | null
+    workerMembershipId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type TaskProgressCountAggregateOutputType = {
     id: number
     status: number
     notes: number
-    started_at: number
-    completed_at: number
-    task_id: number
-    worker_membership_id: number
-    created_at: number
-    updated_at: number
+    startedAt: number
+    completedAt: number
+    taskId: number
+    workerMembershipId: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -10184,36 +10295,36 @@ export namespace Prisma {
     id?: true
     status?: true
     notes?: true
-    started_at?: true
-    completed_at?: true
-    task_id?: true
-    worker_membership_id?: true
-    created_at?: true
-    updated_at?: true
+    startedAt?: true
+    completedAt?: true
+    taskId?: true
+    workerMembershipId?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type TaskProgressMaxAggregateInputType = {
     id?: true
     status?: true
     notes?: true
-    started_at?: true
-    completed_at?: true
-    task_id?: true
-    worker_membership_id?: true
-    created_at?: true
-    updated_at?: true
+    startedAt?: true
+    completedAt?: true
+    taskId?: true
+    workerMembershipId?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type TaskProgressCountAggregateInputType = {
     id?: true
     status?: true
     notes?: true
-    started_at?: true
-    completed_at?: true
-    task_id?: true
-    worker_membership_id?: true
-    created_at?: true
-    updated_at?: true
+    startedAt?: true
+    completedAt?: true
+    taskId?: true
+    workerMembershipId?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -10291,14 +10402,14 @@ export namespace Prisma {
 
   export type TaskProgressGroupByOutputType = {
     id: string
-    status: string
+    status: $Enums.TaskProgressStatus
     notes: string | null
-    started_at: Date | null
-    completed_at: Date | null
-    task_id: string
-    worker_membership_id: string | null
-    created_at: Date
-    updated_at: Date
+    startedAt: Date | null
+    completedAt: Date | null
+    taskId: string
+    workerMembershipId: string | null
+    createdAt: Date
+    updatedAt: Date
     _count: TaskProgressCountAggregateOutputType | null
     _min: TaskProgressMinAggregateOutputType | null
     _max: TaskProgressMaxAggregateOutputType | null
@@ -10322,12 +10433,12 @@ export namespace Prisma {
     id?: boolean
     status?: boolean
     notes?: boolean
-    started_at?: boolean
-    completed_at?: boolean
-    task_id?: boolean
-    worker_membership_id?: boolean
-    created_at?: boolean
-    updated_at?: boolean
+    startedAt?: boolean
+    completedAt?: boolean
+    taskId?: boolean
+    workerMembershipId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     task?: boolean | TaskDefaultArgs<ExtArgs>
     worker?: boolean | TaskProgress$workerArgs<ExtArgs>
   }, ExtArgs["result"]["taskProgress"]>
@@ -10336,12 +10447,12 @@ export namespace Prisma {
     id?: boolean
     status?: boolean
     notes?: boolean
-    started_at?: boolean
-    completed_at?: boolean
-    task_id?: boolean
-    worker_membership_id?: boolean
-    created_at?: boolean
-    updated_at?: boolean
+    startedAt?: boolean
+    completedAt?: boolean
+    taskId?: boolean
+    workerMembershipId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     task?: boolean | TaskDefaultArgs<ExtArgs>
     worker?: boolean | TaskProgress$workerArgs<ExtArgs>
   }, ExtArgs["result"]["taskProgress"]>
@@ -10350,12 +10461,12 @@ export namespace Prisma {
     id?: boolean
     status?: boolean
     notes?: boolean
-    started_at?: boolean
-    completed_at?: boolean
-    task_id?: boolean
-    worker_membership_id?: boolean
-    created_at?: boolean
-    updated_at?: boolean
+    startedAt?: boolean
+    completedAt?: boolean
+    taskId?: boolean
+    workerMembershipId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     task?: boolean | TaskDefaultArgs<ExtArgs>
     worker?: boolean | TaskProgress$workerArgs<ExtArgs>
   }, ExtArgs["result"]["taskProgress"]>
@@ -10364,15 +10475,15 @@ export namespace Prisma {
     id?: boolean
     status?: boolean
     notes?: boolean
-    started_at?: boolean
-    completed_at?: boolean
-    task_id?: boolean
-    worker_membership_id?: boolean
-    created_at?: boolean
-    updated_at?: boolean
+    startedAt?: boolean
+    completedAt?: boolean
+    taskId?: boolean
+    workerMembershipId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type TaskProgressOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "status" | "notes" | "started_at" | "completed_at" | "task_id" | "worker_membership_id" | "created_at" | "updated_at", ExtArgs["result"]["taskProgress"]>
+  export type TaskProgressOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "status" | "notes" | "startedAt" | "completedAt" | "taskId" | "workerMembershipId" | "createdAt" | "updatedAt", ExtArgs["result"]["taskProgress"]>
   export type TaskProgressInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     task?: boolean | TaskDefaultArgs<ExtArgs>
     worker?: boolean | TaskProgress$workerArgs<ExtArgs>
@@ -10394,14 +10505,14 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      status: string
+      status: $Enums.TaskProgressStatus
       notes: string | null
-      started_at: Date | null
-      completed_at: Date | null
-      task_id: string
-      worker_membership_id: string | null
-      created_at: Date
-      updated_at: Date
+      startedAt: Date | null
+      completedAt: Date | null
+      taskId: string
+      workerMembershipId: string | null
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["taskProgress"]>
     composites: {}
   }
@@ -10828,14 +10939,14 @@ export namespace Prisma {
    */
   interface TaskProgressFieldRefs {
     readonly id: FieldRef<"TaskProgress", 'String'>
-    readonly status: FieldRef<"TaskProgress", 'String'>
+    readonly status: FieldRef<"TaskProgress", 'TaskProgressStatus'>
     readonly notes: FieldRef<"TaskProgress", 'String'>
-    readonly started_at: FieldRef<"TaskProgress", 'DateTime'>
-    readonly completed_at: FieldRef<"TaskProgress", 'DateTime'>
-    readonly task_id: FieldRef<"TaskProgress", 'String'>
-    readonly worker_membership_id: FieldRef<"TaskProgress", 'String'>
-    readonly created_at: FieldRef<"TaskProgress", 'DateTime'>
-    readonly updated_at: FieldRef<"TaskProgress", 'DateTime'>
+    readonly startedAt: FieldRef<"TaskProgress", 'DateTime'>
+    readonly completedAt: FieldRef<"TaskProgress", 'DateTime'>
+    readonly taskId: FieldRef<"TaskProgress", 'String'>
+    readonly workerMembershipId: FieldRef<"TaskProgress", 'String'>
+    readonly createdAt: FieldRef<"TaskProgress", 'DateTime'>
+    readonly updatedAt: FieldRef<"TaskProgress", 'DateTime'>
   }
     
 
@@ -11283,24 +11394,24 @@ export namespace Prisma {
     id: string | null
     sid: string | null
     data: string | null
-    expires_at: Date | null
-    created_at: Date | null
+    expiresAt: Date | null
+    createdAt: Date | null
   }
 
   export type SessionMaxAggregateOutputType = {
     id: string | null
     sid: string | null
     data: string | null
-    expires_at: Date | null
-    created_at: Date | null
+    expiresAt: Date | null
+    createdAt: Date | null
   }
 
   export type SessionCountAggregateOutputType = {
     id: number
     sid: number
     data: number
-    expires_at: number
-    created_at: number
+    expiresAt: number
+    createdAt: number
     _all: number
   }
 
@@ -11309,24 +11420,24 @@ export namespace Prisma {
     id?: true
     sid?: true
     data?: true
-    expires_at?: true
-    created_at?: true
+    expiresAt?: true
+    createdAt?: true
   }
 
   export type SessionMaxAggregateInputType = {
     id?: true
     sid?: true
     data?: true
-    expires_at?: true
-    created_at?: true
+    expiresAt?: true
+    createdAt?: true
   }
 
   export type SessionCountAggregateInputType = {
     id?: true
     sid?: true
     data?: true
-    expires_at?: true
-    created_at?: true
+    expiresAt?: true
+    createdAt?: true
     _all?: true
   }
 
@@ -11406,8 +11517,8 @@ export namespace Prisma {
     id: string
     sid: string
     data: string
-    expires_at: Date
-    created_at: Date
+    expiresAt: Date
+    createdAt: Date
     _count: SessionCountAggregateOutputType | null
     _min: SessionMinAggregateOutputType | null
     _max: SessionMaxAggregateOutputType | null
@@ -11431,35 +11542,35 @@ export namespace Prisma {
     id?: boolean
     sid?: boolean
     data?: boolean
-    expires_at?: boolean
-    created_at?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
   }, ExtArgs["result"]["session"]>
 
   export type SessionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     sid?: boolean
     data?: boolean
-    expires_at?: boolean
-    created_at?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
   }, ExtArgs["result"]["session"]>
 
   export type SessionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     sid?: boolean
     data?: boolean
-    expires_at?: boolean
-    created_at?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
   }, ExtArgs["result"]["session"]>
 
   export type SessionSelectScalar = {
     id?: boolean
     sid?: boolean
     data?: boolean
-    expires_at?: boolean
-    created_at?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
   }
 
-  export type SessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "sid" | "data" | "expires_at" | "created_at", ExtArgs["result"]["session"]>
+  export type SessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "sid" | "data" | "expiresAt" | "createdAt", ExtArgs["result"]["session"]>
 
   export type $SessionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Session"
@@ -11468,8 +11579,8 @@ export namespace Prisma {
       id: string
       sid: string
       data: string
-      expires_at: Date
-      created_at: Date
+      expiresAt: Date
+      createdAt: Date
     }, ExtArgs["result"]["session"]>
     composites: {}
   }
@@ -11896,8 +12007,8 @@ export namespace Prisma {
     readonly id: FieldRef<"Session", 'String'>
     readonly sid: FieldRef<"Session", 'String'>
     readonly data: FieldRef<"Session", 'String'>
-    readonly expires_at: FieldRef<"Session", 'DateTime'>
-    readonly created_at: FieldRef<"Session", 'DateTime'>
+    readonly expiresAt: FieldRef<"Session", 'DateTime'>
+    readonly createdAt: FieldRef<"Session", 'DateTime'>
   }
     
 
@@ -12283,10 +12394,10 @@ export namespace Prisma {
     email: 'email',
     name: 'name',
     password: 'password',
-    is_verified: 'is_verified',
-    is_active: 'is_active',
-    created_at: 'created_at',
-    updated_at: 'updated_at'
+    isVerified: 'isVerified',
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -12297,9 +12408,9 @@ export namespace Prisma {
     name: 'name',
     type: 'type',
     description: 'description',
-    is_verified: 'is_verified',
-    created_at: 'created_at',
-    updated_at: 'updated_at'
+    isVerified: 'isVerified',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type OrganizationScalarFieldEnum = (typeof OrganizationScalarFieldEnum)[keyof typeof OrganizationScalarFieldEnum]
@@ -12307,17 +12418,17 @@ export namespace Prisma {
 
   export const MembershipScalarFieldEnum: {
     id: 'id',
-    user_id: 'user_id',
-    organization_id: 'organization_id',
-    access_role: 'access_role',
-    business_role: 'business_role',
+    userId: 'userId',
+    organizationId: 'organizationId',
+    accessRole: 'accessRole',
+    businessRole: 'businessRole',
     status: 'status',
-    auth_methods: 'auth_methods',
-    rfid_tag: 'rfid_tag',
-    qr_code: 'qr_code',
-    usb_key_id: 'usb_key_id',
-    created_at: 'created_at',
-    updated_at: 'updated_at'
+    authMethods: 'authMethods',
+    rfidTag: 'rfidTag',
+    qrCode: 'qrCode',
+    usbKeyId: 'usbKeyId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type MembershipScalarFieldEnum = (typeof MembershipScalarFieldEnum)[keyof typeof MembershipScalarFieldEnum]
@@ -12325,12 +12436,12 @@ export namespace Prisma {
 
   export const InviteScalarFieldEnum: {
     id: 'id',
-    organization_id: 'organization_id',
+    organizationId: 'organizationId',
     email: 'email',
-    access_role: 'access_role',
+    accessRole: 'accessRole',
     token: 'token',
-    expires_at: 'expires_at',
-    created_at: 'created_at'
+    expiresAt: 'expiresAt',
+    createdAt: 'createdAt'
   };
 
   export type InviteScalarFieldEnum = (typeof InviteScalarFieldEnum)[keyof typeof InviteScalarFieldEnum]
@@ -12342,20 +12453,21 @@ export namespace Prisma {
     brand: 'brand',
     model: 'model',
     year: 'year',
-    registration_number: 'registration_number',
-    customer_name: 'customer_name',
-    customer_email: 'customer_email',
-    customer_phone: 'customer_phone',
-    is_active: 'is_active',
+    registrationNumber: 'registrationNumber',
+    customerName: 'customerName',
+    customerEmail: 'customerEmail',
+    customerPhone: 'customerPhone',
+    isActive: 'isActive',
+    status: 'status',
     notes: 'notes',
-    qr_code_token: 'qr_code_token',
-    tracking_token: 'tracking_token',
-    entry_time: 'entry_time',
-    estimated_completion: 'estimated_completion',
-    organization_id: 'organization_id',
-    current_stage_id: 'current_stage_id',
-    created_at: 'created_at',
-    updated_at: 'updated_at'
+    qrCodeToken: 'qrCodeToken',
+    trackingToken: 'trackingToken',
+    entryTime: 'entryTime',
+    estimatedCompletion: 'estimatedCompletion',
+    organizationId: 'organizationId',
+    currentStageId: 'currentStageId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type VehicleScalarFieldEnum = (typeof VehicleScalarFieldEnum)[keyof typeof VehicleScalarFieldEnum]
@@ -12363,16 +12475,17 @@ export namespace Prisma {
 
   export const StageScalarFieldEnum: {
     id: 'id',
+    key: 'key',
     name: 'name',
     icon: 'icon',
-    color_hsl: 'color_hsl',
+    colorHsl: 'colorHsl',
     category: 'category',
     sequence: 'sequence',
-    is_active: 'is_active',
-    is_required: 'is_required',
-    organization_id: 'organization_id',
-    created_at: 'created_at',
-    updated_at: 'updated_at'
+    isActive: 'isActive',
+    isRequired: 'isRequired',
+    organizationId: 'organizationId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type StageScalarFieldEnum = (typeof StageScalarFieldEnum)[keyof typeof StageScalarFieldEnum]
@@ -12383,13 +12496,12 @@ export namespace Prisma {
     title: 'title',
     sequence: 'sequence',
     description: 'description',
-    estimated_duration: 'estimated_duration',
+    estimatedDuration: 'estimatedDuration',
     priority: 'priority',
-    is_completed: 'is_completed',
-    vehicle_id: 'vehicle_id',
-    stage_id: 'stage_id',
-    created_at: 'created_at',
-    updated_at: 'updated_at'
+    vehicleId: 'vehicleId',
+    stageId: 'stageId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type TaskScalarFieldEnum = (typeof TaskScalarFieldEnum)[keyof typeof TaskScalarFieldEnum]
@@ -12399,12 +12511,12 @@ export namespace Prisma {
     id: 'id',
     status: 'status',
     notes: 'notes',
-    started_at: 'started_at',
-    completed_at: 'completed_at',
-    task_id: 'task_id',
-    worker_membership_id: 'worker_membership_id',
-    created_at: 'created_at',
-    updated_at: 'updated_at'
+    startedAt: 'startedAt',
+    completedAt: 'completedAt',
+    taskId: 'taskId',
+    workerMembershipId: 'workerMembershipId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type TaskProgressScalarFieldEnum = (typeof TaskProgressScalarFieldEnum)[keyof typeof TaskProgressScalarFieldEnum]
@@ -12414,8 +12526,8 @@ export namespace Prisma {
     id: 'id',
     sid: 'sid',
     data: 'data',
-    expires_at: 'expires_at',
-    created_at: 'created_at'
+    expiresAt: 'expiresAt',
+    createdAt: 'createdAt'
   };
 
   export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
@@ -12486,6 +12598,48 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'ProjectOrgType'
+   */
+  export type EnumProjectOrgTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectOrgType'>
+    
+
+
+  /**
+   * Reference to a field of type 'ProjectOrgType[]'
+   */
+  export type ListEnumProjectOrgTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectOrgType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'AccessRole'
+   */
+  export type EnumAccessRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AccessRole'>
+    
+
+
+  /**
+   * Reference to a field of type 'AccessRole[]'
+   */
+  export type ListEnumAccessRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AccessRole[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'MembershipStatus'
+   */
+  export type EnumMembershipStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MembershipStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'MembershipStatus[]'
+   */
+  export type ListEnumMembershipStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MembershipStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -12496,6 +12650,48 @@ export namespace Prisma {
    * Reference to a field of type 'Int[]'
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'TaskProgressStatus'
+   */
+  export type EnumTaskProgressStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TaskProgressStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'TaskProgressStatus[]'
+   */
+  export type ListEnumTaskProgressStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TaskProgressStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ProjectCategory'
+   */
+  export type EnumProjectCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectCategory'>
+    
+
+
+  /**
+   * Reference to a field of type 'ProjectCategory[]'
+   */
+  export type ListEnumProjectCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectCategory[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'TaskPriority'
+   */
+  export type EnumTaskPriorityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TaskPriority'>
+    
+
+
+  /**
+   * Reference to a field of type 'TaskPriority[]'
+   */
+  export type ListEnumTaskPriorityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TaskPriority[]'>
     
 
 
@@ -12524,10 +12720,10 @@ export namespace Prisma {
     email?: StringFilter<"User"> | string
     name?: StringFilter<"User"> | string
     password?: StringNullableFilter<"User"> | string | null
-    is_verified?: BoolFilter<"User"> | boolean
-    is_active?: BoolFilter<"User"> | boolean
-    created_at?: DateTimeFilter<"User"> | Date | string
-    updated_at?: DateTimeFilter<"User"> | Date | string
+    isVerified?: BoolFilter<"User"> | boolean
+    isActive?: BoolFilter<"User"> | boolean
+    createdAt?: DateTimeFilter<"User"> | Date | string
+    updatedAt?: DateTimeFilter<"User"> | Date | string
     memberships?: MembershipListRelationFilter
   }
 
@@ -12536,10 +12732,10 @@ export namespace Prisma {
     email?: SortOrder
     name?: SortOrder
     password?: SortOrderInput | SortOrder
-    is_verified?: SortOrder
-    is_active?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
+    isVerified?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     memberships?: MembershipOrderByRelationAggregateInput
   }
 
@@ -12551,10 +12747,10 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     name?: StringFilter<"User"> | string
     password?: StringNullableFilter<"User"> | string | null
-    is_verified?: BoolFilter<"User"> | boolean
-    is_active?: BoolFilter<"User"> | boolean
-    created_at?: DateTimeFilter<"User"> | Date | string
-    updated_at?: DateTimeFilter<"User"> | Date | string
+    isVerified?: BoolFilter<"User"> | boolean
+    isActive?: BoolFilter<"User"> | boolean
+    createdAt?: DateTimeFilter<"User"> | Date | string
+    updatedAt?: DateTimeFilter<"User"> | Date | string
     memberships?: MembershipListRelationFilter
   }, "id" | "email">
 
@@ -12563,10 +12759,10 @@ export namespace Prisma {
     email?: SortOrder
     name?: SortOrder
     password?: SortOrderInput | SortOrder
-    is_verified?: SortOrder
-    is_active?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
+    isVerified?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -12580,10 +12776,10 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"User"> | string
     name?: StringWithAggregatesFilter<"User"> | string
     password?: StringNullableWithAggregatesFilter<"User"> | string | null
-    is_verified?: BoolWithAggregatesFilter<"User"> | boolean
-    is_active?: BoolWithAggregatesFilter<"User"> | boolean
-    created_at?: DateTimeWithAggregatesFilter<"User"> | Date | string
-    updated_at?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    isVerified?: BoolWithAggregatesFilter<"User"> | boolean
+    isActive?: BoolWithAggregatesFilter<"User"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
 
   export type OrganizationWhereInput = {
@@ -12592,11 +12788,11 @@ export namespace Prisma {
     NOT?: OrganizationWhereInput | OrganizationWhereInput[]
     id?: StringFilter<"Organization"> | string
     name?: StringFilter<"Organization"> | string
-    type?: StringFilter<"Organization"> | string
+    type?: EnumProjectOrgTypeFilter<"Organization"> | $Enums.ProjectOrgType
     description?: StringNullableFilter<"Organization"> | string | null
-    is_verified?: BoolFilter<"Organization"> | boolean
-    created_at?: DateTimeFilter<"Organization"> | Date | string
-    updated_at?: DateTimeFilter<"Organization"> | Date | string
+    isVerified?: BoolFilter<"Organization"> | boolean
+    createdAt?: DateTimeFilter<"Organization"> | Date | string
+    updatedAt?: DateTimeFilter<"Organization"> | Date | string
     memberships?: MembershipListRelationFilter
     invites?: InviteListRelationFilter
     stages?: StageListRelationFilter
@@ -12608,9 +12804,9 @@ export namespace Prisma {
     name?: SortOrder
     type?: SortOrder
     description?: SortOrderInput | SortOrder
-    is_verified?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
+    isVerified?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     memberships?: MembershipOrderByRelationAggregateInput
     invites?: InviteOrderByRelationAggregateInput
     stages?: StageOrderByRelationAggregateInput
@@ -12623,11 +12819,11 @@ export namespace Prisma {
     OR?: OrganizationWhereInput[]
     NOT?: OrganizationWhereInput | OrganizationWhereInput[]
     name?: StringFilter<"Organization"> | string
-    type?: StringFilter<"Organization"> | string
+    type?: EnumProjectOrgTypeFilter<"Organization"> | $Enums.ProjectOrgType
     description?: StringNullableFilter<"Organization"> | string | null
-    is_verified?: BoolFilter<"Organization"> | boolean
-    created_at?: DateTimeFilter<"Organization"> | Date | string
-    updated_at?: DateTimeFilter<"Organization"> | Date | string
+    isVerified?: BoolFilter<"Organization"> | boolean
+    createdAt?: DateTimeFilter<"Organization"> | Date | string
+    updatedAt?: DateTimeFilter<"Organization"> | Date | string
     memberships?: MembershipListRelationFilter
     invites?: InviteListRelationFilter
     stages?: StageListRelationFilter
@@ -12639,9 +12835,9 @@ export namespace Prisma {
     name?: SortOrder
     type?: SortOrder
     description?: SortOrderInput | SortOrder
-    is_verified?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
+    isVerified?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: OrganizationCountOrderByAggregateInput
     _max?: OrganizationMaxOrderByAggregateInput
     _min?: OrganizationMinOrderByAggregateInput
@@ -12653,11 +12849,11 @@ export namespace Prisma {
     NOT?: OrganizationScalarWhereWithAggregatesInput | OrganizationScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Organization"> | string
     name?: StringWithAggregatesFilter<"Organization"> | string
-    type?: StringWithAggregatesFilter<"Organization"> | string
+    type?: EnumProjectOrgTypeWithAggregatesFilter<"Organization"> | $Enums.ProjectOrgType
     description?: StringNullableWithAggregatesFilter<"Organization"> | string | null
-    is_verified?: BoolWithAggregatesFilter<"Organization"> | boolean
-    created_at?: DateTimeWithAggregatesFilter<"Organization"> | Date | string
-    updated_at?: DateTimeWithAggregatesFilter<"Organization"> | Date | string
+    isVerified?: BoolWithAggregatesFilter<"Organization"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Organization"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Organization"> | Date | string
   }
 
   export type MembershipWhereInput = {
@@ -12665,75 +12861,75 @@ export namespace Prisma {
     OR?: MembershipWhereInput[]
     NOT?: MembershipWhereInput | MembershipWhereInput[]
     id?: StringFilter<"Membership"> | string
-    user_id?: StringFilter<"Membership"> | string
-    organization_id?: StringFilter<"Membership"> | string
-    access_role?: StringFilter<"Membership"> | string
-    business_role?: StringNullableFilter<"Membership"> | string | null
-    status?: StringFilter<"Membership"> | string
-    auth_methods?: StringNullableListFilter<"Membership">
-    rfid_tag?: StringNullableFilter<"Membership"> | string | null
-    qr_code?: StringNullableFilter<"Membership"> | string | null
-    usb_key_id?: StringNullableFilter<"Membership"> | string | null
-    created_at?: DateTimeFilter<"Membership"> | Date | string
-    updated_at?: DateTimeFilter<"Membership"> | Date | string
+    userId?: StringFilter<"Membership"> | string
+    organizationId?: StringFilter<"Membership"> | string
+    accessRole?: EnumAccessRoleFilter<"Membership"> | $Enums.AccessRole
+    businessRole?: StringNullableFilter<"Membership"> | string | null
+    status?: EnumMembershipStatusFilter<"Membership"> | $Enums.MembershipStatus
+    authMethods?: StringNullableListFilter<"Membership">
+    rfidTag?: StringNullableFilter<"Membership"> | string | null
+    qrCode?: StringNullableFilter<"Membership"> | string | null
+    usbKeyId?: StringNullableFilter<"Membership"> | string | null
+    createdAt?: DateTimeFilter<"Membership"> | Date | string
+    updatedAt?: DateTimeFilter<"Membership"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     organization?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
-    task_progress?: TaskProgressListRelationFilter
+    taskProgress?: TaskProgressListRelationFilter
   }
 
   export type MembershipOrderByWithRelationInput = {
     id?: SortOrder
-    user_id?: SortOrder
-    organization_id?: SortOrder
-    access_role?: SortOrder
-    business_role?: SortOrderInput | SortOrder
+    userId?: SortOrder
+    organizationId?: SortOrder
+    accessRole?: SortOrder
+    businessRole?: SortOrderInput | SortOrder
     status?: SortOrder
-    auth_methods?: SortOrder
-    rfid_tag?: SortOrderInput | SortOrder
-    qr_code?: SortOrderInput | SortOrder
-    usb_key_id?: SortOrderInput | SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
+    authMethods?: SortOrder
+    rfidTag?: SortOrderInput | SortOrder
+    qrCode?: SortOrderInput | SortOrder
+    usbKeyId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
     organization?: OrganizationOrderByWithRelationInput
-    task_progress?: TaskProgressOrderByRelationAggregateInput
+    taskProgress?: TaskProgressOrderByRelationAggregateInput
   }
 
   export type MembershipWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    rfid_tag?: string
-    qr_code?: string
-    usb_key_id?: string
-    user_id_organization_id?: MembershipUser_idOrganization_idCompoundUniqueInput
+    rfidTag?: string
+    qrCode?: string
+    usbKeyId?: string
+    userId_organizationId?: MembershipUserIdOrganizationIdCompoundUniqueInput
     AND?: MembershipWhereInput | MembershipWhereInput[]
     OR?: MembershipWhereInput[]
     NOT?: MembershipWhereInput | MembershipWhereInput[]
-    user_id?: StringFilter<"Membership"> | string
-    organization_id?: StringFilter<"Membership"> | string
-    access_role?: StringFilter<"Membership"> | string
-    business_role?: StringNullableFilter<"Membership"> | string | null
-    status?: StringFilter<"Membership"> | string
-    auth_methods?: StringNullableListFilter<"Membership">
-    created_at?: DateTimeFilter<"Membership"> | Date | string
-    updated_at?: DateTimeFilter<"Membership"> | Date | string
+    userId?: StringFilter<"Membership"> | string
+    organizationId?: StringFilter<"Membership"> | string
+    accessRole?: EnumAccessRoleFilter<"Membership"> | $Enums.AccessRole
+    businessRole?: StringNullableFilter<"Membership"> | string | null
+    status?: EnumMembershipStatusFilter<"Membership"> | $Enums.MembershipStatus
+    authMethods?: StringNullableListFilter<"Membership">
+    createdAt?: DateTimeFilter<"Membership"> | Date | string
+    updatedAt?: DateTimeFilter<"Membership"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     organization?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
-    task_progress?: TaskProgressListRelationFilter
-  }, "id" | "rfid_tag" | "qr_code" | "usb_key_id" | "user_id_organization_id">
+    taskProgress?: TaskProgressListRelationFilter
+  }, "id" | "rfidTag" | "qrCode" | "usbKeyId" | "userId_organizationId">
 
   export type MembershipOrderByWithAggregationInput = {
     id?: SortOrder
-    user_id?: SortOrder
-    organization_id?: SortOrder
-    access_role?: SortOrder
-    business_role?: SortOrderInput | SortOrder
+    userId?: SortOrder
+    organizationId?: SortOrder
+    accessRole?: SortOrder
+    businessRole?: SortOrderInput | SortOrder
     status?: SortOrder
-    auth_methods?: SortOrder
-    rfid_tag?: SortOrderInput | SortOrder
-    qr_code?: SortOrderInput | SortOrder
-    usb_key_id?: SortOrderInput | SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
+    authMethods?: SortOrder
+    rfidTag?: SortOrderInput | SortOrder
+    qrCode?: SortOrderInput | SortOrder
+    usbKeyId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: MembershipCountOrderByAggregateInput
     _max?: MembershipMaxOrderByAggregateInput
     _min?: MembershipMinOrderByAggregateInput
@@ -12744,17 +12940,17 @@ export namespace Prisma {
     OR?: MembershipScalarWhereWithAggregatesInput[]
     NOT?: MembershipScalarWhereWithAggregatesInput | MembershipScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Membership"> | string
-    user_id?: StringWithAggregatesFilter<"Membership"> | string
-    organization_id?: StringWithAggregatesFilter<"Membership"> | string
-    access_role?: StringWithAggregatesFilter<"Membership"> | string
-    business_role?: StringNullableWithAggregatesFilter<"Membership"> | string | null
-    status?: StringWithAggregatesFilter<"Membership"> | string
-    auth_methods?: StringNullableListFilter<"Membership">
-    rfid_tag?: StringNullableWithAggregatesFilter<"Membership"> | string | null
-    qr_code?: StringNullableWithAggregatesFilter<"Membership"> | string | null
-    usb_key_id?: StringNullableWithAggregatesFilter<"Membership"> | string | null
-    created_at?: DateTimeWithAggregatesFilter<"Membership"> | Date | string
-    updated_at?: DateTimeWithAggregatesFilter<"Membership"> | Date | string
+    userId?: StringWithAggregatesFilter<"Membership"> | string
+    organizationId?: StringWithAggregatesFilter<"Membership"> | string
+    accessRole?: EnumAccessRoleWithAggregatesFilter<"Membership"> | $Enums.AccessRole
+    businessRole?: StringNullableWithAggregatesFilter<"Membership"> | string | null
+    status?: EnumMembershipStatusWithAggregatesFilter<"Membership"> | $Enums.MembershipStatus
+    authMethods?: StringNullableListFilter<"Membership">
+    rfidTag?: StringNullableWithAggregatesFilter<"Membership"> | string | null
+    qrCode?: StringNullableWithAggregatesFilter<"Membership"> | string | null
+    usbKeyId?: StringNullableWithAggregatesFilter<"Membership"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Membership"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Membership"> | Date | string
   }
 
   export type InviteWhereInput = {
@@ -12762,48 +12958,49 @@ export namespace Prisma {
     OR?: InviteWhereInput[]
     NOT?: InviteWhereInput | InviteWhereInput[]
     id?: StringFilter<"Invite"> | string
-    organization_id?: StringFilter<"Invite"> | string
+    organizationId?: StringFilter<"Invite"> | string
     email?: StringFilter<"Invite"> | string
-    access_role?: StringFilter<"Invite"> | string
+    accessRole?: EnumAccessRoleFilter<"Invite"> | $Enums.AccessRole
     token?: StringFilter<"Invite"> | string
-    expires_at?: DateTimeFilter<"Invite"> | Date | string
-    created_at?: DateTimeFilter<"Invite"> | Date | string
+    expiresAt?: DateTimeFilter<"Invite"> | Date | string
+    createdAt?: DateTimeFilter<"Invite"> | Date | string
     organization?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
   }
 
   export type InviteOrderByWithRelationInput = {
     id?: SortOrder
-    organization_id?: SortOrder
+    organizationId?: SortOrder
     email?: SortOrder
-    access_role?: SortOrder
+    accessRole?: SortOrder
     token?: SortOrder
-    expires_at?: SortOrder
-    created_at?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
     organization?: OrganizationOrderByWithRelationInput
   }
 
   export type InviteWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     token?: string
+    organizationId_email?: InviteOrganizationIdEmailCompoundUniqueInput
     AND?: InviteWhereInput | InviteWhereInput[]
     OR?: InviteWhereInput[]
     NOT?: InviteWhereInput | InviteWhereInput[]
-    organization_id?: StringFilter<"Invite"> | string
+    organizationId?: StringFilter<"Invite"> | string
     email?: StringFilter<"Invite"> | string
-    access_role?: StringFilter<"Invite"> | string
-    expires_at?: DateTimeFilter<"Invite"> | Date | string
-    created_at?: DateTimeFilter<"Invite"> | Date | string
+    accessRole?: EnumAccessRoleFilter<"Invite"> | $Enums.AccessRole
+    expiresAt?: DateTimeFilter<"Invite"> | Date | string
+    createdAt?: DateTimeFilter<"Invite"> | Date | string
     organization?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
-  }, "id" | "token">
+  }, "id" | "token" | "organizationId_email">
 
   export type InviteOrderByWithAggregationInput = {
     id?: SortOrder
-    organization_id?: SortOrder
+    organizationId?: SortOrder
     email?: SortOrder
-    access_role?: SortOrder
+    accessRole?: SortOrder
     token?: SortOrder
-    expires_at?: SortOrder
-    created_at?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
     _count?: InviteCountOrderByAggregateInput
     _max?: InviteMaxOrderByAggregateInput
     _min?: InviteMinOrderByAggregateInput
@@ -12814,12 +13011,12 @@ export namespace Prisma {
     OR?: InviteScalarWhereWithAggregatesInput[]
     NOT?: InviteScalarWhereWithAggregatesInput | InviteScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Invite"> | string
-    organization_id?: StringWithAggregatesFilter<"Invite"> | string
+    organizationId?: StringWithAggregatesFilter<"Invite"> | string
     email?: StringWithAggregatesFilter<"Invite"> | string
-    access_role?: StringWithAggregatesFilter<"Invite"> | string
+    accessRole?: EnumAccessRoleWithAggregatesFilter<"Invite"> | $Enums.AccessRole
     token?: StringWithAggregatesFilter<"Invite"> | string
-    expires_at?: DateTimeWithAggregatesFilter<"Invite"> | Date | string
-    created_at?: DateTimeWithAggregatesFilter<"Invite"> | Date | string
+    expiresAt?: DateTimeWithAggregatesFilter<"Invite"> | Date | string
+    createdAt?: DateTimeWithAggregatesFilter<"Invite"> | Date | string
   }
 
   export type VehicleWhereInput = {
@@ -12831,22 +13028,23 @@ export namespace Prisma {
     brand?: StringFilter<"Vehicle"> | string
     model?: StringFilter<"Vehicle"> | string
     year?: IntNullableFilter<"Vehicle"> | number | null
-    registration_number?: StringFilter<"Vehicle"> | string
-    customer_name?: StringFilter<"Vehicle"> | string
-    customer_email?: StringNullableFilter<"Vehicle"> | string | null
-    customer_phone?: StringNullableFilter<"Vehicle"> | string | null
-    is_active?: BoolFilter<"Vehicle"> | boolean
+    registrationNumber?: StringFilter<"Vehicle"> | string
+    customerName?: StringFilter<"Vehicle"> | string
+    customerEmail?: StringNullableFilter<"Vehicle"> | string | null
+    customerPhone?: StringNullableFilter<"Vehicle"> | string | null
+    isActive?: BoolFilter<"Vehicle"> | boolean
+    status?: EnumTaskProgressStatusFilter<"Vehicle"> | $Enums.TaskProgressStatus
     notes?: StringNullableFilter<"Vehicle"> | string | null
-    qr_code_token?: StringFilter<"Vehicle"> | string
-    tracking_token?: StringFilter<"Vehicle"> | string
-    entry_time?: DateTimeFilter<"Vehicle"> | Date | string
-    estimated_completion?: DateTimeNullableFilter<"Vehicle"> | Date | string | null
-    organization_id?: StringFilter<"Vehicle"> | string
-    current_stage_id?: StringNullableFilter<"Vehicle"> | string | null
-    created_at?: DateTimeFilter<"Vehicle"> | Date | string
-    updated_at?: DateTimeFilter<"Vehicle"> | Date | string
+    qrCodeToken?: StringFilter<"Vehicle"> | string
+    trackingToken?: StringFilter<"Vehicle"> | string
+    entryTime?: DateTimeFilter<"Vehicle"> | Date | string
+    estimatedCompletion?: DateTimeNullableFilter<"Vehicle"> | Date | string | null
+    organizationId?: StringFilter<"Vehicle"> | string
+    currentStageId?: StringNullableFilter<"Vehicle"> | string | null
+    createdAt?: DateTimeFilter<"Vehicle"> | Date | string
+    updatedAt?: DateTimeFilter<"Vehicle"> | Date | string
     organization?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
-    current_stage?: XOR<StageNullableScalarRelationFilter, StageWhereInput> | null
+    currentStage?: XOR<StageNullableScalarRelationFilter, StageWhereInput> | null
     tasks?: TaskListRelationFilter
   }
 
@@ -12856,52 +13054,54 @@ export namespace Prisma {
     brand?: SortOrder
     model?: SortOrder
     year?: SortOrderInput | SortOrder
-    registration_number?: SortOrder
-    customer_name?: SortOrder
-    customer_email?: SortOrderInput | SortOrder
-    customer_phone?: SortOrderInput | SortOrder
-    is_active?: SortOrder
+    registrationNumber?: SortOrder
+    customerName?: SortOrder
+    customerEmail?: SortOrderInput | SortOrder
+    customerPhone?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    status?: SortOrder
     notes?: SortOrderInput | SortOrder
-    qr_code_token?: SortOrder
-    tracking_token?: SortOrder
-    entry_time?: SortOrder
-    estimated_completion?: SortOrderInput | SortOrder
-    organization_id?: SortOrder
-    current_stage_id?: SortOrderInput | SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
+    qrCodeToken?: SortOrder
+    trackingToken?: SortOrder
+    entryTime?: SortOrder
+    estimatedCompletion?: SortOrderInput | SortOrder
+    organizationId?: SortOrder
+    currentStageId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     organization?: OrganizationOrderByWithRelationInput
-    current_stage?: StageOrderByWithRelationInput
+    currentStage?: StageOrderByWithRelationInput
     tasks?: TaskOrderByRelationAggregateInput
   }
 
   export type VehicleWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     vin?: string
-    qr_code_token?: string
-    tracking_token?: string
+    qrCodeToken?: string
+    trackingToken?: string
     AND?: VehicleWhereInput | VehicleWhereInput[]
     OR?: VehicleWhereInput[]
     NOT?: VehicleWhereInput | VehicleWhereInput[]
     brand?: StringFilter<"Vehicle"> | string
     model?: StringFilter<"Vehicle"> | string
     year?: IntNullableFilter<"Vehicle"> | number | null
-    registration_number?: StringFilter<"Vehicle"> | string
-    customer_name?: StringFilter<"Vehicle"> | string
-    customer_email?: StringNullableFilter<"Vehicle"> | string | null
-    customer_phone?: StringNullableFilter<"Vehicle"> | string | null
-    is_active?: BoolFilter<"Vehicle"> | boolean
+    registrationNumber?: StringFilter<"Vehicle"> | string
+    customerName?: StringFilter<"Vehicle"> | string
+    customerEmail?: StringNullableFilter<"Vehicle"> | string | null
+    customerPhone?: StringNullableFilter<"Vehicle"> | string | null
+    isActive?: BoolFilter<"Vehicle"> | boolean
+    status?: EnumTaskProgressStatusFilter<"Vehicle"> | $Enums.TaskProgressStatus
     notes?: StringNullableFilter<"Vehicle"> | string | null
-    entry_time?: DateTimeFilter<"Vehicle"> | Date | string
-    estimated_completion?: DateTimeNullableFilter<"Vehicle"> | Date | string | null
-    organization_id?: StringFilter<"Vehicle"> | string
-    current_stage_id?: StringNullableFilter<"Vehicle"> | string | null
-    created_at?: DateTimeFilter<"Vehicle"> | Date | string
-    updated_at?: DateTimeFilter<"Vehicle"> | Date | string
+    entryTime?: DateTimeFilter<"Vehicle"> | Date | string
+    estimatedCompletion?: DateTimeNullableFilter<"Vehicle"> | Date | string | null
+    organizationId?: StringFilter<"Vehicle"> | string
+    currentStageId?: StringNullableFilter<"Vehicle"> | string | null
+    createdAt?: DateTimeFilter<"Vehicle"> | Date | string
+    updatedAt?: DateTimeFilter<"Vehicle"> | Date | string
     organization?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
-    current_stage?: XOR<StageNullableScalarRelationFilter, StageWhereInput> | null
+    currentStage?: XOR<StageNullableScalarRelationFilter, StageWhereInput> | null
     tasks?: TaskListRelationFilter
-  }, "id" | "vin" | "qr_code_token" | "tracking_token">
+  }, "id" | "vin" | "qrCodeToken" | "trackingToken">
 
   export type VehicleOrderByWithAggregationInput = {
     id?: SortOrder
@@ -12909,20 +13109,21 @@ export namespace Prisma {
     brand?: SortOrder
     model?: SortOrder
     year?: SortOrderInput | SortOrder
-    registration_number?: SortOrder
-    customer_name?: SortOrder
-    customer_email?: SortOrderInput | SortOrder
-    customer_phone?: SortOrderInput | SortOrder
-    is_active?: SortOrder
+    registrationNumber?: SortOrder
+    customerName?: SortOrder
+    customerEmail?: SortOrderInput | SortOrder
+    customerPhone?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    status?: SortOrder
     notes?: SortOrderInput | SortOrder
-    qr_code_token?: SortOrder
-    tracking_token?: SortOrder
-    entry_time?: SortOrder
-    estimated_completion?: SortOrderInput | SortOrder
-    organization_id?: SortOrder
-    current_stage_id?: SortOrderInput | SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
+    qrCodeToken?: SortOrder
+    trackingToken?: SortOrder
+    entryTime?: SortOrder
+    estimatedCompletion?: SortOrderInput | SortOrder
+    organizationId?: SortOrder
+    currentStageId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: VehicleCountOrderByAggregateInput
     _avg?: VehicleAvgOrderByAggregateInput
     _max?: VehicleMaxOrderByAggregateInput
@@ -12939,20 +13140,21 @@ export namespace Prisma {
     brand?: StringWithAggregatesFilter<"Vehicle"> | string
     model?: StringWithAggregatesFilter<"Vehicle"> | string
     year?: IntNullableWithAggregatesFilter<"Vehicle"> | number | null
-    registration_number?: StringWithAggregatesFilter<"Vehicle"> | string
-    customer_name?: StringWithAggregatesFilter<"Vehicle"> | string
-    customer_email?: StringNullableWithAggregatesFilter<"Vehicle"> | string | null
-    customer_phone?: StringNullableWithAggregatesFilter<"Vehicle"> | string | null
-    is_active?: BoolWithAggregatesFilter<"Vehicle"> | boolean
+    registrationNumber?: StringWithAggregatesFilter<"Vehicle"> | string
+    customerName?: StringWithAggregatesFilter<"Vehicle"> | string
+    customerEmail?: StringNullableWithAggregatesFilter<"Vehicle"> | string | null
+    customerPhone?: StringNullableWithAggregatesFilter<"Vehicle"> | string | null
+    isActive?: BoolWithAggregatesFilter<"Vehicle"> | boolean
+    status?: EnumTaskProgressStatusWithAggregatesFilter<"Vehicle"> | $Enums.TaskProgressStatus
     notes?: StringNullableWithAggregatesFilter<"Vehicle"> | string | null
-    qr_code_token?: StringWithAggregatesFilter<"Vehicle"> | string
-    tracking_token?: StringWithAggregatesFilter<"Vehicle"> | string
-    entry_time?: DateTimeWithAggregatesFilter<"Vehicle"> | Date | string
-    estimated_completion?: DateTimeNullableWithAggregatesFilter<"Vehicle"> | Date | string | null
-    organization_id?: StringWithAggregatesFilter<"Vehicle"> | string
-    current_stage_id?: StringNullableWithAggregatesFilter<"Vehicle"> | string | null
-    created_at?: DateTimeWithAggregatesFilter<"Vehicle"> | Date | string
-    updated_at?: DateTimeWithAggregatesFilter<"Vehicle"> | Date | string
+    qrCodeToken?: StringWithAggregatesFilter<"Vehicle"> | string
+    trackingToken?: StringWithAggregatesFilter<"Vehicle"> | string
+    entryTime?: DateTimeWithAggregatesFilter<"Vehicle"> | Date | string
+    estimatedCompletion?: DateTimeNullableWithAggregatesFilter<"Vehicle"> | Date | string | null
+    organizationId?: StringWithAggregatesFilter<"Vehicle"> | string
+    currentStageId?: StringNullableWithAggregatesFilter<"Vehicle"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Vehicle"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Vehicle"> | Date | string
   }
 
   export type StageWhereInput = {
@@ -12960,71 +13162,76 @@ export namespace Prisma {
     OR?: StageWhereInput[]
     NOT?: StageWhereInput | StageWhereInput[]
     id?: StringFilter<"Stage"> | string
+    key?: StringFilter<"Stage"> | string
     name?: StringFilter<"Stage"> | string
     icon?: StringNullableFilter<"Stage"> | string | null
-    color_hsl?: StringNullableFilter<"Stage"> | string | null
-    category?: StringNullableFilter<"Stage"> | string | null
+    colorHsl?: StringNullableFilter<"Stage"> | string | null
+    category?: EnumProjectCategoryNullableFilter<"Stage"> | $Enums.ProjectCategory | null
     sequence?: IntFilter<"Stage"> | number
-    is_active?: BoolFilter<"Stage"> | boolean
-    is_required?: BoolFilter<"Stage"> | boolean
-    organization_id?: StringFilter<"Stage"> | string
-    created_at?: DateTimeFilter<"Stage"> | Date | string
-    updated_at?: DateTimeFilter<"Stage"> | Date | string
+    isActive?: BoolFilter<"Stage"> | boolean
+    isRequired?: BoolFilter<"Stage"> | boolean
+    organizationId?: StringFilter<"Stage"> | string
+    createdAt?: DateTimeFilter<"Stage"> | Date | string
+    updatedAt?: DateTimeFilter<"Stage"> | Date | string
     organization?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
     tasks?: TaskListRelationFilter
-    vehicles_in_stage?: VehicleListRelationFilter
+    vehiclesInStage?: VehicleListRelationFilter
   }
 
   export type StageOrderByWithRelationInput = {
     id?: SortOrder
+    key?: SortOrder
     name?: SortOrder
     icon?: SortOrderInput | SortOrder
-    color_hsl?: SortOrderInput | SortOrder
+    colorHsl?: SortOrderInput | SortOrder
     category?: SortOrderInput | SortOrder
     sequence?: SortOrder
-    is_active?: SortOrder
-    is_required?: SortOrder
-    organization_id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
+    isActive?: SortOrder
+    isRequired?: SortOrder
+    organizationId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     organization?: OrganizationOrderByWithRelationInput
     tasks?: TaskOrderByRelationAggregateInput
-    vehicles_in_stage?: VehicleOrderByRelationAggregateInput
+    vehiclesInStage?: VehicleOrderByRelationAggregateInput
   }
 
   export type StageWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    organization_id_sequence?: StageOrganization_idSequenceCompoundUniqueInput
+    key?: string
+    organizationId_sequence?: StageOrganizationIdSequenceCompoundUniqueInput
+    organizationId_key?: StageOrganizationIdKeyCompoundUniqueInput
     AND?: StageWhereInput | StageWhereInput[]
     OR?: StageWhereInput[]
     NOT?: StageWhereInput | StageWhereInput[]
     name?: StringFilter<"Stage"> | string
     icon?: StringNullableFilter<"Stage"> | string | null
-    color_hsl?: StringNullableFilter<"Stage"> | string | null
-    category?: StringNullableFilter<"Stage"> | string | null
+    colorHsl?: StringNullableFilter<"Stage"> | string | null
+    category?: EnumProjectCategoryNullableFilter<"Stage"> | $Enums.ProjectCategory | null
     sequence?: IntFilter<"Stage"> | number
-    is_active?: BoolFilter<"Stage"> | boolean
-    is_required?: BoolFilter<"Stage"> | boolean
-    organization_id?: StringFilter<"Stage"> | string
-    created_at?: DateTimeFilter<"Stage"> | Date | string
-    updated_at?: DateTimeFilter<"Stage"> | Date | string
+    isActive?: BoolFilter<"Stage"> | boolean
+    isRequired?: BoolFilter<"Stage"> | boolean
+    organizationId?: StringFilter<"Stage"> | string
+    createdAt?: DateTimeFilter<"Stage"> | Date | string
+    updatedAt?: DateTimeFilter<"Stage"> | Date | string
     organization?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
     tasks?: TaskListRelationFilter
-    vehicles_in_stage?: VehicleListRelationFilter
-  }, "id" | "organization_id_sequence">
+    vehiclesInStage?: VehicleListRelationFilter
+  }, "id" | "key" | "organizationId_sequence" | "organizationId_key">
 
   export type StageOrderByWithAggregationInput = {
     id?: SortOrder
+    key?: SortOrder
     name?: SortOrder
     icon?: SortOrderInput | SortOrder
-    color_hsl?: SortOrderInput | SortOrder
+    colorHsl?: SortOrderInput | SortOrder
     category?: SortOrderInput | SortOrder
     sequence?: SortOrder
-    is_active?: SortOrder
-    is_required?: SortOrder
-    organization_id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
+    isActive?: SortOrder
+    isRequired?: SortOrder
+    organizationId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: StageCountOrderByAggregateInput
     _avg?: StageAvgOrderByAggregateInput
     _max?: StageMaxOrderByAggregateInput
@@ -13037,16 +13244,17 @@ export namespace Prisma {
     OR?: StageScalarWhereWithAggregatesInput[]
     NOT?: StageScalarWhereWithAggregatesInput | StageScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Stage"> | string
+    key?: StringWithAggregatesFilter<"Stage"> | string
     name?: StringWithAggregatesFilter<"Stage"> | string
     icon?: StringNullableWithAggregatesFilter<"Stage"> | string | null
-    color_hsl?: StringNullableWithAggregatesFilter<"Stage"> | string | null
-    category?: StringNullableWithAggregatesFilter<"Stage"> | string | null
+    colorHsl?: StringNullableWithAggregatesFilter<"Stage"> | string | null
+    category?: EnumProjectCategoryNullableWithAggregatesFilter<"Stage"> | $Enums.ProjectCategory | null
     sequence?: IntWithAggregatesFilter<"Stage"> | number
-    is_active?: BoolWithAggregatesFilter<"Stage"> | boolean
-    is_required?: BoolWithAggregatesFilter<"Stage"> | boolean
-    organization_id?: StringWithAggregatesFilter<"Stage"> | string
-    created_at?: DateTimeWithAggregatesFilter<"Stage"> | Date | string
-    updated_at?: DateTimeWithAggregatesFilter<"Stage"> | Date | string
+    isActive?: BoolWithAggregatesFilter<"Stage"> | boolean
+    isRequired?: BoolWithAggregatesFilter<"Stage"> | boolean
+    organizationId?: StringWithAggregatesFilter<"Stage"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Stage"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Stage"> | Date | string
   }
 
   export type TaskWhereInput = {
@@ -13057,16 +13265,15 @@ export namespace Prisma {
     title?: StringFilter<"Task"> | string
     sequence?: IntFilter<"Task"> | number
     description?: StringNullableFilter<"Task"> | string | null
-    estimated_duration?: IntNullableFilter<"Task"> | number | null
-    priority?: StringNullableFilter<"Task"> | string | null
-    is_completed?: BoolFilter<"Task"> | boolean
-    vehicle_id?: StringFilter<"Task"> | string
-    stage_id?: StringFilter<"Task"> | string
-    created_at?: DateTimeFilter<"Task"> | Date | string
-    updated_at?: DateTimeFilter<"Task"> | Date | string
+    estimatedDuration?: IntNullableFilter<"Task"> | number | null
+    priority?: EnumTaskPriorityNullableFilter<"Task"> | $Enums.TaskPriority | null
+    vehicleId?: StringFilter<"Task"> | string
+    stageId?: StringFilter<"Task"> | string
+    createdAt?: DateTimeFilter<"Task"> | Date | string
+    updatedAt?: DateTimeFilter<"Task"> | Date | string
     vehicle?: XOR<VehicleScalarRelationFilter, VehicleWhereInput>
     stage?: XOR<StageScalarRelationFilter, StageWhereInput>
-    task_progress?: TaskProgressListRelationFilter
+    taskProgress?: TaskProgressListRelationFilter
   }
 
   export type TaskOrderByWithRelationInput = {
@@ -13074,51 +13281,48 @@ export namespace Prisma {
     title?: SortOrder
     sequence?: SortOrder
     description?: SortOrderInput | SortOrder
-    estimated_duration?: SortOrderInput | SortOrder
+    estimatedDuration?: SortOrderInput | SortOrder
     priority?: SortOrderInput | SortOrder
-    is_completed?: SortOrder
-    vehicle_id?: SortOrder
-    stage_id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
+    vehicleId?: SortOrder
+    stageId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     vehicle?: VehicleOrderByWithRelationInput
     stage?: StageOrderByWithRelationInput
-    task_progress?: TaskProgressOrderByRelationAggregateInput
+    taskProgress?: TaskProgressOrderByRelationAggregateInput
   }
 
   export type TaskWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    vehicle_id_stage_id_sequence?: TaskVehicle_idStage_idSequenceCompoundUniqueInput
+    vehicleId_stageId_sequence?: TaskVehicleIdStageIdSequenceCompoundUniqueInput
     AND?: TaskWhereInput | TaskWhereInput[]
     OR?: TaskWhereInput[]
     NOT?: TaskWhereInput | TaskWhereInput[]
     title?: StringFilter<"Task"> | string
     sequence?: IntFilter<"Task"> | number
     description?: StringNullableFilter<"Task"> | string | null
-    estimated_duration?: IntNullableFilter<"Task"> | number | null
-    priority?: StringNullableFilter<"Task"> | string | null
-    is_completed?: BoolFilter<"Task"> | boolean
-    vehicle_id?: StringFilter<"Task"> | string
-    stage_id?: StringFilter<"Task"> | string
-    created_at?: DateTimeFilter<"Task"> | Date | string
-    updated_at?: DateTimeFilter<"Task"> | Date | string
+    estimatedDuration?: IntNullableFilter<"Task"> | number | null
+    priority?: EnumTaskPriorityNullableFilter<"Task"> | $Enums.TaskPriority | null
+    vehicleId?: StringFilter<"Task"> | string
+    stageId?: StringFilter<"Task"> | string
+    createdAt?: DateTimeFilter<"Task"> | Date | string
+    updatedAt?: DateTimeFilter<"Task"> | Date | string
     vehicle?: XOR<VehicleScalarRelationFilter, VehicleWhereInput>
     stage?: XOR<StageScalarRelationFilter, StageWhereInput>
-    task_progress?: TaskProgressListRelationFilter
-  }, "id" | "vehicle_id_stage_id_sequence">
+    taskProgress?: TaskProgressListRelationFilter
+  }, "id" | "vehicleId_stageId_sequence">
 
   export type TaskOrderByWithAggregationInput = {
     id?: SortOrder
     title?: SortOrder
     sequence?: SortOrder
     description?: SortOrderInput | SortOrder
-    estimated_duration?: SortOrderInput | SortOrder
+    estimatedDuration?: SortOrderInput | SortOrder
     priority?: SortOrderInput | SortOrder
-    is_completed?: SortOrder
-    vehicle_id?: SortOrder
-    stage_id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
+    vehicleId?: SortOrder
+    stageId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: TaskCountOrderByAggregateInput
     _avg?: TaskAvgOrderByAggregateInput
     _max?: TaskMaxOrderByAggregateInput
@@ -13134,13 +13338,12 @@ export namespace Prisma {
     title?: StringWithAggregatesFilter<"Task"> | string
     sequence?: IntWithAggregatesFilter<"Task"> | number
     description?: StringNullableWithAggregatesFilter<"Task"> | string | null
-    estimated_duration?: IntNullableWithAggregatesFilter<"Task"> | number | null
-    priority?: StringNullableWithAggregatesFilter<"Task"> | string | null
-    is_completed?: BoolWithAggregatesFilter<"Task"> | boolean
-    vehicle_id?: StringWithAggregatesFilter<"Task"> | string
-    stage_id?: StringWithAggregatesFilter<"Task"> | string
-    created_at?: DateTimeWithAggregatesFilter<"Task"> | Date | string
-    updated_at?: DateTimeWithAggregatesFilter<"Task"> | Date | string
+    estimatedDuration?: IntNullableWithAggregatesFilter<"Task"> | number | null
+    priority?: EnumTaskPriorityNullableWithAggregatesFilter<"Task"> | $Enums.TaskPriority | null
+    vehicleId?: StringWithAggregatesFilter<"Task"> | string
+    stageId?: StringWithAggregatesFilter<"Task"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Task"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Task"> | Date | string
   }
 
   export type TaskProgressWhereInput = {
@@ -13148,14 +13351,14 @@ export namespace Prisma {
     OR?: TaskProgressWhereInput[]
     NOT?: TaskProgressWhereInput | TaskProgressWhereInput[]
     id?: StringFilter<"TaskProgress"> | string
-    status?: StringFilter<"TaskProgress"> | string
+    status?: EnumTaskProgressStatusFilter<"TaskProgress"> | $Enums.TaskProgressStatus
     notes?: StringNullableFilter<"TaskProgress"> | string | null
-    started_at?: DateTimeNullableFilter<"TaskProgress"> | Date | string | null
-    completed_at?: DateTimeNullableFilter<"TaskProgress"> | Date | string | null
-    task_id?: StringFilter<"TaskProgress"> | string
-    worker_membership_id?: StringNullableFilter<"TaskProgress"> | string | null
-    created_at?: DateTimeFilter<"TaskProgress"> | Date | string
-    updated_at?: DateTimeFilter<"TaskProgress"> | Date | string
+    startedAt?: DateTimeNullableFilter<"TaskProgress"> | Date | string | null
+    completedAt?: DateTimeNullableFilter<"TaskProgress"> | Date | string | null
+    taskId?: StringFilter<"TaskProgress"> | string
+    workerMembershipId?: StringNullableFilter<"TaskProgress"> | string | null
+    createdAt?: DateTimeFilter<"TaskProgress"> | Date | string
+    updatedAt?: DateTimeFilter<"TaskProgress"> | Date | string
     task?: XOR<TaskScalarRelationFilter, TaskWhereInput>
     worker?: XOR<MembershipNullableScalarRelationFilter, MembershipWhereInput> | null
   }
@@ -13164,12 +13367,12 @@ export namespace Prisma {
     id?: SortOrder
     status?: SortOrder
     notes?: SortOrderInput | SortOrder
-    started_at?: SortOrderInput | SortOrder
-    completed_at?: SortOrderInput | SortOrder
-    task_id?: SortOrder
-    worker_membership_id?: SortOrderInput | SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
+    startedAt?: SortOrderInput | SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    taskId?: SortOrder
+    workerMembershipId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     task?: TaskOrderByWithRelationInput
     worker?: MembershipOrderByWithRelationInput
   }
@@ -13179,14 +13382,14 @@ export namespace Prisma {
     AND?: TaskProgressWhereInput | TaskProgressWhereInput[]
     OR?: TaskProgressWhereInput[]
     NOT?: TaskProgressWhereInput | TaskProgressWhereInput[]
-    status?: StringFilter<"TaskProgress"> | string
+    status?: EnumTaskProgressStatusFilter<"TaskProgress"> | $Enums.TaskProgressStatus
     notes?: StringNullableFilter<"TaskProgress"> | string | null
-    started_at?: DateTimeNullableFilter<"TaskProgress"> | Date | string | null
-    completed_at?: DateTimeNullableFilter<"TaskProgress"> | Date | string | null
-    task_id?: StringFilter<"TaskProgress"> | string
-    worker_membership_id?: StringNullableFilter<"TaskProgress"> | string | null
-    created_at?: DateTimeFilter<"TaskProgress"> | Date | string
-    updated_at?: DateTimeFilter<"TaskProgress"> | Date | string
+    startedAt?: DateTimeNullableFilter<"TaskProgress"> | Date | string | null
+    completedAt?: DateTimeNullableFilter<"TaskProgress"> | Date | string | null
+    taskId?: StringFilter<"TaskProgress"> | string
+    workerMembershipId?: StringNullableFilter<"TaskProgress"> | string | null
+    createdAt?: DateTimeFilter<"TaskProgress"> | Date | string
+    updatedAt?: DateTimeFilter<"TaskProgress"> | Date | string
     task?: XOR<TaskScalarRelationFilter, TaskWhereInput>
     worker?: XOR<MembershipNullableScalarRelationFilter, MembershipWhereInput> | null
   }, "id">
@@ -13195,12 +13398,12 @@ export namespace Prisma {
     id?: SortOrder
     status?: SortOrder
     notes?: SortOrderInput | SortOrder
-    started_at?: SortOrderInput | SortOrder
-    completed_at?: SortOrderInput | SortOrder
-    task_id?: SortOrder
-    worker_membership_id?: SortOrderInput | SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
+    startedAt?: SortOrderInput | SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    taskId?: SortOrder
+    workerMembershipId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: TaskProgressCountOrderByAggregateInput
     _max?: TaskProgressMaxOrderByAggregateInput
     _min?: TaskProgressMinOrderByAggregateInput
@@ -13211,14 +13414,14 @@ export namespace Prisma {
     OR?: TaskProgressScalarWhereWithAggregatesInput[]
     NOT?: TaskProgressScalarWhereWithAggregatesInput | TaskProgressScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"TaskProgress"> | string
-    status?: StringWithAggregatesFilter<"TaskProgress"> | string
+    status?: EnumTaskProgressStatusWithAggregatesFilter<"TaskProgress"> | $Enums.TaskProgressStatus
     notes?: StringNullableWithAggregatesFilter<"TaskProgress"> | string | null
-    started_at?: DateTimeNullableWithAggregatesFilter<"TaskProgress"> | Date | string | null
-    completed_at?: DateTimeNullableWithAggregatesFilter<"TaskProgress"> | Date | string | null
-    task_id?: StringWithAggregatesFilter<"TaskProgress"> | string
-    worker_membership_id?: StringNullableWithAggregatesFilter<"TaskProgress"> | string | null
-    created_at?: DateTimeWithAggregatesFilter<"TaskProgress"> | Date | string
-    updated_at?: DateTimeWithAggregatesFilter<"TaskProgress"> | Date | string
+    startedAt?: DateTimeNullableWithAggregatesFilter<"TaskProgress"> | Date | string | null
+    completedAt?: DateTimeNullableWithAggregatesFilter<"TaskProgress"> | Date | string | null
+    taskId?: StringWithAggregatesFilter<"TaskProgress"> | string
+    workerMembershipId?: StringNullableWithAggregatesFilter<"TaskProgress"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"TaskProgress"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"TaskProgress"> | Date | string
   }
 
   export type SessionWhereInput = {
@@ -13228,16 +13431,16 @@ export namespace Prisma {
     id?: StringFilter<"Session"> | string
     sid?: StringFilter<"Session"> | string
     data?: StringFilter<"Session"> | string
-    expires_at?: DateTimeFilter<"Session"> | Date | string
-    created_at?: DateTimeFilter<"Session"> | Date | string
+    expiresAt?: DateTimeFilter<"Session"> | Date | string
+    createdAt?: DateTimeFilter<"Session"> | Date | string
   }
 
   export type SessionOrderByWithRelationInput = {
     id?: SortOrder
     sid?: SortOrder
     data?: SortOrder
-    expires_at?: SortOrder
-    created_at?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type SessionWhereUniqueInput = Prisma.AtLeast<{
@@ -13247,16 +13450,16 @@ export namespace Prisma {
     OR?: SessionWhereInput[]
     NOT?: SessionWhereInput | SessionWhereInput[]
     data?: StringFilter<"Session"> | string
-    expires_at?: DateTimeFilter<"Session"> | Date | string
-    created_at?: DateTimeFilter<"Session"> | Date | string
+    expiresAt?: DateTimeFilter<"Session"> | Date | string
+    createdAt?: DateTimeFilter<"Session"> | Date | string
   }, "id" | "sid">
 
   export type SessionOrderByWithAggregationInput = {
     id?: SortOrder
     sid?: SortOrder
     data?: SortOrder
-    expires_at?: SortOrder
-    created_at?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
     _count?: SessionCountOrderByAggregateInput
     _max?: SessionMaxOrderByAggregateInput
     _min?: SessionMinOrderByAggregateInput
@@ -13269,8 +13472,8 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Session"> | string
     sid?: StringWithAggregatesFilter<"Session"> | string
     data?: StringWithAggregatesFilter<"Session"> | string
-    expires_at?: DateTimeWithAggregatesFilter<"Session"> | Date | string
-    created_at?: DateTimeWithAggregatesFilter<"Session"> | Date | string
+    expiresAt?: DateTimeWithAggregatesFilter<"Session"> | Date | string
+    createdAt?: DateTimeWithAggregatesFilter<"Session"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -13278,10 +13481,10 @@ export namespace Prisma {
     email: string
     name: string
     password?: string | null
-    is_verified?: boolean
-    is_active?: boolean
-    created_at?: Date | string
-    updated_at?: Date | string
+    isVerified?: boolean
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutUserInput
   }
 
@@ -13290,10 +13493,10 @@ export namespace Prisma {
     email: string
     name: string
     password?: string | null
-    is_verified?: boolean
-    is_active?: boolean
-    created_at?: Date | string
-    updated_at?: Date | string
+    isVerified?: boolean
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -13302,10 +13505,10 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    is_verified?: BoolFieldUpdateOperationsInput | boolean
-    is_active?: BoolFieldUpdateOperationsInput | boolean
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutUserNestedInput
   }
 
@@ -13314,10 +13517,10 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    is_verified?: BoolFieldUpdateOperationsInput | boolean
-    is_active?: BoolFieldUpdateOperationsInput | boolean
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -13326,10 +13529,10 @@ export namespace Prisma {
     email: string
     name: string
     password?: string | null
-    is_verified?: boolean
-    is_active?: boolean
-    created_at?: Date | string
-    updated_at?: Date | string
+    isVerified?: boolean
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type UserUpdateManyMutationInput = {
@@ -13337,10 +13540,10 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    is_verified?: BoolFieldUpdateOperationsInput | boolean
-    is_active?: BoolFieldUpdateOperationsInput | boolean
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -13348,20 +13551,20 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    is_verified?: BoolFieldUpdateOperationsInput | boolean
-    is_active?: BoolFieldUpdateOperationsInput | boolean
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type OrganizationCreateInput = {
     id?: string
     name: string
-    type: string
+    type: $Enums.ProjectOrgType
     description?: string | null
-    is_verified?: boolean
-    created_at?: Date | string
-    updated_at?: Date | string
+    isVerified?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutOrganizationInput
     invites?: InviteCreateNestedManyWithoutOrganizationInput
     stages?: StageCreateNestedManyWithoutOrganizationInput
@@ -13371,11 +13574,11 @@ export namespace Prisma {
   export type OrganizationUncheckedCreateInput = {
     id?: string
     name: string
-    type: string
+    type: $Enums.ProjectOrgType
     description?: string | null
-    is_verified?: boolean
-    created_at?: Date | string
-    updated_at?: Date | string
+    isVerified?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutOrganizationInput
     invites?: InviteUncheckedCreateNestedManyWithoutOrganizationInput
     stages?: StageUncheckedCreateNestedManyWithoutOrganizationInput
@@ -13385,11 +13588,11 @@ export namespace Prisma {
   export type OrganizationUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumProjectOrgTypeFieldUpdateOperationsInput | $Enums.ProjectOrgType
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    is_verified?: BoolFieldUpdateOperationsInput | boolean
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutOrganizationNestedInput
     invites?: InviteUpdateManyWithoutOrganizationNestedInput
     stages?: StageUpdateManyWithoutOrganizationNestedInput
@@ -13399,11 +13602,11 @@ export namespace Prisma {
   export type OrganizationUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumProjectOrgTypeFieldUpdateOperationsInput | $Enums.ProjectOrgType
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    is_verified?: BoolFieldUpdateOperationsInput | boolean
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
     invites?: InviteUncheckedUpdateManyWithoutOrganizationNestedInput
     stages?: StageUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -13413,207 +13616,207 @@ export namespace Prisma {
   export type OrganizationCreateManyInput = {
     id?: string
     name: string
-    type: string
+    type: $Enums.ProjectOrgType
     description?: string | null
-    is_verified?: boolean
-    created_at?: Date | string
-    updated_at?: Date | string
+    isVerified?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type OrganizationUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumProjectOrgTypeFieldUpdateOperationsInput | $Enums.ProjectOrgType
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    is_verified?: BoolFieldUpdateOperationsInput | boolean
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type OrganizationUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumProjectOrgTypeFieldUpdateOperationsInput | $Enums.ProjectOrgType
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    is_verified?: BoolFieldUpdateOperationsInput | boolean
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MembershipCreateInput = {
     id?: string
-    access_role: string
-    business_role?: string | null
-    status: string
-    auth_methods?: MembershipCreateauth_methodsInput | string[]
-    rfid_tag?: string | null
-    qr_code?: string | null
-    usb_key_id?: string | null
-    created_at?: Date | string
-    updated_at?: Date | string
+    accessRole: $Enums.AccessRole
+    businessRole?: string | null
+    status: $Enums.MembershipStatus
+    authMethods?: MembershipCreateauthMethodsInput | string[]
+    rfidTag?: string | null
+    qrCode?: string | null
+    usbKeyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     user: UserCreateNestedOneWithoutMembershipsInput
     organization: OrganizationCreateNestedOneWithoutMembershipsInput
-    task_progress?: TaskProgressCreateNestedManyWithoutWorkerInput
+    taskProgress?: TaskProgressCreateNestedManyWithoutWorkerInput
   }
 
   export type MembershipUncheckedCreateInput = {
     id?: string
-    user_id: string
-    organization_id: string
-    access_role: string
-    business_role?: string | null
-    status: string
-    auth_methods?: MembershipCreateauth_methodsInput | string[]
-    rfid_tag?: string | null
-    qr_code?: string | null
-    usb_key_id?: string | null
-    created_at?: Date | string
-    updated_at?: Date | string
-    task_progress?: TaskProgressUncheckedCreateNestedManyWithoutWorkerInput
+    userId: string
+    organizationId: string
+    accessRole: $Enums.AccessRole
+    businessRole?: string | null
+    status: $Enums.MembershipStatus
+    authMethods?: MembershipCreateauthMethodsInput | string[]
+    rfidTag?: string | null
+    qrCode?: string | null
+    usbKeyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    taskProgress?: TaskProgressUncheckedCreateNestedManyWithoutWorkerInput
   }
 
   export type MembershipUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    access_role?: StringFieldUpdateOperationsInput | string
-    business_role?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    auth_methods?: MembershipUpdateauth_methodsInput | string[]
-    rfid_tag?: NullableStringFieldUpdateOperationsInput | string | null
-    qr_code?: NullableStringFieldUpdateOperationsInput | string | null
-    usb_key_id?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    accessRole?: EnumAccessRoleFieldUpdateOperationsInput | $Enums.AccessRole
+    businessRole?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
+    authMethods?: MembershipUpdateauthMethodsInput | string[]
+    rfidTag?: NullableStringFieldUpdateOperationsInput | string | null
+    qrCode?: NullableStringFieldUpdateOperationsInput | string | null
+    usbKeyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutMembershipsNestedInput
     organization?: OrganizationUpdateOneRequiredWithoutMembershipsNestedInput
-    task_progress?: TaskProgressUpdateManyWithoutWorkerNestedInput
+    taskProgress?: TaskProgressUpdateManyWithoutWorkerNestedInput
   }
 
   export type MembershipUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    user_id?: StringFieldUpdateOperationsInput | string
-    organization_id?: StringFieldUpdateOperationsInput | string
-    access_role?: StringFieldUpdateOperationsInput | string
-    business_role?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    auth_methods?: MembershipUpdateauth_methodsInput | string[]
-    rfid_tag?: NullableStringFieldUpdateOperationsInput | string | null
-    qr_code?: NullableStringFieldUpdateOperationsInput | string | null
-    usb_key_id?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    task_progress?: TaskProgressUncheckedUpdateManyWithoutWorkerNestedInput
+    userId?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    accessRole?: EnumAccessRoleFieldUpdateOperationsInput | $Enums.AccessRole
+    businessRole?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
+    authMethods?: MembershipUpdateauthMethodsInput | string[]
+    rfidTag?: NullableStringFieldUpdateOperationsInput | string | null
+    qrCode?: NullableStringFieldUpdateOperationsInput | string | null
+    usbKeyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    taskProgress?: TaskProgressUncheckedUpdateManyWithoutWorkerNestedInput
   }
 
   export type MembershipCreateManyInput = {
     id?: string
-    user_id: string
-    organization_id: string
-    access_role: string
-    business_role?: string | null
-    status: string
-    auth_methods?: MembershipCreateauth_methodsInput | string[]
-    rfid_tag?: string | null
-    qr_code?: string | null
-    usb_key_id?: string | null
-    created_at?: Date | string
-    updated_at?: Date | string
+    userId: string
+    organizationId: string
+    accessRole: $Enums.AccessRole
+    businessRole?: string | null
+    status: $Enums.MembershipStatus
+    authMethods?: MembershipCreateauthMethodsInput | string[]
+    rfidTag?: string | null
+    qrCode?: string | null
+    usbKeyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type MembershipUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    access_role?: StringFieldUpdateOperationsInput | string
-    business_role?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    auth_methods?: MembershipUpdateauth_methodsInput | string[]
-    rfid_tag?: NullableStringFieldUpdateOperationsInput | string | null
-    qr_code?: NullableStringFieldUpdateOperationsInput | string | null
-    usb_key_id?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    accessRole?: EnumAccessRoleFieldUpdateOperationsInput | $Enums.AccessRole
+    businessRole?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
+    authMethods?: MembershipUpdateauthMethodsInput | string[]
+    rfidTag?: NullableStringFieldUpdateOperationsInput | string | null
+    qrCode?: NullableStringFieldUpdateOperationsInput | string | null
+    usbKeyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MembershipUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    user_id?: StringFieldUpdateOperationsInput | string
-    organization_id?: StringFieldUpdateOperationsInput | string
-    access_role?: StringFieldUpdateOperationsInput | string
-    business_role?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    auth_methods?: MembershipUpdateauth_methodsInput | string[]
-    rfid_tag?: NullableStringFieldUpdateOperationsInput | string | null
-    qr_code?: NullableStringFieldUpdateOperationsInput | string | null
-    usb_key_id?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    accessRole?: EnumAccessRoleFieldUpdateOperationsInput | $Enums.AccessRole
+    businessRole?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
+    authMethods?: MembershipUpdateauthMethodsInput | string[]
+    rfidTag?: NullableStringFieldUpdateOperationsInput | string | null
+    qrCode?: NullableStringFieldUpdateOperationsInput | string | null
+    usbKeyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type InviteCreateInput = {
     id?: string
     email: string
-    access_role: string
+    accessRole: $Enums.AccessRole
     token: string
-    expires_at: Date | string
-    created_at?: Date | string
+    expiresAt: Date | string
+    createdAt?: Date | string
     organization: OrganizationCreateNestedOneWithoutInvitesInput
   }
 
   export type InviteUncheckedCreateInput = {
     id?: string
-    organization_id: string
+    organizationId: string
     email: string
-    access_role: string
+    accessRole: $Enums.AccessRole
     token: string
-    expires_at: Date | string
-    created_at?: Date | string
+    expiresAt: Date | string
+    createdAt?: Date | string
   }
 
   export type InviteUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    access_role?: StringFieldUpdateOperationsInput | string
+    accessRole?: EnumAccessRoleFieldUpdateOperationsInput | $Enums.AccessRole
     token?: StringFieldUpdateOperationsInput | string
-    expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organization?: OrganizationUpdateOneRequiredWithoutInvitesNestedInput
   }
 
   export type InviteUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    organization_id?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    access_role?: StringFieldUpdateOperationsInput | string
+    accessRole?: EnumAccessRoleFieldUpdateOperationsInput | $Enums.AccessRole
     token?: StringFieldUpdateOperationsInput | string
-    expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type InviteCreateManyInput = {
     id?: string
-    organization_id: string
+    organizationId: string
     email: string
-    access_role: string
+    accessRole: $Enums.AccessRole
     token: string
-    expires_at: Date | string
-    created_at?: Date | string
+    expiresAt: Date | string
+    createdAt?: Date | string
   }
 
   export type InviteUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    access_role?: StringFieldUpdateOperationsInput | string
+    accessRole?: EnumAccessRoleFieldUpdateOperationsInput | $Enums.AccessRole
     token?: StringFieldUpdateOperationsInput | string
-    expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type InviteUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    organization_id?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    access_role?: StringFieldUpdateOperationsInput | string
+    accessRole?: EnumAccessRoleFieldUpdateOperationsInput | $Enums.AccessRole
     token?: StringFieldUpdateOperationsInput | string
-    expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type VehicleCreateInput = {
@@ -13622,20 +13825,21 @@ export namespace Prisma {
     brand: string
     model: string
     year?: number | null
-    registration_number: string
-    customer_name: string
-    customer_email?: string | null
-    customer_phone?: string | null
-    is_active?: boolean
+    registrationNumber: string
+    customerName: string
+    customerEmail?: string | null
+    customerPhone?: string | null
+    isActive?: boolean
+    status?: $Enums.TaskProgressStatus
     notes?: string | null
-    qr_code_token: string
-    tracking_token: string
-    entry_time?: Date | string
-    estimated_completion?: Date | string | null
-    created_at?: Date | string
-    updated_at?: Date | string
+    qrCodeToken: string
+    trackingToken: string
+    entryTime?: Date | string
+    estimatedCompletion?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     organization: OrganizationCreateNestedOneWithoutVehiclesInput
-    current_stage?: StageCreateNestedOneWithoutVehicles_in_stageInput
+    currentStage?: StageCreateNestedOneWithoutVehiclesInStageInput
     tasks?: TaskCreateNestedManyWithoutVehicleInput
   }
 
@@ -13645,20 +13849,21 @@ export namespace Prisma {
     brand: string
     model: string
     year?: number | null
-    registration_number: string
-    customer_name: string
-    customer_email?: string | null
-    customer_phone?: string | null
-    is_active?: boolean
+    registrationNumber: string
+    customerName: string
+    customerEmail?: string | null
+    customerPhone?: string | null
+    isActive?: boolean
+    status?: $Enums.TaskProgressStatus
     notes?: string | null
-    qr_code_token: string
-    tracking_token: string
-    entry_time?: Date | string
-    estimated_completion?: Date | string | null
-    organization_id: string
-    current_stage_id?: string | null
-    created_at?: Date | string
-    updated_at?: Date | string
+    qrCodeToken: string
+    trackingToken: string
+    entryTime?: Date | string
+    estimatedCompletion?: Date | string | null
+    organizationId: string
+    currentStageId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     tasks?: TaskUncheckedCreateNestedManyWithoutVehicleInput
   }
 
@@ -13668,20 +13873,21 @@ export namespace Prisma {
     brand?: StringFieldUpdateOperationsInput | string
     model?: StringFieldUpdateOperationsInput | string
     year?: NullableIntFieldUpdateOperationsInput | number | null
-    registration_number?: StringFieldUpdateOperationsInput | string
-    customer_name?: StringFieldUpdateOperationsInput | string
-    customer_email?: NullableStringFieldUpdateOperationsInput | string | null
-    customer_phone?: NullableStringFieldUpdateOperationsInput | string | null
-    is_active?: BoolFieldUpdateOperationsInput | boolean
+    registrationNumber?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    customerEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumTaskProgressStatusFieldUpdateOperationsInput | $Enums.TaskProgressStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
-    qr_code_token?: StringFieldUpdateOperationsInput | string
-    tracking_token?: StringFieldUpdateOperationsInput | string
-    entry_time?: DateTimeFieldUpdateOperationsInput | Date | string
-    estimated_completion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    qrCodeToken?: StringFieldUpdateOperationsInput | string
+    trackingToken?: StringFieldUpdateOperationsInput | string
+    entryTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    estimatedCompletion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organization?: OrganizationUpdateOneRequiredWithoutVehiclesNestedInput
-    current_stage?: StageUpdateOneWithoutVehicles_in_stageNestedInput
+    currentStage?: StageUpdateOneWithoutVehiclesInStageNestedInput
     tasks?: TaskUpdateManyWithoutVehicleNestedInput
   }
 
@@ -13691,20 +13897,21 @@ export namespace Prisma {
     brand?: StringFieldUpdateOperationsInput | string
     model?: StringFieldUpdateOperationsInput | string
     year?: NullableIntFieldUpdateOperationsInput | number | null
-    registration_number?: StringFieldUpdateOperationsInput | string
-    customer_name?: StringFieldUpdateOperationsInput | string
-    customer_email?: NullableStringFieldUpdateOperationsInput | string | null
-    customer_phone?: NullableStringFieldUpdateOperationsInput | string | null
-    is_active?: BoolFieldUpdateOperationsInput | boolean
+    registrationNumber?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    customerEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumTaskProgressStatusFieldUpdateOperationsInput | $Enums.TaskProgressStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
-    qr_code_token?: StringFieldUpdateOperationsInput | string
-    tracking_token?: StringFieldUpdateOperationsInput | string
-    entry_time?: DateTimeFieldUpdateOperationsInput | Date | string
-    estimated_completion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    organization_id?: StringFieldUpdateOperationsInput | string
-    current_stage_id?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    qrCodeToken?: StringFieldUpdateOperationsInput | string
+    trackingToken?: StringFieldUpdateOperationsInput | string
+    entryTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    estimatedCompletion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    currentStageId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tasks?: TaskUncheckedUpdateManyWithoutVehicleNestedInput
   }
 
@@ -13714,20 +13921,21 @@ export namespace Prisma {
     brand: string
     model: string
     year?: number | null
-    registration_number: string
-    customer_name: string
-    customer_email?: string | null
-    customer_phone?: string | null
-    is_active?: boolean
+    registrationNumber: string
+    customerName: string
+    customerEmail?: string | null
+    customerPhone?: string | null
+    isActive?: boolean
+    status?: $Enums.TaskProgressStatus
     notes?: string | null
-    qr_code_token: string
-    tracking_token: string
-    entry_time?: Date | string
-    estimated_completion?: Date | string | null
-    organization_id: string
-    current_stage_id?: string | null
-    created_at?: Date | string
-    updated_at?: Date | string
+    qrCodeToken: string
+    trackingToken: string
+    entryTime?: Date | string
+    estimatedCompletion?: Date | string | null
+    organizationId: string
+    currentStageId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type VehicleUpdateManyMutationInput = {
@@ -13736,18 +13944,19 @@ export namespace Prisma {
     brand?: StringFieldUpdateOperationsInput | string
     model?: StringFieldUpdateOperationsInput | string
     year?: NullableIntFieldUpdateOperationsInput | number | null
-    registration_number?: StringFieldUpdateOperationsInput | string
-    customer_name?: StringFieldUpdateOperationsInput | string
-    customer_email?: NullableStringFieldUpdateOperationsInput | string | null
-    customer_phone?: NullableStringFieldUpdateOperationsInput | string | null
-    is_active?: BoolFieldUpdateOperationsInput | boolean
+    registrationNumber?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    customerEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumTaskProgressStatusFieldUpdateOperationsInput | $Enums.TaskProgressStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
-    qr_code_token?: StringFieldUpdateOperationsInput | string
-    tracking_token?: StringFieldUpdateOperationsInput | string
-    entry_time?: DateTimeFieldUpdateOperationsInput | Date | string
-    estimated_completion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    qrCodeToken?: StringFieldUpdateOperationsInput | string
+    trackingToken?: StringFieldUpdateOperationsInput | string
+    entryTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    estimatedCompletion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type VehicleUncheckedUpdateManyInput = {
@@ -13756,125 +13965,133 @@ export namespace Prisma {
     brand?: StringFieldUpdateOperationsInput | string
     model?: StringFieldUpdateOperationsInput | string
     year?: NullableIntFieldUpdateOperationsInput | number | null
-    registration_number?: StringFieldUpdateOperationsInput | string
-    customer_name?: StringFieldUpdateOperationsInput | string
-    customer_email?: NullableStringFieldUpdateOperationsInput | string | null
-    customer_phone?: NullableStringFieldUpdateOperationsInput | string | null
-    is_active?: BoolFieldUpdateOperationsInput | boolean
+    registrationNumber?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    customerEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumTaskProgressStatusFieldUpdateOperationsInput | $Enums.TaskProgressStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
-    qr_code_token?: StringFieldUpdateOperationsInput | string
-    tracking_token?: StringFieldUpdateOperationsInput | string
-    entry_time?: DateTimeFieldUpdateOperationsInput | Date | string
-    estimated_completion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    organization_id?: StringFieldUpdateOperationsInput | string
-    current_stage_id?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    qrCodeToken?: StringFieldUpdateOperationsInput | string
+    trackingToken?: StringFieldUpdateOperationsInput | string
+    entryTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    estimatedCompletion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    currentStageId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StageCreateInput = {
     id?: string
+    key: string
     name: string
     icon?: string | null
-    color_hsl?: string | null
-    category?: string | null
+    colorHsl?: string | null
+    category?: $Enums.ProjectCategory | null
     sequence: number
-    is_active?: boolean
-    is_required?: boolean
-    created_at?: Date | string
-    updated_at?: Date | string
+    isActive?: boolean
+    isRequired?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
     organization: OrganizationCreateNestedOneWithoutStagesInput
     tasks?: TaskCreateNestedManyWithoutStageInput
-    vehicles_in_stage?: VehicleCreateNestedManyWithoutCurrent_stageInput
+    vehiclesInStage?: VehicleCreateNestedManyWithoutCurrentStageInput
   }
 
   export type StageUncheckedCreateInput = {
     id?: string
+    key: string
     name: string
     icon?: string | null
-    color_hsl?: string | null
-    category?: string | null
+    colorHsl?: string | null
+    category?: $Enums.ProjectCategory | null
     sequence: number
-    is_active?: boolean
-    is_required?: boolean
-    organization_id: string
-    created_at?: Date | string
-    updated_at?: Date | string
+    isActive?: boolean
+    isRequired?: boolean
+    organizationId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     tasks?: TaskUncheckedCreateNestedManyWithoutStageInput
-    vehicles_in_stage?: VehicleUncheckedCreateNestedManyWithoutCurrent_stageInput
+    vehiclesInStage?: VehicleUncheckedCreateNestedManyWithoutCurrentStageInput
   }
 
   export type StageUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     icon?: NullableStringFieldUpdateOperationsInput | string | null
-    color_hsl?: NullableStringFieldUpdateOperationsInput | string | null
-    category?: NullableStringFieldUpdateOperationsInput | string | null
+    colorHsl?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableEnumProjectCategoryFieldUpdateOperationsInput | $Enums.ProjectCategory | null
     sequence?: IntFieldUpdateOperationsInput | number
-    is_active?: BoolFieldUpdateOperationsInput | boolean
-    is_required?: BoolFieldUpdateOperationsInput | boolean
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isRequired?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organization?: OrganizationUpdateOneRequiredWithoutStagesNestedInput
     tasks?: TaskUpdateManyWithoutStageNestedInput
-    vehicles_in_stage?: VehicleUpdateManyWithoutCurrent_stageNestedInput
+    vehiclesInStage?: VehicleUpdateManyWithoutCurrentStageNestedInput
   }
 
   export type StageUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     icon?: NullableStringFieldUpdateOperationsInput | string | null
-    color_hsl?: NullableStringFieldUpdateOperationsInput | string | null
-    category?: NullableStringFieldUpdateOperationsInput | string | null
+    colorHsl?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableEnumProjectCategoryFieldUpdateOperationsInput | $Enums.ProjectCategory | null
     sequence?: IntFieldUpdateOperationsInput | number
-    is_active?: BoolFieldUpdateOperationsInput | boolean
-    is_required?: BoolFieldUpdateOperationsInput | boolean
-    organization_id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isRequired?: BoolFieldUpdateOperationsInput | boolean
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tasks?: TaskUncheckedUpdateManyWithoutStageNestedInput
-    vehicles_in_stage?: VehicleUncheckedUpdateManyWithoutCurrent_stageNestedInput
+    vehiclesInStage?: VehicleUncheckedUpdateManyWithoutCurrentStageNestedInput
   }
 
   export type StageCreateManyInput = {
     id?: string
+    key: string
     name: string
     icon?: string | null
-    color_hsl?: string | null
-    category?: string | null
+    colorHsl?: string | null
+    category?: $Enums.ProjectCategory | null
     sequence: number
-    is_active?: boolean
-    is_required?: boolean
-    organization_id: string
-    created_at?: Date | string
-    updated_at?: Date | string
+    isActive?: boolean
+    isRequired?: boolean
+    organizationId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type StageUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     icon?: NullableStringFieldUpdateOperationsInput | string | null
-    color_hsl?: NullableStringFieldUpdateOperationsInput | string | null
-    category?: NullableStringFieldUpdateOperationsInput | string | null
+    colorHsl?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableEnumProjectCategoryFieldUpdateOperationsInput | $Enums.ProjectCategory | null
     sequence?: IntFieldUpdateOperationsInput | number
-    is_active?: BoolFieldUpdateOperationsInput | boolean
-    is_required?: BoolFieldUpdateOperationsInput | boolean
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isRequired?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StageUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     icon?: NullableStringFieldUpdateOperationsInput | string | null
-    color_hsl?: NullableStringFieldUpdateOperationsInput | string | null
-    category?: NullableStringFieldUpdateOperationsInput | string | null
+    colorHsl?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableEnumProjectCategoryFieldUpdateOperationsInput | $Enums.ProjectCategory | null
     sequence?: IntFieldUpdateOperationsInput | number
-    is_active?: BoolFieldUpdateOperationsInput | boolean
-    is_required?: BoolFieldUpdateOperationsInput | boolean
-    organization_id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isRequired?: BoolFieldUpdateOperationsInput | boolean
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TaskCreateInput = {
@@ -13882,14 +14099,13 @@ export namespace Prisma {
     title: string
     sequence: number
     description?: string | null
-    estimated_duration?: number | null
-    priority?: string | null
-    is_completed?: boolean
-    created_at?: Date | string
-    updated_at?: Date | string
+    estimatedDuration?: number | null
+    priority?: $Enums.TaskPriority | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     vehicle: VehicleCreateNestedOneWithoutTasksInput
     stage: StageCreateNestedOneWithoutTasksInput
-    task_progress?: TaskProgressCreateNestedManyWithoutTaskInput
+    taskProgress?: TaskProgressCreateNestedManyWithoutTaskInput
   }
 
   export type TaskUncheckedCreateInput = {
@@ -13897,14 +14113,13 @@ export namespace Prisma {
     title: string
     sequence: number
     description?: string | null
-    estimated_duration?: number | null
-    priority?: string | null
-    is_completed?: boolean
-    vehicle_id: string
-    stage_id: string
-    created_at?: Date | string
-    updated_at?: Date | string
-    task_progress?: TaskProgressUncheckedCreateNestedManyWithoutTaskInput
+    estimatedDuration?: number | null
+    priority?: $Enums.TaskPriority | null
+    vehicleId: string
+    stageId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    taskProgress?: TaskProgressUncheckedCreateNestedManyWithoutTaskInput
   }
 
   export type TaskUpdateInput = {
@@ -13912,14 +14127,13 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     sequence?: IntFieldUpdateOperationsInput | number
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    estimated_duration?: NullableIntFieldUpdateOperationsInput | number | null
-    priority?: NullableStringFieldUpdateOperationsInput | string | null
-    is_completed?: BoolFieldUpdateOperationsInput | boolean
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    estimatedDuration?: NullableIntFieldUpdateOperationsInput | number | null
+    priority?: NullableEnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     vehicle?: VehicleUpdateOneRequiredWithoutTasksNestedInput
     stage?: StageUpdateOneRequiredWithoutTasksNestedInput
-    task_progress?: TaskProgressUpdateManyWithoutTaskNestedInput
+    taskProgress?: TaskProgressUpdateManyWithoutTaskNestedInput
   }
 
   export type TaskUncheckedUpdateInput = {
@@ -13927,14 +14141,13 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     sequence?: IntFieldUpdateOperationsInput | number
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    estimated_duration?: NullableIntFieldUpdateOperationsInput | number | null
-    priority?: NullableStringFieldUpdateOperationsInput | string | null
-    is_completed?: BoolFieldUpdateOperationsInput | boolean
-    vehicle_id?: StringFieldUpdateOperationsInput | string
-    stage_id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    task_progress?: TaskProgressUncheckedUpdateManyWithoutTaskNestedInput
+    estimatedDuration?: NullableIntFieldUpdateOperationsInput | number | null
+    priority?: NullableEnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority | null
+    vehicleId?: StringFieldUpdateOperationsInput | string
+    stageId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    taskProgress?: TaskProgressUncheckedUpdateManyWithoutTaskNestedInput
   }
 
   export type TaskCreateManyInput = {
@@ -13942,13 +14155,12 @@ export namespace Prisma {
     title: string
     sequence: number
     description?: string | null
-    estimated_duration?: number | null
-    priority?: string | null
-    is_completed?: boolean
-    vehicle_id: string
-    stage_id: string
-    created_at?: Date | string
-    updated_at?: Date | string
+    estimatedDuration?: number | null
+    priority?: $Enums.TaskPriority | null
+    vehicleId: string
+    stageId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type TaskUpdateManyMutationInput = {
@@ -13956,11 +14168,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     sequence?: IntFieldUpdateOperationsInput | number
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    estimated_duration?: NullableIntFieldUpdateOperationsInput | number | null
-    priority?: NullableStringFieldUpdateOperationsInput | string | null
-    is_completed?: BoolFieldUpdateOperationsInput | boolean
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    estimatedDuration?: NullableIntFieldUpdateOperationsInput | number | null
+    priority?: NullableEnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TaskUncheckedUpdateManyInput = {
@@ -13968,151 +14179,150 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     sequence?: IntFieldUpdateOperationsInput | number
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    estimated_duration?: NullableIntFieldUpdateOperationsInput | number | null
-    priority?: NullableStringFieldUpdateOperationsInput | string | null
-    is_completed?: BoolFieldUpdateOperationsInput | boolean
-    vehicle_id?: StringFieldUpdateOperationsInput | string
-    stage_id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    estimatedDuration?: NullableIntFieldUpdateOperationsInput | number | null
+    priority?: NullableEnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority | null
+    vehicleId?: StringFieldUpdateOperationsInput | string
+    stageId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TaskProgressCreateInput = {
     id?: string
-    status: string
+    status: $Enums.TaskProgressStatus
     notes?: string | null
-    started_at?: Date | string | null
-    completed_at?: Date | string | null
-    created_at?: Date | string
-    updated_at?: Date | string
-    task: TaskCreateNestedOneWithoutTask_progressInput
-    worker?: MembershipCreateNestedOneWithoutTask_progressInput
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    task: TaskCreateNestedOneWithoutTaskProgressInput
+    worker?: MembershipCreateNestedOneWithoutTaskProgressInput
   }
 
   export type TaskProgressUncheckedCreateInput = {
     id?: string
-    status: string
+    status: $Enums.TaskProgressStatus
     notes?: string | null
-    started_at?: Date | string | null
-    completed_at?: Date | string | null
-    task_id: string
-    worker_membership_id?: string | null
-    created_at?: Date | string
-    updated_at?: Date | string
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    taskId: string
+    workerMembershipId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type TaskProgressUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumTaskProgressStatusFieldUpdateOperationsInput | $Enums.TaskProgressStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
-    started_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    completed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    task?: TaskUpdateOneRequiredWithoutTask_progressNestedInput
-    worker?: MembershipUpdateOneWithoutTask_progressNestedInput
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    task?: TaskUpdateOneRequiredWithoutTaskProgressNestedInput
+    worker?: MembershipUpdateOneWithoutTaskProgressNestedInput
   }
 
   export type TaskProgressUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumTaskProgressStatusFieldUpdateOperationsInput | $Enums.TaskProgressStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
-    started_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    completed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    task_id?: StringFieldUpdateOperationsInput | string
-    worker_membership_id?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    taskId?: StringFieldUpdateOperationsInput | string
+    workerMembershipId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TaskProgressCreateManyInput = {
     id?: string
-    status: string
+    status: $Enums.TaskProgressStatus
     notes?: string | null
-    started_at?: Date | string | null
-    completed_at?: Date | string | null
-    task_id: string
-    worker_membership_id?: string | null
-    created_at?: Date | string
-    updated_at?: Date | string
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    taskId: string
+    workerMembershipId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type TaskProgressUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumTaskProgressStatusFieldUpdateOperationsInput | $Enums.TaskProgressStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
-    started_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    completed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TaskProgressUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumTaskProgressStatusFieldUpdateOperationsInput | $Enums.TaskProgressStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
-    started_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    completed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    task_id?: StringFieldUpdateOperationsInput | string
-    worker_membership_id?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    taskId?: StringFieldUpdateOperationsInput | string
+    workerMembershipId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SessionCreateInput = {
     id?: string
     sid: string
     data: string
-    expires_at: Date | string
-    created_at?: Date | string
+    expiresAt: Date | string
+    createdAt?: Date | string
   }
 
   export type SessionUncheckedCreateInput = {
     id?: string
     sid: string
     data: string
-    expires_at: Date | string
-    created_at?: Date | string
+    expiresAt: Date | string
+    createdAt?: Date | string
   }
 
   export type SessionUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     sid?: StringFieldUpdateOperationsInput | string
     data?: StringFieldUpdateOperationsInput | string
-    expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SessionUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     sid?: StringFieldUpdateOperationsInput | string
     data?: StringFieldUpdateOperationsInput | string
-    expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SessionCreateManyInput = {
     id?: string
     sid: string
     data: string
-    expires_at: Date | string
-    created_at?: Date | string
+    expiresAt: Date | string
+    createdAt?: Date | string
   }
 
   export type SessionUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     sid?: StringFieldUpdateOperationsInput | string
     data?: StringFieldUpdateOperationsInput | string
-    expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SessionUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     sid?: StringFieldUpdateOperationsInput | string
     data?: StringFieldUpdateOperationsInput | string
-    expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -14181,10 +14391,10 @@ export namespace Prisma {
     email?: SortOrder
     name?: SortOrder
     password?: SortOrder
-    is_verified?: SortOrder
-    is_active?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
+    isVerified?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -14192,10 +14402,10 @@ export namespace Prisma {
     email?: SortOrder
     name?: SortOrder
     password?: SortOrder
-    is_verified?: SortOrder
-    is_active?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
+    isVerified?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -14203,10 +14413,10 @@ export namespace Prisma {
     email?: SortOrder
     name?: SortOrder
     password?: SortOrder
-    is_verified?: SortOrder
-    is_active?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
+    isVerified?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -14267,6 +14477,13 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type EnumProjectOrgTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProjectOrgType | EnumProjectOrgTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ProjectOrgType[] | ListEnumProjectOrgTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ProjectOrgType[] | ListEnumProjectOrgTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumProjectOrgTypeFilter<$PrismaModel> | $Enums.ProjectOrgType
+  }
+
   export type InviteListRelationFilter = {
     every?: InviteWhereInput
     some?: InviteWhereInput
@@ -14302,9 +14519,9 @@ export namespace Prisma {
     name?: SortOrder
     type?: SortOrder
     description?: SortOrder
-    is_verified?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
+    isVerified?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type OrganizationMaxOrderByAggregateInput = {
@@ -14312,9 +14529,9 @@ export namespace Prisma {
     name?: SortOrder
     type?: SortOrder
     description?: SortOrder
-    is_verified?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
+    isVerified?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type OrganizationMinOrderByAggregateInput = {
@@ -14322,9 +14539,33 @@ export namespace Prisma {
     name?: SortOrder
     type?: SortOrder
     description?: SortOrder
-    is_verified?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
+    isVerified?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumProjectOrgTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProjectOrgType | EnumProjectOrgTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ProjectOrgType[] | ListEnumProjectOrgTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ProjectOrgType[] | ListEnumProjectOrgTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumProjectOrgTypeWithAggregatesFilter<$PrismaModel> | $Enums.ProjectOrgType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumProjectOrgTypeFilter<$PrismaModel>
+    _max?: NestedEnumProjectOrgTypeFilter<$PrismaModel>
+  }
+
+  export type EnumAccessRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.AccessRole | EnumAccessRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.AccessRole[] | ListEnumAccessRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AccessRole[] | ListEnumAccessRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumAccessRoleFilter<$PrismaModel> | $Enums.AccessRole
+  }
+
+  export type EnumMembershipStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.MembershipStatus | EnumMembershipStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.MembershipStatus[] | ListEnumMembershipStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.MembershipStatus[] | ListEnumMembershipStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumMembershipStatusFilter<$PrismaModel> | $Enums.MembershipStatus
   }
 
   export type StringNullableListFilter<$PrismaModel = never> = {
@@ -14355,82 +14596,107 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
-  export type MembershipUser_idOrganization_idCompoundUniqueInput = {
-    user_id: string
-    organization_id: string
+  export type MembershipUserIdOrganizationIdCompoundUniqueInput = {
+    userId: string
+    organizationId: string
   }
 
   export type MembershipCountOrderByAggregateInput = {
     id?: SortOrder
-    user_id?: SortOrder
-    organization_id?: SortOrder
-    access_role?: SortOrder
-    business_role?: SortOrder
+    userId?: SortOrder
+    organizationId?: SortOrder
+    accessRole?: SortOrder
+    businessRole?: SortOrder
     status?: SortOrder
-    auth_methods?: SortOrder
-    rfid_tag?: SortOrder
-    qr_code?: SortOrder
-    usb_key_id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
+    authMethods?: SortOrder
+    rfidTag?: SortOrder
+    qrCode?: SortOrder
+    usbKeyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type MembershipMaxOrderByAggregateInput = {
     id?: SortOrder
-    user_id?: SortOrder
-    organization_id?: SortOrder
-    access_role?: SortOrder
-    business_role?: SortOrder
+    userId?: SortOrder
+    organizationId?: SortOrder
+    accessRole?: SortOrder
+    businessRole?: SortOrder
     status?: SortOrder
-    rfid_tag?: SortOrder
-    qr_code?: SortOrder
-    usb_key_id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
+    rfidTag?: SortOrder
+    qrCode?: SortOrder
+    usbKeyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type MembershipMinOrderByAggregateInput = {
     id?: SortOrder
-    user_id?: SortOrder
-    organization_id?: SortOrder
-    access_role?: SortOrder
-    business_role?: SortOrder
+    userId?: SortOrder
+    organizationId?: SortOrder
+    accessRole?: SortOrder
+    businessRole?: SortOrder
     status?: SortOrder
-    rfid_tag?: SortOrder
-    qr_code?: SortOrder
-    usb_key_id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
+    rfidTag?: SortOrder
+    qrCode?: SortOrder
+    usbKeyId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumAccessRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AccessRole | EnumAccessRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.AccessRole[] | ListEnumAccessRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AccessRole[] | ListEnumAccessRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumAccessRoleWithAggregatesFilter<$PrismaModel> | $Enums.AccessRole
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAccessRoleFilter<$PrismaModel>
+    _max?: NestedEnumAccessRoleFilter<$PrismaModel>
+  }
+
+  export type EnumMembershipStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.MembershipStatus | EnumMembershipStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.MembershipStatus[] | ListEnumMembershipStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.MembershipStatus[] | ListEnumMembershipStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumMembershipStatusWithAggregatesFilter<$PrismaModel> | $Enums.MembershipStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumMembershipStatusFilter<$PrismaModel>
+    _max?: NestedEnumMembershipStatusFilter<$PrismaModel>
+  }
+
+  export type InviteOrganizationIdEmailCompoundUniqueInput = {
+    organizationId: string
+    email: string
   }
 
   export type InviteCountOrderByAggregateInput = {
     id?: SortOrder
-    organization_id?: SortOrder
+    organizationId?: SortOrder
     email?: SortOrder
-    access_role?: SortOrder
+    accessRole?: SortOrder
     token?: SortOrder
-    expires_at?: SortOrder
-    created_at?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type InviteMaxOrderByAggregateInput = {
     id?: SortOrder
-    organization_id?: SortOrder
+    organizationId?: SortOrder
     email?: SortOrder
-    access_role?: SortOrder
+    accessRole?: SortOrder
     token?: SortOrder
-    expires_at?: SortOrder
-    created_at?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type InviteMinOrderByAggregateInput = {
     id?: SortOrder
-    organization_id?: SortOrder
+    organizationId?: SortOrder
     email?: SortOrder
-    access_role?: SortOrder
+    accessRole?: SortOrder
     token?: SortOrder
-    expires_at?: SortOrder
-    created_at?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type IntNullableFilter<$PrismaModel = never> = {
@@ -14442,6 +14708,13 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type EnumTaskProgressStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.TaskProgressStatus | EnumTaskProgressStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.TaskProgressStatus[] | ListEnumTaskProgressStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TaskProgressStatus[] | ListEnumTaskProgressStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumTaskProgressStatusFilter<$PrismaModel> | $Enums.TaskProgressStatus
   }
 
   export type DateTimeNullableFilter<$PrismaModel = never> = {
@@ -14476,20 +14749,21 @@ export namespace Prisma {
     brand?: SortOrder
     model?: SortOrder
     year?: SortOrder
-    registration_number?: SortOrder
-    customer_name?: SortOrder
-    customer_email?: SortOrder
-    customer_phone?: SortOrder
-    is_active?: SortOrder
+    registrationNumber?: SortOrder
+    customerName?: SortOrder
+    customerEmail?: SortOrder
+    customerPhone?: SortOrder
+    isActive?: SortOrder
+    status?: SortOrder
     notes?: SortOrder
-    qr_code_token?: SortOrder
-    tracking_token?: SortOrder
-    entry_time?: SortOrder
-    estimated_completion?: SortOrder
-    organization_id?: SortOrder
-    current_stage_id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
+    qrCodeToken?: SortOrder
+    trackingToken?: SortOrder
+    entryTime?: SortOrder
+    estimatedCompletion?: SortOrder
+    organizationId?: SortOrder
+    currentStageId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type VehicleAvgOrderByAggregateInput = {
@@ -14502,20 +14776,21 @@ export namespace Prisma {
     brand?: SortOrder
     model?: SortOrder
     year?: SortOrder
-    registration_number?: SortOrder
-    customer_name?: SortOrder
-    customer_email?: SortOrder
-    customer_phone?: SortOrder
-    is_active?: SortOrder
+    registrationNumber?: SortOrder
+    customerName?: SortOrder
+    customerEmail?: SortOrder
+    customerPhone?: SortOrder
+    isActive?: SortOrder
+    status?: SortOrder
     notes?: SortOrder
-    qr_code_token?: SortOrder
-    tracking_token?: SortOrder
-    entry_time?: SortOrder
-    estimated_completion?: SortOrder
-    organization_id?: SortOrder
-    current_stage_id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
+    qrCodeToken?: SortOrder
+    trackingToken?: SortOrder
+    entryTime?: SortOrder
+    estimatedCompletion?: SortOrder
+    organizationId?: SortOrder
+    currentStageId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type VehicleMinOrderByAggregateInput = {
@@ -14524,20 +14799,21 @@ export namespace Prisma {
     brand?: SortOrder
     model?: SortOrder
     year?: SortOrder
-    registration_number?: SortOrder
-    customer_name?: SortOrder
-    customer_email?: SortOrder
-    customer_phone?: SortOrder
-    is_active?: SortOrder
+    registrationNumber?: SortOrder
+    customerName?: SortOrder
+    customerEmail?: SortOrder
+    customerPhone?: SortOrder
+    isActive?: SortOrder
+    status?: SortOrder
     notes?: SortOrder
-    qr_code_token?: SortOrder
-    tracking_token?: SortOrder
-    entry_time?: SortOrder
-    estimated_completion?: SortOrder
-    organization_id?: SortOrder
-    current_stage_id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
+    qrCodeToken?: SortOrder
+    trackingToken?: SortOrder
+    entryTime?: SortOrder
+    estimatedCompletion?: SortOrder
+    organizationId?: SortOrder
+    currentStageId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type VehicleSumOrderByAggregateInput = {
@@ -14560,6 +14836,16 @@ export namespace Prisma {
     _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
+  export type EnumTaskProgressStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TaskProgressStatus | EnumTaskProgressStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.TaskProgressStatus[] | ListEnumTaskProgressStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TaskProgressStatus[] | ListEnumTaskProgressStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumTaskProgressStatusWithAggregatesFilter<$PrismaModel> | $Enums.TaskProgressStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTaskProgressStatusFilter<$PrismaModel>
+    _max?: NestedEnumTaskProgressStatusFilter<$PrismaModel>
+  }
+
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -14574,6 +14860,13 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
+  export type EnumProjectCategoryNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProjectCategory | EnumProjectCategoryFieldRefInput<$PrismaModel> | null
+    in?: $Enums.ProjectCategory[] | ListEnumProjectCategoryFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.ProjectCategory[] | ListEnumProjectCategoryFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumProjectCategoryNullableFilter<$PrismaModel> | $Enums.ProjectCategory | null
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -14585,23 +14878,29 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
-  export type StageOrganization_idSequenceCompoundUniqueInput = {
-    organization_id: string
+  export type StageOrganizationIdSequenceCompoundUniqueInput = {
+    organizationId: string
     sequence: number
+  }
+
+  export type StageOrganizationIdKeyCompoundUniqueInput = {
+    organizationId: string
+    key: string
   }
 
   export type StageCountOrderByAggregateInput = {
     id?: SortOrder
+    key?: SortOrder
     name?: SortOrder
     icon?: SortOrder
-    color_hsl?: SortOrder
+    colorHsl?: SortOrder
     category?: SortOrder
     sequence?: SortOrder
-    is_active?: SortOrder
-    is_required?: SortOrder
-    organization_id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
+    isActive?: SortOrder
+    isRequired?: SortOrder
+    organizationId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type StageAvgOrderByAggregateInput = {
@@ -14610,34 +14909,46 @@ export namespace Prisma {
 
   export type StageMaxOrderByAggregateInput = {
     id?: SortOrder
+    key?: SortOrder
     name?: SortOrder
     icon?: SortOrder
-    color_hsl?: SortOrder
+    colorHsl?: SortOrder
     category?: SortOrder
     sequence?: SortOrder
-    is_active?: SortOrder
-    is_required?: SortOrder
-    organization_id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
+    isActive?: SortOrder
+    isRequired?: SortOrder
+    organizationId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type StageMinOrderByAggregateInput = {
     id?: SortOrder
+    key?: SortOrder
     name?: SortOrder
     icon?: SortOrder
-    color_hsl?: SortOrder
+    colorHsl?: SortOrder
     category?: SortOrder
     sequence?: SortOrder
-    is_active?: SortOrder
-    is_required?: SortOrder
-    organization_id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
+    isActive?: SortOrder
+    isRequired?: SortOrder
+    organizationId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type StageSumOrderByAggregateInput = {
     sequence?: SortOrder
+  }
+
+  export type EnumProjectCategoryNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProjectCategory | EnumProjectCategoryFieldRefInput<$PrismaModel> | null
+    in?: $Enums.ProjectCategory[] | ListEnumProjectCategoryFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.ProjectCategory[] | ListEnumProjectCategoryFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumProjectCategoryNullableWithAggregatesFilter<$PrismaModel> | $Enums.ProjectCategory | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumProjectCategoryNullableFilter<$PrismaModel>
+    _max?: NestedEnumProjectCategoryNullableFilter<$PrismaModel>
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -14656,6 +14967,13 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
+  export type EnumTaskPriorityNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.TaskPriority | EnumTaskPriorityFieldRefInput<$PrismaModel> | null
+    in?: $Enums.TaskPriority[] | ListEnumTaskPriorityFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.TaskPriority[] | ListEnumTaskPriorityFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumTaskPriorityNullableFilter<$PrismaModel> | $Enums.TaskPriority | null
+  }
+
   export type VehicleScalarRelationFilter = {
     is?: VehicleWhereInput
     isNot?: VehicleWhereInput
@@ -14666,9 +14984,9 @@ export namespace Prisma {
     isNot?: StageWhereInput
   }
 
-  export type TaskVehicle_idStage_idSequenceCompoundUniqueInput = {
-    vehicle_id: string
-    stage_id: string
+  export type TaskVehicleIdStageIdSequenceCompoundUniqueInput = {
+    vehicleId: string
+    stageId: string
     sequence: number
   }
 
@@ -14677,18 +14995,17 @@ export namespace Prisma {
     title?: SortOrder
     sequence?: SortOrder
     description?: SortOrder
-    estimated_duration?: SortOrder
+    estimatedDuration?: SortOrder
     priority?: SortOrder
-    is_completed?: SortOrder
-    vehicle_id?: SortOrder
-    stage_id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
+    vehicleId?: SortOrder
+    stageId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type TaskAvgOrderByAggregateInput = {
     sequence?: SortOrder
-    estimated_duration?: SortOrder
+    estimatedDuration?: SortOrder
   }
 
   export type TaskMaxOrderByAggregateInput = {
@@ -14696,13 +15013,12 @@ export namespace Prisma {
     title?: SortOrder
     sequence?: SortOrder
     description?: SortOrder
-    estimated_duration?: SortOrder
+    estimatedDuration?: SortOrder
     priority?: SortOrder
-    is_completed?: SortOrder
-    vehicle_id?: SortOrder
-    stage_id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
+    vehicleId?: SortOrder
+    stageId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type TaskMinOrderByAggregateInput = {
@@ -14710,18 +15026,27 @@ export namespace Prisma {
     title?: SortOrder
     sequence?: SortOrder
     description?: SortOrder
-    estimated_duration?: SortOrder
+    estimatedDuration?: SortOrder
     priority?: SortOrder
-    is_completed?: SortOrder
-    vehicle_id?: SortOrder
-    stage_id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
+    vehicleId?: SortOrder
+    stageId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type TaskSumOrderByAggregateInput = {
     sequence?: SortOrder
-    estimated_duration?: SortOrder
+    estimatedDuration?: SortOrder
+  }
+
+  export type EnumTaskPriorityNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TaskPriority | EnumTaskPriorityFieldRefInput<$PrismaModel> | null
+    in?: $Enums.TaskPriority[] | ListEnumTaskPriorityFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.TaskPriority[] | ListEnumTaskPriorityFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumTaskPriorityNullableWithAggregatesFilter<$PrismaModel> | $Enums.TaskPriority | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumTaskPriorityNullableFilter<$PrismaModel>
+    _max?: NestedEnumTaskPriorityNullableFilter<$PrismaModel>
   }
 
   export type TaskScalarRelationFilter = {
@@ -14738,60 +15063,60 @@ export namespace Prisma {
     id?: SortOrder
     status?: SortOrder
     notes?: SortOrder
-    started_at?: SortOrder
-    completed_at?: SortOrder
-    task_id?: SortOrder
-    worker_membership_id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
+    startedAt?: SortOrder
+    completedAt?: SortOrder
+    taskId?: SortOrder
+    workerMembershipId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type TaskProgressMaxOrderByAggregateInput = {
     id?: SortOrder
     status?: SortOrder
     notes?: SortOrder
-    started_at?: SortOrder
-    completed_at?: SortOrder
-    task_id?: SortOrder
-    worker_membership_id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
+    startedAt?: SortOrder
+    completedAt?: SortOrder
+    taskId?: SortOrder
+    workerMembershipId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type TaskProgressMinOrderByAggregateInput = {
     id?: SortOrder
     status?: SortOrder
     notes?: SortOrder
-    started_at?: SortOrder
-    completed_at?: SortOrder
-    task_id?: SortOrder
-    worker_membership_id?: SortOrder
-    created_at?: SortOrder
-    updated_at?: SortOrder
+    startedAt?: SortOrder
+    completedAt?: SortOrder
+    taskId?: SortOrder
+    workerMembershipId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type SessionCountOrderByAggregateInput = {
     id?: SortOrder
     sid?: SortOrder
     data?: SortOrder
-    expires_at?: SortOrder
-    created_at?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type SessionMaxOrderByAggregateInput = {
     id?: SortOrder
     sid?: SortOrder
     data?: SortOrder
-    expires_at?: SortOrder
-    created_at?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type SessionMinOrderByAggregateInput = {
     id?: SortOrder
     sid?: SortOrder
     data?: SortOrder
-    expires_at?: SortOrder
-    created_at?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type MembershipCreateNestedManyWithoutUserInput = {
@@ -14908,6 +15233,10 @@ export namespace Prisma {
     connect?: VehicleWhereUniqueInput | VehicleWhereUniqueInput[]
   }
 
+  export type EnumProjectOrgTypeFieldUpdateOperationsInput = {
+    set?: $Enums.ProjectOrgType
+  }
+
   export type MembershipUpdateManyWithoutOrganizationNestedInput = {
     create?: XOR<MembershipCreateWithoutOrganizationInput, MembershipUncheckedCreateWithoutOrganizationInput> | MembershipCreateWithoutOrganizationInput[] | MembershipUncheckedCreateWithoutOrganizationInput[]
     connectOrCreate?: MembershipCreateOrConnectWithoutOrganizationInput | MembershipCreateOrConnectWithoutOrganizationInput[]
@@ -15020,7 +15349,7 @@ export namespace Prisma {
     deleteMany?: VehicleScalarWhereInput | VehicleScalarWhereInput[]
   }
 
-  export type MembershipCreateauth_methodsInput = {
+  export type MembershipCreateauthMethodsInput = {
     set: string[]
   }
 
@@ -15050,7 +15379,15 @@ export namespace Prisma {
     connect?: TaskProgressWhereUniqueInput | TaskProgressWhereUniqueInput[]
   }
 
-  export type MembershipUpdateauth_methodsInput = {
+  export type EnumAccessRoleFieldUpdateOperationsInput = {
+    set?: $Enums.AccessRole
+  }
+
+  export type EnumMembershipStatusFieldUpdateOperationsInput = {
+    set?: $Enums.MembershipStatus
+  }
+
+  export type MembershipUpdateauthMethodsInput = {
     set?: string[]
     push?: string | string[]
   }
@@ -15119,9 +15456,9 @@ export namespace Prisma {
     connect?: OrganizationWhereUniqueInput
   }
 
-  export type StageCreateNestedOneWithoutVehicles_in_stageInput = {
-    create?: XOR<StageCreateWithoutVehicles_in_stageInput, StageUncheckedCreateWithoutVehicles_in_stageInput>
-    connectOrCreate?: StageCreateOrConnectWithoutVehicles_in_stageInput
+  export type StageCreateNestedOneWithoutVehiclesInStageInput = {
+    create?: XOR<StageCreateWithoutVehiclesInStageInput, StageUncheckedCreateWithoutVehiclesInStageInput>
+    connectOrCreate?: StageCreateOrConnectWithoutVehiclesInStageInput
     connect?: StageWhereUniqueInput
   }
 
@@ -15147,6 +15484,10 @@ export namespace Prisma {
     divide?: number
   }
 
+  export type EnumTaskProgressStatusFieldUpdateOperationsInput = {
+    set?: $Enums.TaskProgressStatus
+  }
+
   export type NullableDateTimeFieldUpdateOperationsInput = {
     set?: Date | string | null
   }
@@ -15159,14 +15500,14 @@ export namespace Prisma {
     update?: XOR<XOR<OrganizationUpdateToOneWithWhereWithoutVehiclesInput, OrganizationUpdateWithoutVehiclesInput>, OrganizationUncheckedUpdateWithoutVehiclesInput>
   }
 
-  export type StageUpdateOneWithoutVehicles_in_stageNestedInput = {
-    create?: XOR<StageCreateWithoutVehicles_in_stageInput, StageUncheckedCreateWithoutVehicles_in_stageInput>
-    connectOrCreate?: StageCreateOrConnectWithoutVehicles_in_stageInput
-    upsert?: StageUpsertWithoutVehicles_in_stageInput
+  export type StageUpdateOneWithoutVehiclesInStageNestedInput = {
+    create?: XOR<StageCreateWithoutVehiclesInStageInput, StageUncheckedCreateWithoutVehiclesInStageInput>
+    connectOrCreate?: StageCreateOrConnectWithoutVehiclesInStageInput
+    upsert?: StageUpsertWithoutVehiclesInStageInput
     disconnect?: StageWhereInput | boolean
     delete?: StageWhereInput | boolean
     connect?: StageWhereUniqueInput
-    update?: XOR<XOR<StageUpdateToOneWithWhereWithoutVehicles_in_stageInput, StageUpdateWithoutVehicles_in_stageInput>, StageUncheckedUpdateWithoutVehicles_in_stageInput>
+    update?: XOR<XOR<StageUpdateToOneWithWhereWithoutVehiclesInStageInput, StageUpdateWithoutVehiclesInStageInput>, StageUncheckedUpdateWithoutVehiclesInStageInput>
   }
 
   export type TaskUpdateManyWithoutVehicleNestedInput = {
@@ -15210,10 +15551,10 @@ export namespace Prisma {
     connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
   }
 
-  export type VehicleCreateNestedManyWithoutCurrent_stageInput = {
-    create?: XOR<VehicleCreateWithoutCurrent_stageInput, VehicleUncheckedCreateWithoutCurrent_stageInput> | VehicleCreateWithoutCurrent_stageInput[] | VehicleUncheckedCreateWithoutCurrent_stageInput[]
-    connectOrCreate?: VehicleCreateOrConnectWithoutCurrent_stageInput | VehicleCreateOrConnectWithoutCurrent_stageInput[]
-    createMany?: VehicleCreateManyCurrent_stageInputEnvelope
+  export type VehicleCreateNestedManyWithoutCurrentStageInput = {
+    create?: XOR<VehicleCreateWithoutCurrentStageInput, VehicleUncheckedCreateWithoutCurrentStageInput> | VehicleCreateWithoutCurrentStageInput[] | VehicleUncheckedCreateWithoutCurrentStageInput[]
+    connectOrCreate?: VehicleCreateOrConnectWithoutCurrentStageInput | VehicleCreateOrConnectWithoutCurrentStageInput[]
+    createMany?: VehicleCreateManyCurrentStageInputEnvelope
     connect?: VehicleWhereUniqueInput | VehicleWhereUniqueInput[]
   }
 
@@ -15224,11 +15565,15 @@ export namespace Prisma {
     connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
   }
 
-  export type VehicleUncheckedCreateNestedManyWithoutCurrent_stageInput = {
-    create?: XOR<VehicleCreateWithoutCurrent_stageInput, VehicleUncheckedCreateWithoutCurrent_stageInput> | VehicleCreateWithoutCurrent_stageInput[] | VehicleUncheckedCreateWithoutCurrent_stageInput[]
-    connectOrCreate?: VehicleCreateOrConnectWithoutCurrent_stageInput | VehicleCreateOrConnectWithoutCurrent_stageInput[]
-    createMany?: VehicleCreateManyCurrent_stageInputEnvelope
+  export type VehicleUncheckedCreateNestedManyWithoutCurrentStageInput = {
+    create?: XOR<VehicleCreateWithoutCurrentStageInput, VehicleUncheckedCreateWithoutCurrentStageInput> | VehicleCreateWithoutCurrentStageInput[] | VehicleUncheckedCreateWithoutCurrentStageInput[]
+    connectOrCreate?: VehicleCreateOrConnectWithoutCurrentStageInput | VehicleCreateOrConnectWithoutCurrentStageInput[]
+    createMany?: VehicleCreateManyCurrentStageInputEnvelope
     connect?: VehicleWhereUniqueInput | VehicleWhereUniqueInput[]
+  }
+
+  export type NullableEnumProjectCategoryFieldUpdateOperationsInput = {
+    set?: $Enums.ProjectCategory | null
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -15261,17 +15606,17 @@ export namespace Prisma {
     deleteMany?: TaskScalarWhereInput | TaskScalarWhereInput[]
   }
 
-  export type VehicleUpdateManyWithoutCurrent_stageNestedInput = {
-    create?: XOR<VehicleCreateWithoutCurrent_stageInput, VehicleUncheckedCreateWithoutCurrent_stageInput> | VehicleCreateWithoutCurrent_stageInput[] | VehicleUncheckedCreateWithoutCurrent_stageInput[]
-    connectOrCreate?: VehicleCreateOrConnectWithoutCurrent_stageInput | VehicleCreateOrConnectWithoutCurrent_stageInput[]
-    upsert?: VehicleUpsertWithWhereUniqueWithoutCurrent_stageInput | VehicleUpsertWithWhereUniqueWithoutCurrent_stageInput[]
-    createMany?: VehicleCreateManyCurrent_stageInputEnvelope
+  export type VehicleUpdateManyWithoutCurrentStageNestedInput = {
+    create?: XOR<VehicleCreateWithoutCurrentStageInput, VehicleUncheckedCreateWithoutCurrentStageInput> | VehicleCreateWithoutCurrentStageInput[] | VehicleUncheckedCreateWithoutCurrentStageInput[]
+    connectOrCreate?: VehicleCreateOrConnectWithoutCurrentStageInput | VehicleCreateOrConnectWithoutCurrentStageInput[]
+    upsert?: VehicleUpsertWithWhereUniqueWithoutCurrentStageInput | VehicleUpsertWithWhereUniqueWithoutCurrentStageInput[]
+    createMany?: VehicleCreateManyCurrentStageInputEnvelope
     set?: VehicleWhereUniqueInput | VehicleWhereUniqueInput[]
     disconnect?: VehicleWhereUniqueInput | VehicleWhereUniqueInput[]
     delete?: VehicleWhereUniqueInput | VehicleWhereUniqueInput[]
     connect?: VehicleWhereUniqueInput | VehicleWhereUniqueInput[]
-    update?: VehicleUpdateWithWhereUniqueWithoutCurrent_stageInput | VehicleUpdateWithWhereUniqueWithoutCurrent_stageInput[]
-    updateMany?: VehicleUpdateManyWithWhereWithoutCurrent_stageInput | VehicleUpdateManyWithWhereWithoutCurrent_stageInput[]
+    update?: VehicleUpdateWithWhereUniqueWithoutCurrentStageInput | VehicleUpdateWithWhereUniqueWithoutCurrentStageInput[]
+    updateMany?: VehicleUpdateManyWithWhereWithoutCurrentStageInput | VehicleUpdateManyWithWhereWithoutCurrentStageInput[]
     deleteMany?: VehicleScalarWhereInput | VehicleScalarWhereInput[]
   }
 
@@ -15289,17 +15634,17 @@ export namespace Prisma {
     deleteMany?: TaskScalarWhereInput | TaskScalarWhereInput[]
   }
 
-  export type VehicleUncheckedUpdateManyWithoutCurrent_stageNestedInput = {
-    create?: XOR<VehicleCreateWithoutCurrent_stageInput, VehicleUncheckedCreateWithoutCurrent_stageInput> | VehicleCreateWithoutCurrent_stageInput[] | VehicleUncheckedCreateWithoutCurrent_stageInput[]
-    connectOrCreate?: VehicleCreateOrConnectWithoutCurrent_stageInput | VehicleCreateOrConnectWithoutCurrent_stageInput[]
-    upsert?: VehicleUpsertWithWhereUniqueWithoutCurrent_stageInput | VehicleUpsertWithWhereUniqueWithoutCurrent_stageInput[]
-    createMany?: VehicleCreateManyCurrent_stageInputEnvelope
+  export type VehicleUncheckedUpdateManyWithoutCurrentStageNestedInput = {
+    create?: XOR<VehicleCreateWithoutCurrentStageInput, VehicleUncheckedCreateWithoutCurrentStageInput> | VehicleCreateWithoutCurrentStageInput[] | VehicleUncheckedCreateWithoutCurrentStageInput[]
+    connectOrCreate?: VehicleCreateOrConnectWithoutCurrentStageInput | VehicleCreateOrConnectWithoutCurrentStageInput[]
+    upsert?: VehicleUpsertWithWhereUniqueWithoutCurrentStageInput | VehicleUpsertWithWhereUniqueWithoutCurrentStageInput[]
+    createMany?: VehicleCreateManyCurrentStageInputEnvelope
     set?: VehicleWhereUniqueInput | VehicleWhereUniqueInput[]
     disconnect?: VehicleWhereUniqueInput | VehicleWhereUniqueInput[]
     delete?: VehicleWhereUniqueInput | VehicleWhereUniqueInput[]
     connect?: VehicleWhereUniqueInput | VehicleWhereUniqueInput[]
-    update?: VehicleUpdateWithWhereUniqueWithoutCurrent_stageInput | VehicleUpdateWithWhereUniqueWithoutCurrent_stageInput[]
-    updateMany?: VehicleUpdateManyWithWhereWithoutCurrent_stageInput | VehicleUpdateManyWithWhereWithoutCurrent_stageInput[]
+    update?: VehicleUpdateWithWhereUniqueWithoutCurrentStageInput | VehicleUpdateWithWhereUniqueWithoutCurrentStageInput[]
+    updateMany?: VehicleUpdateManyWithWhereWithoutCurrentStageInput | VehicleUpdateManyWithWhereWithoutCurrentStageInput[]
     deleteMany?: VehicleScalarWhereInput | VehicleScalarWhereInput[]
   }
 
@@ -15327,6 +15672,10 @@ export namespace Prisma {
     connectOrCreate?: TaskProgressCreateOrConnectWithoutTaskInput | TaskProgressCreateOrConnectWithoutTaskInput[]
     createMany?: TaskProgressCreateManyTaskInputEnvelope
     connect?: TaskProgressWhereUniqueInput | TaskProgressWhereUniqueInput[]
+  }
+
+  export type NullableEnumTaskPriorityFieldUpdateOperationsInput = {
+    set?: $Enums.TaskPriority | null
   }
 
   export type VehicleUpdateOneRequiredWithoutTasksNestedInput = {
@@ -15373,34 +15722,34 @@ export namespace Prisma {
     deleteMany?: TaskProgressScalarWhereInput | TaskProgressScalarWhereInput[]
   }
 
-  export type TaskCreateNestedOneWithoutTask_progressInput = {
-    create?: XOR<TaskCreateWithoutTask_progressInput, TaskUncheckedCreateWithoutTask_progressInput>
-    connectOrCreate?: TaskCreateOrConnectWithoutTask_progressInput
+  export type TaskCreateNestedOneWithoutTaskProgressInput = {
+    create?: XOR<TaskCreateWithoutTaskProgressInput, TaskUncheckedCreateWithoutTaskProgressInput>
+    connectOrCreate?: TaskCreateOrConnectWithoutTaskProgressInput
     connect?: TaskWhereUniqueInput
   }
 
-  export type MembershipCreateNestedOneWithoutTask_progressInput = {
-    create?: XOR<MembershipCreateWithoutTask_progressInput, MembershipUncheckedCreateWithoutTask_progressInput>
-    connectOrCreate?: MembershipCreateOrConnectWithoutTask_progressInput
+  export type MembershipCreateNestedOneWithoutTaskProgressInput = {
+    create?: XOR<MembershipCreateWithoutTaskProgressInput, MembershipUncheckedCreateWithoutTaskProgressInput>
+    connectOrCreate?: MembershipCreateOrConnectWithoutTaskProgressInput
     connect?: MembershipWhereUniqueInput
   }
 
-  export type TaskUpdateOneRequiredWithoutTask_progressNestedInput = {
-    create?: XOR<TaskCreateWithoutTask_progressInput, TaskUncheckedCreateWithoutTask_progressInput>
-    connectOrCreate?: TaskCreateOrConnectWithoutTask_progressInput
-    upsert?: TaskUpsertWithoutTask_progressInput
+  export type TaskUpdateOneRequiredWithoutTaskProgressNestedInput = {
+    create?: XOR<TaskCreateWithoutTaskProgressInput, TaskUncheckedCreateWithoutTaskProgressInput>
+    connectOrCreate?: TaskCreateOrConnectWithoutTaskProgressInput
+    upsert?: TaskUpsertWithoutTaskProgressInput
     connect?: TaskWhereUniqueInput
-    update?: XOR<XOR<TaskUpdateToOneWithWhereWithoutTask_progressInput, TaskUpdateWithoutTask_progressInput>, TaskUncheckedUpdateWithoutTask_progressInput>
+    update?: XOR<XOR<TaskUpdateToOneWithWhereWithoutTaskProgressInput, TaskUpdateWithoutTaskProgressInput>, TaskUncheckedUpdateWithoutTaskProgressInput>
   }
 
-  export type MembershipUpdateOneWithoutTask_progressNestedInput = {
-    create?: XOR<MembershipCreateWithoutTask_progressInput, MembershipUncheckedCreateWithoutTask_progressInput>
-    connectOrCreate?: MembershipCreateOrConnectWithoutTask_progressInput
-    upsert?: MembershipUpsertWithoutTask_progressInput
+  export type MembershipUpdateOneWithoutTaskProgressNestedInput = {
+    create?: XOR<MembershipCreateWithoutTaskProgressInput, MembershipUncheckedCreateWithoutTaskProgressInput>
+    connectOrCreate?: MembershipCreateOrConnectWithoutTaskProgressInput
+    upsert?: MembershipUpsertWithoutTaskProgressInput
     disconnect?: MembershipWhereInput | boolean
     delete?: MembershipWhereInput | boolean
     connect?: MembershipWhereUniqueInput
-    update?: XOR<XOR<MembershipUpdateToOneWithWhereWithoutTask_progressInput, MembershipUpdateWithoutTask_progressInput>, MembershipUncheckedUpdateWithoutTask_progressInput>
+    update?: XOR<XOR<MembershipUpdateToOneWithWhereWithoutTaskProgressInput, MembershipUpdateWithoutTaskProgressInput>, MembershipUncheckedUpdateWithoutTaskProgressInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -15525,6 +15874,64 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedEnumProjectOrgTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProjectOrgType | EnumProjectOrgTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ProjectOrgType[] | ListEnumProjectOrgTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ProjectOrgType[] | ListEnumProjectOrgTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumProjectOrgTypeFilter<$PrismaModel> | $Enums.ProjectOrgType
+  }
+
+  export type NestedEnumProjectOrgTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProjectOrgType | EnumProjectOrgTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ProjectOrgType[] | ListEnumProjectOrgTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ProjectOrgType[] | ListEnumProjectOrgTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumProjectOrgTypeWithAggregatesFilter<$PrismaModel> | $Enums.ProjectOrgType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumProjectOrgTypeFilter<$PrismaModel>
+    _max?: NestedEnumProjectOrgTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumAccessRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.AccessRole | EnumAccessRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.AccessRole[] | ListEnumAccessRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AccessRole[] | ListEnumAccessRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumAccessRoleFilter<$PrismaModel> | $Enums.AccessRole
+  }
+
+  export type NestedEnumMembershipStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.MembershipStatus | EnumMembershipStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.MembershipStatus[] | ListEnumMembershipStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.MembershipStatus[] | ListEnumMembershipStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumMembershipStatusFilter<$PrismaModel> | $Enums.MembershipStatus
+  }
+
+  export type NestedEnumAccessRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AccessRole | EnumAccessRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.AccessRole[] | ListEnumAccessRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AccessRole[] | ListEnumAccessRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumAccessRoleWithAggregatesFilter<$PrismaModel> | $Enums.AccessRole
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAccessRoleFilter<$PrismaModel>
+    _max?: NestedEnumAccessRoleFilter<$PrismaModel>
+  }
+
+  export type NestedEnumMembershipStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.MembershipStatus | EnumMembershipStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.MembershipStatus[] | ListEnumMembershipStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.MembershipStatus[] | ListEnumMembershipStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumMembershipStatusWithAggregatesFilter<$PrismaModel> | $Enums.MembershipStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumMembershipStatusFilter<$PrismaModel>
+    _max?: NestedEnumMembershipStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumTaskProgressStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.TaskProgressStatus | EnumTaskProgressStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.TaskProgressStatus[] | ListEnumTaskProgressStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TaskProgressStatus[] | ListEnumTaskProgressStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumTaskProgressStatusFilter<$PrismaModel> | $Enums.TaskProgressStatus
+  }
+
   export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -15563,6 +15970,16 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
+  export type NestedEnumTaskProgressStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TaskProgressStatus | EnumTaskProgressStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.TaskProgressStatus[] | ListEnumTaskProgressStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TaskProgressStatus[] | ListEnumTaskProgressStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumTaskProgressStatusWithAggregatesFilter<$PrismaModel> | $Enums.TaskProgressStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTaskProgressStatusFilter<$PrismaModel>
+    _max?: NestedEnumTaskProgressStatusFilter<$PrismaModel>
+  }
+
   export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -15575,6 +15992,23 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumProjectCategoryNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProjectCategory | EnumProjectCategoryFieldRefInput<$PrismaModel> | null
+    in?: $Enums.ProjectCategory[] | ListEnumProjectCategoryFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.ProjectCategory[] | ListEnumProjectCategoryFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumProjectCategoryNullableFilter<$PrismaModel> | $Enums.ProjectCategory | null
+  }
+
+  export type NestedEnumProjectCategoryNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProjectCategory | EnumProjectCategoryFieldRefInput<$PrismaModel> | null
+    in?: $Enums.ProjectCategory[] | ListEnumProjectCategoryFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.ProjectCategory[] | ListEnumProjectCategoryFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumProjectCategoryNullableWithAggregatesFilter<$PrismaModel> | $Enums.ProjectCategory | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumProjectCategoryNullableFilter<$PrismaModel>
+    _max?: NestedEnumProjectCategoryNullableFilter<$PrismaModel>
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -15604,34 +16038,51 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
+  export type NestedEnumTaskPriorityNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.TaskPriority | EnumTaskPriorityFieldRefInput<$PrismaModel> | null
+    in?: $Enums.TaskPriority[] | ListEnumTaskPriorityFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.TaskPriority[] | ListEnumTaskPriorityFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumTaskPriorityNullableFilter<$PrismaModel> | $Enums.TaskPriority | null
+  }
+
+  export type NestedEnumTaskPriorityNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TaskPriority | EnumTaskPriorityFieldRefInput<$PrismaModel> | null
+    in?: $Enums.TaskPriority[] | ListEnumTaskPriorityFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.TaskPriority[] | ListEnumTaskPriorityFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumTaskPriorityNullableWithAggregatesFilter<$PrismaModel> | $Enums.TaskPriority | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumTaskPriorityNullableFilter<$PrismaModel>
+    _max?: NestedEnumTaskPriorityNullableFilter<$PrismaModel>
+  }
+
   export type MembershipCreateWithoutUserInput = {
     id?: string
-    access_role: string
-    business_role?: string | null
-    status: string
-    auth_methods?: MembershipCreateauth_methodsInput | string[]
-    rfid_tag?: string | null
-    qr_code?: string | null
-    usb_key_id?: string | null
-    created_at?: Date | string
-    updated_at?: Date | string
+    accessRole: $Enums.AccessRole
+    businessRole?: string | null
+    status: $Enums.MembershipStatus
+    authMethods?: MembershipCreateauthMethodsInput | string[]
+    rfidTag?: string | null
+    qrCode?: string | null
+    usbKeyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     organization: OrganizationCreateNestedOneWithoutMembershipsInput
-    task_progress?: TaskProgressCreateNestedManyWithoutWorkerInput
+    taskProgress?: TaskProgressCreateNestedManyWithoutWorkerInput
   }
 
   export type MembershipUncheckedCreateWithoutUserInput = {
     id?: string
-    organization_id: string
-    access_role: string
-    business_role?: string | null
-    status: string
-    auth_methods?: MembershipCreateauth_methodsInput | string[]
-    rfid_tag?: string | null
-    qr_code?: string | null
-    usb_key_id?: string | null
-    created_at?: Date | string
-    updated_at?: Date | string
-    task_progress?: TaskProgressUncheckedCreateNestedManyWithoutWorkerInput
+    organizationId: string
+    accessRole: $Enums.AccessRole
+    businessRole?: string | null
+    status: $Enums.MembershipStatus
+    authMethods?: MembershipCreateauthMethodsInput | string[]
+    rfidTag?: string | null
+    qrCode?: string | null
+    usbKeyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    taskProgress?: TaskProgressUncheckedCreateNestedManyWithoutWorkerInput
   }
 
   export type MembershipCreateOrConnectWithoutUserInput = {
@@ -15665,47 +16116,47 @@ export namespace Prisma {
     OR?: MembershipScalarWhereInput[]
     NOT?: MembershipScalarWhereInput | MembershipScalarWhereInput[]
     id?: StringFilter<"Membership"> | string
-    user_id?: StringFilter<"Membership"> | string
-    organization_id?: StringFilter<"Membership"> | string
-    access_role?: StringFilter<"Membership"> | string
-    business_role?: StringNullableFilter<"Membership"> | string | null
-    status?: StringFilter<"Membership"> | string
-    auth_methods?: StringNullableListFilter<"Membership">
-    rfid_tag?: StringNullableFilter<"Membership"> | string | null
-    qr_code?: StringNullableFilter<"Membership"> | string | null
-    usb_key_id?: StringNullableFilter<"Membership"> | string | null
-    created_at?: DateTimeFilter<"Membership"> | Date | string
-    updated_at?: DateTimeFilter<"Membership"> | Date | string
+    userId?: StringFilter<"Membership"> | string
+    organizationId?: StringFilter<"Membership"> | string
+    accessRole?: EnumAccessRoleFilter<"Membership"> | $Enums.AccessRole
+    businessRole?: StringNullableFilter<"Membership"> | string | null
+    status?: EnumMembershipStatusFilter<"Membership"> | $Enums.MembershipStatus
+    authMethods?: StringNullableListFilter<"Membership">
+    rfidTag?: StringNullableFilter<"Membership"> | string | null
+    qrCode?: StringNullableFilter<"Membership"> | string | null
+    usbKeyId?: StringNullableFilter<"Membership"> | string | null
+    createdAt?: DateTimeFilter<"Membership"> | Date | string
+    updatedAt?: DateTimeFilter<"Membership"> | Date | string
   }
 
   export type MembershipCreateWithoutOrganizationInput = {
     id?: string
-    access_role: string
-    business_role?: string | null
-    status: string
-    auth_methods?: MembershipCreateauth_methodsInput | string[]
-    rfid_tag?: string | null
-    qr_code?: string | null
-    usb_key_id?: string | null
-    created_at?: Date | string
-    updated_at?: Date | string
+    accessRole: $Enums.AccessRole
+    businessRole?: string | null
+    status: $Enums.MembershipStatus
+    authMethods?: MembershipCreateauthMethodsInput | string[]
+    rfidTag?: string | null
+    qrCode?: string | null
+    usbKeyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     user: UserCreateNestedOneWithoutMembershipsInput
-    task_progress?: TaskProgressCreateNestedManyWithoutWorkerInput
+    taskProgress?: TaskProgressCreateNestedManyWithoutWorkerInput
   }
 
   export type MembershipUncheckedCreateWithoutOrganizationInput = {
     id?: string
-    user_id: string
-    access_role: string
-    business_role?: string | null
-    status: string
-    auth_methods?: MembershipCreateauth_methodsInput | string[]
-    rfid_tag?: string | null
-    qr_code?: string | null
-    usb_key_id?: string | null
-    created_at?: Date | string
-    updated_at?: Date | string
-    task_progress?: TaskProgressUncheckedCreateNestedManyWithoutWorkerInput
+    userId: string
+    accessRole: $Enums.AccessRole
+    businessRole?: string | null
+    status: $Enums.MembershipStatus
+    authMethods?: MembershipCreateauthMethodsInput | string[]
+    rfidTag?: string | null
+    qrCode?: string | null
+    usbKeyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    taskProgress?: TaskProgressUncheckedCreateNestedManyWithoutWorkerInput
   }
 
   export type MembershipCreateOrConnectWithoutOrganizationInput = {
@@ -15721,19 +16172,19 @@ export namespace Prisma {
   export type InviteCreateWithoutOrganizationInput = {
     id?: string
     email: string
-    access_role: string
+    accessRole: $Enums.AccessRole
     token: string
-    expires_at: Date | string
-    created_at?: Date | string
+    expiresAt: Date | string
+    createdAt?: Date | string
   }
 
   export type InviteUncheckedCreateWithoutOrganizationInput = {
     id?: string
     email: string
-    access_role: string
+    accessRole: $Enums.AccessRole
     token: string
-    expires_at: Date | string
-    created_at?: Date | string
+    expiresAt: Date | string
+    createdAt?: Date | string
   }
 
   export type InviteCreateOrConnectWithoutOrganizationInput = {
@@ -15748,32 +16199,34 @@ export namespace Prisma {
 
   export type StageCreateWithoutOrganizationInput = {
     id?: string
+    key: string
     name: string
     icon?: string | null
-    color_hsl?: string | null
-    category?: string | null
+    colorHsl?: string | null
+    category?: $Enums.ProjectCategory | null
     sequence: number
-    is_active?: boolean
-    is_required?: boolean
-    created_at?: Date | string
-    updated_at?: Date | string
+    isActive?: boolean
+    isRequired?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
     tasks?: TaskCreateNestedManyWithoutStageInput
-    vehicles_in_stage?: VehicleCreateNestedManyWithoutCurrent_stageInput
+    vehiclesInStage?: VehicleCreateNestedManyWithoutCurrentStageInput
   }
 
   export type StageUncheckedCreateWithoutOrganizationInput = {
     id?: string
+    key: string
     name: string
     icon?: string | null
-    color_hsl?: string | null
-    category?: string | null
+    colorHsl?: string | null
+    category?: $Enums.ProjectCategory | null
     sequence: number
-    is_active?: boolean
-    is_required?: boolean
-    created_at?: Date | string
-    updated_at?: Date | string
+    isActive?: boolean
+    isRequired?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
     tasks?: TaskUncheckedCreateNestedManyWithoutStageInput
-    vehicles_in_stage?: VehicleUncheckedCreateNestedManyWithoutCurrent_stageInput
+    vehiclesInStage?: VehicleUncheckedCreateNestedManyWithoutCurrentStageInput
   }
 
   export type StageCreateOrConnectWithoutOrganizationInput = {
@@ -15792,19 +16245,20 @@ export namespace Prisma {
     brand: string
     model: string
     year?: number | null
-    registration_number: string
-    customer_name: string
-    customer_email?: string | null
-    customer_phone?: string | null
-    is_active?: boolean
+    registrationNumber: string
+    customerName: string
+    customerEmail?: string | null
+    customerPhone?: string | null
+    isActive?: boolean
+    status?: $Enums.TaskProgressStatus
     notes?: string | null
-    qr_code_token: string
-    tracking_token: string
-    entry_time?: Date | string
-    estimated_completion?: Date | string | null
-    created_at?: Date | string
-    updated_at?: Date | string
-    current_stage?: StageCreateNestedOneWithoutVehicles_in_stageInput
+    qrCodeToken: string
+    trackingToken: string
+    entryTime?: Date | string
+    estimatedCompletion?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    currentStage?: StageCreateNestedOneWithoutVehiclesInStageInput
     tasks?: TaskCreateNestedManyWithoutVehicleInput
   }
 
@@ -15814,19 +16268,20 @@ export namespace Prisma {
     brand: string
     model: string
     year?: number | null
-    registration_number: string
-    customer_name: string
-    customer_email?: string | null
-    customer_phone?: string | null
-    is_active?: boolean
+    registrationNumber: string
+    customerName: string
+    customerEmail?: string | null
+    customerPhone?: string | null
+    isActive?: boolean
+    status?: $Enums.TaskProgressStatus
     notes?: string | null
-    qr_code_token: string
-    tracking_token: string
-    entry_time?: Date | string
-    estimated_completion?: Date | string | null
-    current_stage_id?: string | null
-    created_at?: Date | string
-    updated_at?: Date | string
+    qrCodeToken: string
+    trackingToken: string
+    entryTime?: Date | string
+    estimatedCompletion?: Date | string | null
+    currentStageId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     tasks?: TaskUncheckedCreateNestedManyWithoutVehicleInput
   }
 
@@ -15877,12 +16332,12 @@ export namespace Prisma {
     OR?: InviteScalarWhereInput[]
     NOT?: InviteScalarWhereInput | InviteScalarWhereInput[]
     id?: StringFilter<"Invite"> | string
-    organization_id?: StringFilter<"Invite"> | string
+    organizationId?: StringFilter<"Invite"> | string
     email?: StringFilter<"Invite"> | string
-    access_role?: StringFilter<"Invite"> | string
+    accessRole?: EnumAccessRoleFilter<"Invite"> | $Enums.AccessRole
     token?: StringFilter<"Invite"> | string
-    expires_at?: DateTimeFilter<"Invite"> | Date | string
-    created_at?: DateTimeFilter<"Invite"> | Date | string
+    expiresAt?: DateTimeFilter<"Invite"> | Date | string
+    createdAt?: DateTimeFilter<"Invite"> | Date | string
   }
 
   export type StageUpsertWithWhereUniqueWithoutOrganizationInput = {
@@ -15906,16 +16361,17 @@ export namespace Prisma {
     OR?: StageScalarWhereInput[]
     NOT?: StageScalarWhereInput | StageScalarWhereInput[]
     id?: StringFilter<"Stage"> | string
+    key?: StringFilter<"Stage"> | string
     name?: StringFilter<"Stage"> | string
     icon?: StringNullableFilter<"Stage"> | string | null
-    color_hsl?: StringNullableFilter<"Stage"> | string | null
-    category?: StringNullableFilter<"Stage"> | string | null
+    colorHsl?: StringNullableFilter<"Stage"> | string | null
+    category?: EnumProjectCategoryNullableFilter<"Stage"> | $Enums.ProjectCategory | null
     sequence?: IntFilter<"Stage"> | number
-    is_active?: BoolFilter<"Stage"> | boolean
-    is_required?: BoolFilter<"Stage"> | boolean
-    organization_id?: StringFilter<"Stage"> | string
-    created_at?: DateTimeFilter<"Stage"> | Date | string
-    updated_at?: DateTimeFilter<"Stage"> | Date | string
+    isActive?: BoolFilter<"Stage"> | boolean
+    isRequired?: BoolFilter<"Stage"> | boolean
+    organizationId?: StringFilter<"Stage"> | string
+    createdAt?: DateTimeFilter<"Stage"> | Date | string
+    updatedAt?: DateTimeFilter<"Stage"> | Date | string
   }
 
   export type VehicleUpsertWithWhereUniqueWithoutOrganizationInput = {
@@ -15943,20 +16399,21 @@ export namespace Prisma {
     brand?: StringFilter<"Vehicle"> | string
     model?: StringFilter<"Vehicle"> | string
     year?: IntNullableFilter<"Vehicle"> | number | null
-    registration_number?: StringFilter<"Vehicle"> | string
-    customer_name?: StringFilter<"Vehicle"> | string
-    customer_email?: StringNullableFilter<"Vehicle"> | string | null
-    customer_phone?: StringNullableFilter<"Vehicle"> | string | null
-    is_active?: BoolFilter<"Vehicle"> | boolean
+    registrationNumber?: StringFilter<"Vehicle"> | string
+    customerName?: StringFilter<"Vehicle"> | string
+    customerEmail?: StringNullableFilter<"Vehicle"> | string | null
+    customerPhone?: StringNullableFilter<"Vehicle"> | string | null
+    isActive?: BoolFilter<"Vehicle"> | boolean
+    status?: EnumTaskProgressStatusFilter<"Vehicle"> | $Enums.TaskProgressStatus
     notes?: StringNullableFilter<"Vehicle"> | string | null
-    qr_code_token?: StringFilter<"Vehicle"> | string
-    tracking_token?: StringFilter<"Vehicle"> | string
-    entry_time?: DateTimeFilter<"Vehicle"> | Date | string
-    estimated_completion?: DateTimeNullableFilter<"Vehicle"> | Date | string | null
-    organization_id?: StringFilter<"Vehicle"> | string
-    current_stage_id?: StringNullableFilter<"Vehicle"> | string | null
-    created_at?: DateTimeFilter<"Vehicle"> | Date | string
-    updated_at?: DateTimeFilter<"Vehicle"> | Date | string
+    qrCodeToken?: StringFilter<"Vehicle"> | string
+    trackingToken?: StringFilter<"Vehicle"> | string
+    entryTime?: DateTimeFilter<"Vehicle"> | Date | string
+    estimatedCompletion?: DateTimeNullableFilter<"Vehicle"> | Date | string | null
+    organizationId?: StringFilter<"Vehicle"> | string
+    currentStageId?: StringNullableFilter<"Vehicle"> | string | null
+    createdAt?: DateTimeFilter<"Vehicle"> | Date | string
+    updatedAt?: DateTimeFilter<"Vehicle"> | Date | string
   }
 
   export type UserCreateWithoutMembershipsInput = {
@@ -15964,10 +16421,10 @@ export namespace Prisma {
     email: string
     name: string
     password?: string | null
-    is_verified?: boolean
-    is_active?: boolean
-    created_at?: Date | string
-    updated_at?: Date | string
+    isVerified?: boolean
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type UserUncheckedCreateWithoutMembershipsInput = {
@@ -15975,10 +16432,10 @@ export namespace Prisma {
     email: string
     name: string
     password?: string | null
-    is_verified?: boolean
-    is_active?: boolean
-    created_at?: Date | string
-    updated_at?: Date | string
+    isVerified?: boolean
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type UserCreateOrConnectWithoutMembershipsInput = {
@@ -15989,11 +16446,11 @@ export namespace Prisma {
   export type OrganizationCreateWithoutMembershipsInput = {
     id?: string
     name: string
-    type: string
+    type: $Enums.ProjectOrgType
     description?: string | null
-    is_verified?: boolean
-    created_at?: Date | string
-    updated_at?: Date | string
+    isVerified?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
     invites?: InviteCreateNestedManyWithoutOrganizationInput
     stages?: StageCreateNestedManyWithoutOrganizationInput
     vehicles?: VehicleCreateNestedManyWithoutOrganizationInput
@@ -16002,11 +16459,11 @@ export namespace Prisma {
   export type OrganizationUncheckedCreateWithoutMembershipsInput = {
     id?: string
     name: string
-    type: string
+    type: $Enums.ProjectOrgType
     description?: string | null
-    is_verified?: boolean
-    created_at?: Date | string
-    updated_at?: Date | string
+    isVerified?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
     invites?: InviteUncheckedCreateNestedManyWithoutOrganizationInput
     stages?: StageUncheckedCreateNestedManyWithoutOrganizationInput
     vehicles?: VehicleUncheckedCreateNestedManyWithoutOrganizationInput
@@ -16019,24 +16476,24 @@ export namespace Prisma {
 
   export type TaskProgressCreateWithoutWorkerInput = {
     id?: string
-    status: string
+    status: $Enums.TaskProgressStatus
     notes?: string | null
-    started_at?: Date | string | null
-    completed_at?: Date | string | null
-    created_at?: Date | string
-    updated_at?: Date | string
-    task: TaskCreateNestedOneWithoutTask_progressInput
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    task: TaskCreateNestedOneWithoutTaskProgressInput
   }
 
   export type TaskProgressUncheckedCreateWithoutWorkerInput = {
     id?: string
-    status: string
+    status: $Enums.TaskProgressStatus
     notes?: string | null
-    started_at?: Date | string | null
-    completed_at?: Date | string | null
-    task_id: string
-    created_at?: Date | string
-    updated_at?: Date | string
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    taskId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type TaskProgressCreateOrConnectWithoutWorkerInput = {
@@ -16065,10 +16522,10 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    is_verified?: BoolFieldUpdateOperationsInput | boolean
-    is_active?: BoolFieldUpdateOperationsInput | boolean
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserUncheckedUpdateWithoutMembershipsInput = {
@@ -16076,10 +16533,10 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    is_verified?: BoolFieldUpdateOperationsInput | boolean
-    is_active?: BoolFieldUpdateOperationsInput | boolean
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type OrganizationUpsertWithoutMembershipsInput = {
@@ -16096,11 +16553,11 @@ export namespace Prisma {
   export type OrganizationUpdateWithoutMembershipsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumProjectOrgTypeFieldUpdateOperationsInput | $Enums.ProjectOrgType
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    is_verified?: BoolFieldUpdateOperationsInput | boolean
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     invites?: InviteUpdateManyWithoutOrganizationNestedInput
     stages?: StageUpdateManyWithoutOrganizationNestedInput
     vehicles?: VehicleUpdateManyWithoutOrganizationNestedInput
@@ -16109,11 +16566,11 @@ export namespace Prisma {
   export type OrganizationUncheckedUpdateWithoutMembershipsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumProjectOrgTypeFieldUpdateOperationsInput | $Enums.ProjectOrgType
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    is_verified?: BoolFieldUpdateOperationsInput | boolean
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     invites?: InviteUncheckedUpdateManyWithoutOrganizationNestedInput
     stages?: StageUncheckedUpdateManyWithoutOrganizationNestedInput
     vehicles?: VehicleUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -16140,24 +16597,24 @@ export namespace Prisma {
     OR?: TaskProgressScalarWhereInput[]
     NOT?: TaskProgressScalarWhereInput | TaskProgressScalarWhereInput[]
     id?: StringFilter<"TaskProgress"> | string
-    status?: StringFilter<"TaskProgress"> | string
+    status?: EnumTaskProgressStatusFilter<"TaskProgress"> | $Enums.TaskProgressStatus
     notes?: StringNullableFilter<"TaskProgress"> | string | null
-    started_at?: DateTimeNullableFilter<"TaskProgress"> | Date | string | null
-    completed_at?: DateTimeNullableFilter<"TaskProgress"> | Date | string | null
-    task_id?: StringFilter<"TaskProgress"> | string
-    worker_membership_id?: StringNullableFilter<"TaskProgress"> | string | null
-    created_at?: DateTimeFilter<"TaskProgress"> | Date | string
-    updated_at?: DateTimeFilter<"TaskProgress"> | Date | string
+    startedAt?: DateTimeNullableFilter<"TaskProgress"> | Date | string | null
+    completedAt?: DateTimeNullableFilter<"TaskProgress"> | Date | string | null
+    taskId?: StringFilter<"TaskProgress"> | string
+    workerMembershipId?: StringNullableFilter<"TaskProgress"> | string | null
+    createdAt?: DateTimeFilter<"TaskProgress"> | Date | string
+    updatedAt?: DateTimeFilter<"TaskProgress"> | Date | string
   }
 
   export type OrganizationCreateWithoutInvitesInput = {
     id?: string
     name: string
-    type: string
+    type: $Enums.ProjectOrgType
     description?: string | null
-    is_verified?: boolean
-    created_at?: Date | string
-    updated_at?: Date | string
+    isVerified?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutOrganizationInput
     stages?: StageCreateNestedManyWithoutOrganizationInput
     vehicles?: VehicleCreateNestedManyWithoutOrganizationInput
@@ -16166,11 +16623,11 @@ export namespace Prisma {
   export type OrganizationUncheckedCreateWithoutInvitesInput = {
     id?: string
     name: string
-    type: string
+    type: $Enums.ProjectOrgType
     description?: string | null
-    is_verified?: boolean
-    created_at?: Date | string
-    updated_at?: Date | string
+    isVerified?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutOrganizationInput
     stages?: StageUncheckedCreateNestedManyWithoutOrganizationInput
     vehicles?: VehicleUncheckedCreateNestedManyWithoutOrganizationInput
@@ -16195,11 +16652,11 @@ export namespace Prisma {
   export type OrganizationUpdateWithoutInvitesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumProjectOrgTypeFieldUpdateOperationsInput | $Enums.ProjectOrgType
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    is_verified?: BoolFieldUpdateOperationsInput | boolean
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutOrganizationNestedInput
     stages?: StageUpdateManyWithoutOrganizationNestedInput
     vehicles?: VehicleUpdateManyWithoutOrganizationNestedInput
@@ -16208,11 +16665,11 @@ export namespace Prisma {
   export type OrganizationUncheckedUpdateWithoutInvitesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumProjectOrgTypeFieldUpdateOperationsInput | $Enums.ProjectOrgType
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    is_verified?: BoolFieldUpdateOperationsInput | boolean
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
     stages?: StageUncheckedUpdateManyWithoutOrganizationNestedInput
     vehicles?: VehicleUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -16221,11 +16678,11 @@ export namespace Prisma {
   export type OrganizationCreateWithoutVehiclesInput = {
     id?: string
     name: string
-    type: string
+    type: $Enums.ProjectOrgType
     description?: string | null
-    is_verified?: boolean
-    created_at?: Date | string
-    updated_at?: Date | string
+    isVerified?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutOrganizationInput
     invites?: InviteCreateNestedManyWithoutOrganizationInput
     stages?: StageCreateNestedManyWithoutOrganizationInput
@@ -16234,11 +16691,11 @@ export namespace Prisma {
   export type OrganizationUncheckedCreateWithoutVehiclesInput = {
     id?: string
     name: string
-    type: string
+    type: $Enums.ProjectOrgType
     description?: string | null
-    is_verified?: boolean
-    created_at?: Date | string
-    updated_at?: Date | string
+    isVerified?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutOrganizationInput
     invites?: InviteUncheckedCreateNestedManyWithoutOrganizationInput
     stages?: StageUncheckedCreateNestedManyWithoutOrganizationInput
@@ -16249,39 +16706,41 @@ export namespace Prisma {
     create: XOR<OrganizationCreateWithoutVehiclesInput, OrganizationUncheckedCreateWithoutVehiclesInput>
   }
 
-  export type StageCreateWithoutVehicles_in_stageInput = {
+  export type StageCreateWithoutVehiclesInStageInput = {
     id?: string
+    key: string
     name: string
     icon?: string | null
-    color_hsl?: string | null
-    category?: string | null
+    colorHsl?: string | null
+    category?: $Enums.ProjectCategory | null
     sequence: number
-    is_active?: boolean
-    is_required?: boolean
-    created_at?: Date | string
-    updated_at?: Date | string
+    isActive?: boolean
+    isRequired?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
     organization: OrganizationCreateNestedOneWithoutStagesInput
     tasks?: TaskCreateNestedManyWithoutStageInput
   }
 
-  export type StageUncheckedCreateWithoutVehicles_in_stageInput = {
+  export type StageUncheckedCreateWithoutVehiclesInStageInput = {
     id?: string
+    key: string
     name: string
     icon?: string | null
-    color_hsl?: string | null
-    category?: string | null
+    colorHsl?: string | null
+    category?: $Enums.ProjectCategory | null
     sequence: number
-    is_active?: boolean
-    is_required?: boolean
-    organization_id: string
-    created_at?: Date | string
-    updated_at?: Date | string
+    isActive?: boolean
+    isRequired?: boolean
+    organizationId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     tasks?: TaskUncheckedCreateNestedManyWithoutStageInput
   }
 
-  export type StageCreateOrConnectWithoutVehicles_in_stageInput = {
+  export type StageCreateOrConnectWithoutVehiclesInStageInput = {
     where: StageWhereUniqueInput
-    create: XOR<StageCreateWithoutVehicles_in_stageInput, StageUncheckedCreateWithoutVehicles_in_stageInput>
+    create: XOR<StageCreateWithoutVehiclesInStageInput, StageUncheckedCreateWithoutVehiclesInStageInput>
   }
 
   export type TaskCreateWithoutVehicleInput = {
@@ -16289,13 +16748,12 @@ export namespace Prisma {
     title: string
     sequence: number
     description?: string | null
-    estimated_duration?: number | null
-    priority?: string | null
-    is_completed?: boolean
-    created_at?: Date | string
-    updated_at?: Date | string
+    estimatedDuration?: number | null
+    priority?: $Enums.TaskPriority | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     stage: StageCreateNestedOneWithoutTasksInput
-    task_progress?: TaskProgressCreateNestedManyWithoutTaskInput
+    taskProgress?: TaskProgressCreateNestedManyWithoutTaskInput
   }
 
   export type TaskUncheckedCreateWithoutVehicleInput = {
@@ -16303,13 +16761,12 @@ export namespace Prisma {
     title: string
     sequence: number
     description?: string | null
-    estimated_duration?: number | null
-    priority?: string | null
-    is_completed?: boolean
-    stage_id: string
-    created_at?: Date | string
-    updated_at?: Date | string
-    task_progress?: TaskProgressUncheckedCreateNestedManyWithoutTaskInput
+    estimatedDuration?: number | null
+    priority?: $Enums.TaskPriority | null
+    stageId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    taskProgress?: TaskProgressUncheckedCreateNestedManyWithoutTaskInput
   }
 
   export type TaskCreateOrConnectWithoutVehicleInput = {
@@ -16336,11 +16793,11 @@ export namespace Prisma {
   export type OrganizationUpdateWithoutVehiclesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumProjectOrgTypeFieldUpdateOperationsInput | $Enums.ProjectOrgType
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    is_verified?: BoolFieldUpdateOperationsInput | boolean
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutOrganizationNestedInput
     invites?: InviteUpdateManyWithoutOrganizationNestedInput
     stages?: StageUpdateManyWithoutOrganizationNestedInput
@@ -16349,54 +16806,56 @@ export namespace Prisma {
   export type OrganizationUncheckedUpdateWithoutVehiclesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumProjectOrgTypeFieldUpdateOperationsInput | $Enums.ProjectOrgType
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    is_verified?: BoolFieldUpdateOperationsInput | boolean
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
     invites?: InviteUncheckedUpdateManyWithoutOrganizationNestedInput
     stages?: StageUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
-  export type StageUpsertWithoutVehicles_in_stageInput = {
-    update: XOR<StageUpdateWithoutVehicles_in_stageInput, StageUncheckedUpdateWithoutVehicles_in_stageInput>
-    create: XOR<StageCreateWithoutVehicles_in_stageInput, StageUncheckedCreateWithoutVehicles_in_stageInput>
+  export type StageUpsertWithoutVehiclesInStageInput = {
+    update: XOR<StageUpdateWithoutVehiclesInStageInput, StageUncheckedUpdateWithoutVehiclesInStageInput>
+    create: XOR<StageCreateWithoutVehiclesInStageInput, StageUncheckedCreateWithoutVehiclesInStageInput>
     where?: StageWhereInput
   }
 
-  export type StageUpdateToOneWithWhereWithoutVehicles_in_stageInput = {
+  export type StageUpdateToOneWithWhereWithoutVehiclesInStageInput = {
     where?: StageWhereInput
-    data: XOR<StageUpdateWithoutVehicles_in_stageInput, StageUncheckedUpdateWithoutVehicles_in_stageInput>
+    data: XOR<StageUpdateWithoutVehiclesInStageInput, StageUncheckedUpdateWithoutVehiclesInStageInput>
   }
 
-  export type StageUpdateWithoutVehicles_in_stageInput = {
+  export type StageUpdateWithoutVehiclesInStageInput = {
     id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     icon?: NullableStringFieldUpdateOperationsInput | string | null
-    color_hsl?: NullableStringFieldUpdateOperationsInput | string | null
-    category?: NullableStringFieldUpdateOperationsInput | string | null
+    colorHsl?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableEnumProjectCategoryFieldUpdateOperationsInput | $Enums.ProjectCategory | null
     sequence?: IntFieldUpdateOperationsInput | number
-    is_active?: BoolFieldUpdateOperationsInput | boolean
-    is_required?: BoolFieldUpdateOperationsInput | boolean
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isRequired?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organization?: OrganizationUpdateOneRequiredWithoutStagesNestedInput
     tasks?: TaskUpdateManyWithoutStageNestedInput
   }
 
-  export type StageUncheckedUpdateWithoutVehicles_in_stageInput = {
+  export type StageUncheckedUpdateWithoutVehiclesInStageInput = {
     id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     icon?: NullableStringFieldUpdateOperationsInput | string | null
-    color_hsl?: NullableStringFieldUpdateOperationsInput | string | null
-    category?: NullableStringFieldUpdateOperationsInput | string | null
+    colorHsl?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableEnumProjectCategoryFieldUpdateOperationsInput | $Enums.ProjectCategory | null
     sequence?: IntFieldUpdateOperationsInput | number
-    is_active?: BoolFieldUpdateOperationsInput | boolean
-    is_required?: BoolFieldUpdateOperationsInput | boolean
-    organization_id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isRequired?: BoolFieldUpdateOperationsInput | boolean
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tasks?: TaskUncheckedUpdateManyWithoutStageNestedInput
   }
 
@@ -16424,23 +16883,22 @@ export namespace Prisma {
     title?: StringFilter<"Task"> | string
     sequence?: IntFilter<"Task"> | number
     description?: StringNullableFilter<"Task"> | string | null
-    estimated_duration?: IntNullableFilter<"Task"> | number | null
-    priority?: StringNullableFilter<"Task"> | string | null
-    is_completed?: BoolFilter<"Task"> | boolean
-    vehicle_id?: StringFilter<"Task"> | string
-    stage_id?: StringFilter<"Task"> | string
-    created_at?: DateTimeFilter<"Task"> | Date | string
-    updated_at?: DateTimeFilter<"Task"> | Date | string
+    estimatedDuration?: IntNullableFilter<"Task"> | number | null
+    priority?: EnumTaskPriorityNullableFilter<"Task"> | $Enums.TaskPriority | null
+    vehicleId?: StringFilter<"Task"> | string
+    stageId?: StringFilter<"Task"> | string
+    createdAt?: DateTimeFilter<"Task"> | Date | string
+    updatedAt?: DateTimeFilter<"Task"> | Date | string
   }
 
   export type OrganizationCreateWithoutStagesInput = {
     id?: string
     name: string
-    type: string
+    type: $Enums.ProjectOrgType
     description?: string | null
-    is_verified?: boolean
-    created_at?: Date | string
-    updated_at?: Date | string
+    isVerified?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
     memberships?: MembershipCreateNestedManyWithoutOrganizationInput
     invites?: InviteCreateNestedManyWithoutOrganizationInput
     vehicles?: VehicleCreateNestedManyWithoutOrganizationInput
@@ -16449,11 +16907,11 @@ export namespace Prisma {
   export type OrganizationUncheckedCreateWithoutStagesInput = {
     id?: string
     name: string
-    type: string
+    type: $Enums.ProjectOrgType
     description?: string | null
-    is_verified?: boolean
-    created_at?: Date | string
-    updated_at?: Date | string
+    isVerified?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
     memberships?: MembershipUncheckedCreateNestedManyWithoutOrganizationInput
     invites?: InviteUncheckedCreateNestedManyWithoutOrganizationInput
     vehicles?: VehicleUncheckedCreateNestedManyWithoutOrganizationInput
@@ -16469,13 +16927,12 @@ export namespace Prisma {
     title: string
     sequence: number
     description?: string | null
-    estimated_duration?: number | null
-    priority?: string | null
-    is_completed?: boolean
-    created_at?: Date | string
-    updated_at?: Date | string
+    estimatedDuration?: number | null
+    priority?: $Enums.TaskPriority | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     vehicle: VehicleCreateNestedOneWithoutTasksInput
-    task_progress?: TaskProgressCreateNestedManyWithoutTaskInput
+    taskProgress?: TaskProgressCreateNestedManyWithoutTaskInput
   }
 
   export type TaskUncheckedCreateWithoutStageInput = {
@@ -16483,13 +16940,12 @@ export namespace Prisma {
     title: string
     sequence: number
     description?: string | null
-    estimated_duration?: number | null
-    priority?: string | null
-    is_completed?: boolean
-    vehicle_id: string
-    created_at?: Date | string
-    updated_at?: Date | string
-    task_progress?: TaskProgressUncheckedCreateNestedManyWithoutTaskInput
+    estimatedDuration?: number | null
+    priority?: $Enums.TaskPriority | null
+    vehicleId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    taskProgress?: TaskProgressUncheckedCreateNestedManyWithoutTaskInput
   }
 
   export type TaskCreateOrConnectWithoutStageInput = {
@@ -16502,57 +16958,59 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type VehicleCreateWithoutCurrent_stageInput = {
+  export type VehicleCreateWithoutCurrentStageInput = {
     id?: string
     vin?: string | null
     brand: string
     model: string
     year?: number | null
-    registration_number: string
-    customer_name: string
-    customer_email?: string | null
-    customer_phone?: string | null
-    is_active?: boolean
+    registrationNumber: string
+    customerName: string
+    customerEmail?: string | null
+    customerPhone?: string | null
+    isActive?: boolean
+    status?: $Enums.TaskProgressStatus
     notes?: string | null
-    qr_code_token: string
-    tracking_token: string
-    entry_time?: Date | string
-    estimated_completion?: Date | string | null
-    created_at?: Date | string
-    updated_at?: Date | string
+    qrCodeToken: string
+    trackingToken: string
+    entryTime?: Date | string
+    estimatedCompletion?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     organization: OrganizationCreateNestedOneWithoutVehiclesInput
     tasks?: TaskCreateNestedManyWithoutVehicleInput
   }
 
-  export type VehicleUncheckedCreateWithoutCurrent_stageInput = {
+  export type VehicleUncheckedCreateWithoutCurrentStageInput = {
     id?: string
     vin?: string | null
     brand: string
     model: string
     year?: number | null
-    registration_number: string
-    customer_name: string
-    customer_email?: string | null
-    customer_phone?: string | null
-    is_active?: boolean
+    registrationNumber: string
+    customerName: string
+    customerEmail?: string | null
+    customerPhone?: string | null
+    isActive?: boolean
+    status?: $Enums.TaskProgressStatus
     notes?: string | null
-    qr_code_token: string
-    tracking_token: string
-    entry_time?: Date | string
-    estimated_completion?: Date | string | null
-    organization_id: string
-    created_at?: Date | string
-    updated_at?: Date | string
+    qrCodeToken: string
+    trackingToken: string
+    entryTime?: Date | string
+    estimatedCompletion?: Date | string | null
+    organizationId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     tasks?: TaskUncheckedCreateNestedManyWithoutVehicleInput
   }
 
-  export type VehicleCreateOrConnectWithoutCurrent_stageInput = {
+  export type VehicleCreateOrConnectWithoutCurrentStageInput = {
     where: VehicleWhereUniqueInput
-    create: XOR<VehicleCreateWithoutCurrent_stageInput, VehicleUncheckedCreateWithoutCurrent_stageInput>
+    create: XOR<VehicleCreateWithoutCurrentStageInput, VehicleUncheckedCreateWithoutCurrentStageInput>
   }
 
-  export type VehicleCreateManyCurrent_stageInputEnvelope = {
-    data: VehicleCreateManyCurrent_stageInput | VehicleCreateManyCurrent_stageInput[]
+  export type VehicleCreateManyCurrentStageInputEnvelope = {
+    data: VehicleCreateManyCurrentStageInput | VehicleCreateManyCurrentStageInput[]
     skipDuplicates?: boolean
   }
 
@@ -16570,11 +17028,11 @@ export namespace Prisma {
   export type OrganizationUpdateWithoutStagesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumProjectOrgTypeFieldUpdateOperationsInput | $Enums.ProjectOrgType
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    is_verified?: BoolFieldUpdateOperationsInput | boolean
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUpdateManyWithoutOrganizationNestedInput
     invites?: InviteUpdateManyWithoutOrganizationNestedInput
     vehicles?: VehicleUpdateManyWithoutOrganizationNestedInput
@@ -16583,11 +17041,11 @@ export namespace Prisma {
   export type OrganizationUncheckedUpdateWithoutStagesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
+    type?: EnumProjectOrgTypeFieldUpdateOperationsInput | $Enums.ProjectOrgType
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    is_verified?: BoolFieldUpdateOperationsInput | boolean
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     memberships?: MembershipUncheckedUpdateManyWithoutOrganizationNestedInput
     invites?: InviteUncheckedUpdateManyWithoutOrganizationNestedInput
     vehicles?: VehicleUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -16609,20 +17067,20 @@ export namespace Prisma {
     data: XOR<TaskUpdateManyMutationInput, TaskUncheckedUpdateManyWithoutStageInput>
   }
 
-  export type VehicleUpsertWithWhereUniqueWithoutCurrent_stageInput = {
+  export type VehicleUpsertWithWhereUniqueWithoutCurrentStageInput = {
     where: VehicleWhereUniqueInput
-    update: XOR<VehicleUpdateWithoutCurrent_stageInput, VehicleUncheckedUpdateWithoutCurrent_stageInput>
-    create: XOR<VehicleCreateWithoutCurrent_stageInput, VehicleUncheckedCreateWithoutCurrent_stageInput>
+    update: XOR<VehicleUpdateWithoutCurrentStageInput, VehicleUncheckedUpdateWithoutCurrentStageInput>
+    create: XOR<VehicleCreateWithoutCurrentStageInput, VehicleUncheckedCreateWithoutCurrentStageInput>
   }
 
-  export type VehicleUpdateWithWhereUniqueWithoutCurrent_stageInput = {
+  export type VehicleUpdateWithWhereUniqueWithoutCurrentStageInput = {
     where: VehicleWhereUniqueInput
-    data: XOR<VehicleUpdateWithoutCurrent_stageInput, VehicleUncheckedUpdateWithoutCurrent_stageInput>
+    data: XOR<VehicleUpdateWithoutCurrentStageInput, VehicleUncheckedUpdateWithoutCurrentStageInput>
   }
 
-  export type VehicleUpdateManyWithWhereWithoutCurrent_stageInput = {
+  export type VehicleUpdateManyWithWhereWithoutCurrentStageInput = {
     where: VehicleScalarWhereInput
-    data: XOR<VehicleUpdateManyMutationInput, VehicleUncheckedUpdateManyWithoutCurrent_stageInput>
+    data: XOR<VehicleUpdateManyMutationInput, VehicleUncheckedUpdateManyWithoutCurrentStageInput>
   }
 
   export type VehicleCreateWithoutTasksInput = {
@@ -16631,20 +17089,21 @@ export namespace Prisma {
     brand: string
     model: string
     year?: number | null
-    registration_number: string
-    customer_name: string
-    customer_email?: string | null
-    customer_phone?: string | null
-    is_active?: boolean
+    registrationNumber: string
+    customerName: string
+    customerEmail?: string | null
+    customerPhone?: string | null
+    isActive?: boolean
+    status?: $Enums.TaskProgressStatus
     notes?: string | null
-    qr_code_token: string
-    tracking_token: string
-    entry_time?: Date | string
-    estimated_completion?: Date | string | null
-    created_at?: Date | string
-    updated_at?: Date | string
+    qrCodeToken: string
+    trackingToken: string
+    entryTime?: Date | string
+    estimatedCompletion?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     organization: OrganizationCreateNestedOneWithoutVehiclesInput
-    current_stage?: StageCreateNestedOneWithoutVehicles_in_stageInput
+    currentStage?: StageCreateNestedOneWithoutVehiclesInStageInput
   }
 
   export type VehicleUncheckedCreateWithoutTasksInput = {
@@ -16653,20 +17112,21 @@ export namespace Prisma {
     brand: string
     model: string
     year?: number | null
-    registration_number: string
-    customer_name: string
-    customer_email?: string | null
-    customer_phone?: string | null
-    is_active?: boolean
+    registrationNumber: string
+    customerName: string
+    customerEmail?: string | null
+    customerPhone?: string | null
+    isActive?: boolean
+    status?: $Enums.TaskProgressStatus
     notes?: string | null
-    qr_code_token: string
-    tracking_token: string
-    entry_time?: Date | string
-    estimated_completion?: Date | string | null
-    organization_id: string
-    current_stage_id?: string | null
-    created_at?: Date | string
-    updated_at?: Date | string
+    qrCodeToken: string
+    trackingToken: string
+    entryTime?: Date | string
+    estimatedCompletion?: Date | string | null
+    organizationId: string
+    currentStageId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type VehicleCreateOrConnectWithoutTasksInput = {
@@ -16676,32 +17136,34 @@ export namespace Prisma {
 
   export type StageCreateWithoutTasksInput = {
     id?: string
+    key: string
     name: string
     icon?: string | null
-    color_hsl?: string | null
-    category?: string | null
+    colorHsl?: string | null
+    category?: $Enums.ProjectCategory | null
     sequence: number
-    is_active?: boolean
-    is_required?: boolean
-    created_at?: Date | string
-    updated_at?: Date | string
+    isActive?: boolean
+    isRequired?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
     organization: OrganizationCreateNestedOneWithoutStagesInput
-    vehicles_in_stage?: VehicleCreateNestedManyWithoutCurrent_stageInput
+    vehiclesInStage?: VehicleCreateNestedManyWithoutCurrentStageInput
   }
 
   export type StageUncheckedCreateWithoutTasksInput = {
     id?: string
+    key: string
     name: string
     icon?: string | null
-    color_hsl?: string | null
-    category?: string | null
+    colorHsl?: string | null
+    category?: $Enums.ProjectCategory | null
     sequence: number
-    is_active?: boolean
-    is_required?: boolean
-    organization_id: string
-    created_at?: Date | string
-    updated_at?: Date | string
-    vehicles_in_stage?: VehicleUncheckedCreateNestedManyWithoutCurrent_stageInput
+    isActive?: boolean
+    isRequired?: boolean
+    organizationId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    vehiclesInStage?: VehicleUncheckedCreateNestedManyWithoutCurrentStageInput
   }
 
   export type StageCreateOrConnectWithoutTasksInput = {
@@ -16711,24 +17173,24 @@ export namespace Prisma {
 
   export type TaskProgressCreateWithoutTaskInput = {
     id?: string
-    status: string
+    status: $Enums.TaskProgressStatus
     notes?: string | null
-    started_at?: Date | string | null
-    completed_at?: Date | string | null
-    created_at?: Date | string
-    updated_at?: Date | string
-    worker?: MembershipCreateNestedOneWithoutTask_progressInput
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    worker?: MembershipCreateNestedOneWithoutTaskProgressInput
   }
 
   export type TaskProgressUncheckedCreateWithoutTaskInput = {
     id?: string
-    status: string
+    status: $Enums.TaskProgressStatus
     notes?: string | null
-    started_at?: Date | string | null
-    completed_at?: Date | string | null
-    worker_membership_id?: string | null
-    created_at?: Date | string
-    updated_at?: Date | string
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    workerMembershipId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type TaskProgressCreateOrConnectWithoutTaskInput = {
@@ -16758,20 +17220,21 @@ export namespace Prisma {
     brand?: StringFieldUpdateOperationsInput | string
     model?: StringFieldUpdateOperationsInput | string
     year?: NullableIntFieldUpdateOperationsInput | number | null
-    registration_number?: StringFieldUpdateOperationsInput | string
-    customer_name?: StringFieldUpdateOperationsInput | string
-    customer_email?: NullableStringFieldUpdateOperationsInput | string | null
-    customer_phone?: NullableStringFieldUpdateOperationsInput | string | null
-    is_active?: BoolFieldUpdateOperationsInput | boolean
+    registrationNumber?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    customerEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumTaskProgressStatusFieldUpdateOperationsInput | $Enums.TaskProgressStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
-    qr_code_token?: StringFieldUpdateOperationsInput | string
-    tracking_token?: StringFieldUpdateOperationsInput | string
-    entry_time?: DateTimeFieldUpdateOperationsInput | Date | string
-    estimated_completion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    qrCodeToken?: StringFieldUpdateOperationsInput | string
+    trackingToken?: StringFieldUpdateOperationsInput | string
+    entryTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    estimatedCompletion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organization?: OrganizationUpdateOneRequiredWithoutVehiclesNestedInput
-    current_stage?: StageUpdateOneWithoutVehicles_in_stageNestedInput
+    currentStage?: StageUpdateOneWithoutVehiclesInStageNestedInput
   }
 
   export type VehicleUncheckedUpdateWithoutTasksInput = {
@@ -16780,20 +17243,21 @@ export namespace Prisma {
     brand?: StringFieldUpdateOperationsInput | string
     model?: StringFieldUpdateOperationsInput | string
     year?: NullableIntFieldUpdateOperationsInput | number | null
-    registration_number?: StringFieldUpdateOperationsInput | string
-    customer_name?: StringFieldUpdateOperationsInput | string
-    customer_email?: NullableStringFieldUpdateOperationsInput | string | null
-    customer_phone?: NullableStringFieldUpdateOperationsInput | string | null
-    is_active?: BoolFieldUpdateOperationsInput | boolean
+    registrationNumber?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    customerEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumTaskProgressStatusFieldUpdateOperationsInput | $Enums.TaskProgressStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
-    qr_code_token?: StringFieldUpdateOperationsInput | string
-    tracking_token?: StringFieldUpdateOperationsInput | string
-    entry_time?: DateTimeFieldUpdateOperationsInput | Date | string
-    estimated_completion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    organization_id?: StringFieldUpdateOperationsInput | string
-    current_stage_id?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    qrCodeToken?: StringFieldUpdateOperationsInput | string
+    trackingToken?: StringFieldUpdateOperationsInput | string
+    entryTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    estimatedCompletion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    currentStageId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StageUpsertWithoutTasksInput = {
@@ -16809,32 +17273,34 @@ export namespace Prisma {
 
   export type StageUpdateWithoutTasksInput = {
     id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     icon?: NullableStringFieldUpdateOperationsInput | string | null
-    color_hsl?: NullableStringFieldUpdateOperationsInput | string | null
-    category?: NullableStringFieldUpdateOperationsInput | string | null
+    colorHsl?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableEnumProjectCategoryFieldUpdateOperationsInput | $Enums.ProjectCategory | null
     sequence?: IntFieldUpdateOperationsInput | number
-    is_active?: BoolFieldUpdateOperationsInput | boolean
-    is_required?: BoolFieldUpdateOperationsInput | boolean
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isRequired?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organization?: OrganizationUpdateOneRequiredWithoutStagesNestedInput
-    vehicles_in_stage?: VehicleUpdateManyWithoutCurrent_stageNestedInput
+    vehiclesInStage?: VehicleUpdateManyWithoutCurrentStageNestedInput
   }
 
   export type StageUncheckedUpdateWithoutTasksInput = {
     id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     icon?: NullableStringFieldUpdateOperationsInput | string | null
-    color_hsl?: NullableStringFieldUpdateOperationsInput | string | null
-    category?: NullableStringFieldUpdateOperationsInput | string | null
+    colorHsl?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableEnumProjectCategoryFieldUpdateOperationsInput | $Enums.ProjectCategory | null
     sequence?: IntFieldUpdateOperationsInput | number
-    is_active?: BoolFieldUpdateOperationsInput | boolean
-    is_required?: BoolFieldUpdateOperationsInput | boolean
-    organization_id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    vehicles_in_stage?: VehicleUncheckedUpdateManyWithoutCurrent_stageNestedInput
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isRequired?: BoolFieldUpdateOperationsInput | boolean
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    vehiclesInStage?: VehicleUncheckedUpdateManyWithoutCurrentStageNestedInput
   }
 
   export type TaskProgressUpsertWithWhereUniqueWithoutTaskInput = {
@@ -16853,246 +17319,243 @@ export namespace Prisma {
     data: XOR<TaskProgressUpdateManyMutationInput, TaskProgressUncheckedUpdateManyWithoutTaskInput>
   }
 
-  export type TaskCreateWithoutTask_progressInput = {
+  export type TaskCreateWithoutTaskProgressInput = {
     id?: string
     title: string
     sequence: number
     description?: string | null
-    estimated_duration?: number | null
-    priority?: string | null
-    is_completed?: boolean
-    created_at?: Date | string
-    updated_at?: Date | string
+    estimatedDuration?: number | null
+    priority?: $Enums.TaskPriority | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     vehicle: VehicleCreateNestedOneWithoutTasksInput
     stage: StageCreateNestedOneWithoutTasksInput
   }
 
-  export type TaskUncheckedCreateWithoutTask_progressInput = {
+  export type TaskUncheckedCreateWithoutTaskProgressInput = {
     id?: string
     title: string
     sequence: number
     description?: string | null
-    estimated_duration?: number | null
-    priority?: string | null
-    is_completed?: boolean
-    vehicle_id: string
-    stage_id: string
-    created_at?: Date | string
-    updated_at?: Date | string
+    estimatedDuration?: number | null
+    priority?: $Enums.TaskPriority | null
+    vehicleId: string
+    stageId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
-  export type TaskCreateOrConnectWithoutTask_progressInput = {
+  export type TaskCreateOrConnectWithoutTaskProgressInput = {
     where: TaskWhereUniqueInput
-    create: XOR<TaskCreateWithoutTask_progressInput, TaskUncheckedCreateWithoutTask_progressInput>
+    create: XOR<TaskCreateWithoutTaskProgressInput, TaskUncheckedCreateWithoutTaskProgressInput>
   }
 
-  export type MembershipCreateWithoutTask_progressInput = {
+  export type MembershipCreateWithoutTaskProgressInput = {
     id?: string
-    access_role: string
-    business_role?: string | null
-    status: string
-    auth_methods?: MembershipCreateauth_methodsInput | string[]
-    rfid_tag?: string | null
-    qr_code?: string | null
-    usb_key_id?: string | null
-    created_at?: Date | string
-    updated_at?: Date | string
+    accessRole: $Enums.AccessRole
+    businessRole?: string | null
+    status: $Enums.MembershipStatus
+    authMethods?: MembershipCreateauthMethodsInput | string[]
+    rfidTag?: string | null
+    qrCode?: string | null
+    usbKeyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     user: UserCreateNestedOneWithoutMembershipsInput
     organization: OrganizationCreateNestedOneWithoutMembershipsInput
   }
 
-  export type MembershipUncheckedCreateWithoutTask_progressInput = {
+  export type MembershipUncheckedCreateWithoutTaskProgressInput = {
     id?: string
-    user_id: string
-    organization_id: string
-    access_role: string
-    business_role?: string | null
-    status: string
-    auth_methods?: MembershipCreateauth_methodsInput | string[]
-    rfid_tag?: string | null
-    qr_code?: string | null
-    usb_key_id?: string | null
-    created_at?: Date | string
-    updated_at?: Date | string
+    userId: string
+    organizationId: string
+    accessRole: $Enums.AccessRole
+    businessRole?: string | null
+    status: $Enums.MembershipStatus
+    authMethods?: MembershipCreateauthMethodsInput | string[]
+    rfidTag?: string | null
+    qrCode?: string | null
+    usbKeyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
-  export type MembershipCreateOrConnectWithoutTask_progressInput = {
+  export type MembershipCreateOrConnectWithoutTaskProgressInput = {
     where: MembershipWhereUniqueInput
-    create: XOR<MembershipCreateWithoutTask_progressInput, MembershipUncheckedCreateWithoutTask_progressInput>
+    create: XOR<MembershipCreateWithoutTaskProgressInput, MembershipUncheckedCreateWithoutTaskProgressInput>
   }
 
-  export type TaskUpsertWithoutTask_progressInput = {
-    update: XOR<TaskUpdateWithoutTask_progressInput, TaskUncheckedUpdateWithoutTask_progressInput>
-    create: XOR<TaskCreateWithoutTask_progressInput, TaskUncheckedCreateWithoutTask_progressInput>
+  export type TaskUpsertWithoutTaskProgressInput = {
+    update: XOR<TaskUpdateWithoutTaskProgressInput, TaskUncheckedUpdateWithoutTaskProgressInput>
+    create: XOR<TaskCreateWithoutTaskProgressInput, TaskUncheckedCreateWithoutTaskProgressInput>
     where?: TaskWhereInput
   }
 
-  export type TaskUpdateToOneWithWhereWithoutTask_progressInput = {
+  export type TaskUpdateToOneWithWhereWithoutTaskProgressInput = {
     where?: TaskWhereInput
-    data: XOR<TaskUpdateWithoutTask_progressInput, TaskUncheckedUpdateWithoutTask_progressInput>
+    data: XOR<TaskUpdateWithoutTaskProgressInput, TaskUncheckedUpdateWithoutTaskProgressInput>
   }
 
-  export type TaskUpdateWithoutTask_progressInput = {
+  export type TaskUpdateWithoutTaskProgressInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     sequence?: IntFieldUpdateOperationsInput | number
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    estimated_duration?: NullableIntFieldUpdateOperationsInput | number | null
-    priority?: NullableStringFieldUpdateOperationsInput | string | null
-    is_completed?: BoolFieldUpdateOperationsInput | boolean
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    estimatedDuration?: NullableIntFieldUpdateOperationsInput | number | null
+    priority?: NullableEnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     vehicle?: VehicleUpdateOneRequiredWithoutTasksNestedInput
     stage?: StageUpdateOneRequiredWithoutTasksNestedInput
   }
 
-  export type TaskUncheckedUpdateWithoutTask_progressInput = {
+  export type TaskUncheckedUpdateWithoutTaskProgressInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     sequence?: IntFieldUpdateOperationsInput | number
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    estimated_duration?: NullableIntFieldUpdateOperationsInput | number | null
-    priority?: NullableStringFieldUpdateOperationsInput | string | null
-    is_completed?: BoolFieldUpdateOperationsInput | boolean
-    vehicle_id?: StringFieldUpdateOperationsInput | string
-    stage_id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    estimatedDuration?: NullableIntFieldUpdateOperationsInput | number | null
+    priority?: NullableEnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority | null
+    vehicleId?: StringFieldUpdateOperationsInput | string
+    stageId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type MembershipUpsertWithoutTask_progressInput = {
-    update: XOR<MembershipUpdateWithoutTask_progressInput, MembershipUncheckedUpdateWithoutTask_progressInput>
-    create: XOR<MembershipCreateWithoutTask_progressInput, MembershipUncheckedCreateWithoutTask_progressInput>
+  export type MembershipUpsertWithoutTaskProgressInput = {
+    update: XOR<MembershipUpdateWithoutTaskProgressInput, MembershipUncheckedUpdateWithoutTaskProgressInput>
+    create: XOR<MembershipCreateWithoutTaskProgressInput, MembershipUncheckedCreateWithoutTaskProgressInput>
     where?: MembershipWhereInput
   }
 
-  export type MembershipUpdateToOneWithWhereWithoutTask_progressInput = {
+  export type MembershipUpdateToOneWithWhereWithoutTaskProgressInput = {
     where?: MembershipWhereInput
-    data: XOR<MembershipUpdateWithoutTask_progressInput, MembershipUncheckedUpdateWithoutTask_progressInput>
+    data: XOR<MembershipUpdateWithoutTaskProgressInput, MembershipUncheckedUpdateWithoutTaskProgressInput>
   }
 
-  export type MembershipUpdateWithoutTask_progressInput = {
+  export type MembershipUpdateWithoutTaskProgressInput = {
     id?: StringFieldUpdateOperationsInput | string
-    access_role?: StringFieldUpdateOperationsInput | string
-    business_role?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    auth_methods?: MembershipUpdateauth_methodsInput | string[]
-    rfid_tag?: NullableStringFieldUpdateOperationsInput | string | null
-    qr_code?: NullableStringFieldUpdateOperationsInput | string | null
-    usb_key_id?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    accessRole?: EnumAccessRoleFieldUpdateOperationsInput | $Enums.AccessRole
+    businessRole?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
+    authMethods?: MembershipUpdateauthMethodsInput | string[]
+    rfidTag?: NullableStringFieldUpdateOperationsInput | string | null
+    qrCode?: NullableStringFieldUpdateOperationsInput | string | null
+    usbKeyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutMembershipsNestedInput
     organization?: OrganizationUpdateOneRequiredWithoutMembershipsNestedInput
   }
 
-  export type MembershipUncheckedUpdateWithoutTask_progressInput = {
+  export type MembershipUncheckedUpdateWithoutTaskProgressInput = {
     id?: StringFieldUpdateOperationsInput | string
-    user_id?: StringFieldUpdateOperationsInput | string
-    organization_id?: StringFieldUpdateOperationsInput | string
-    access_role?: StringFieldUpdateOperationsInput | string
-    business_role?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    auth_methods?: MembershipUpdateauth_methodsInput | string[]
-    rfid_tag?: NullableStringFieldUpdateOperationsInput | string | null
-    qr_code?: NullableStringFieldUpdateOperationsInput | string | null
-    usb_key_id?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    accessRole?: EnumAccessRoleFieldUpdateOperationsInput | $Enums.AccessRole
+    businessRole?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
+    authMethods?: MembershipUpdateauthMethodsInput | string[]
+    rfidTag?: NullableStringFieldUpdateOperationsInput | string | null
+    qrCode?: NullableStringFieldUpdateOperationsInput | string | null
+    usbKeyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MembershipCreateManyUserInput = {
     id?: string
-    organization_id: string
-    access_role: string
-    business_role?: string | null
-    status: string
-    auth_methods?: MembershipCreateauth_methodsInput | string[]
-    rfid_tag?: string | null
-    qr_code?: string | null
-    usb_key_id?: string | null
-    created_at?: Date | string
-    updated_at?: Date | string
+    organizationId: string
+    accessRole: $Enums.AccessRole
+    businessRole?: string | null
+    status: $Enums.MembershipStatus
+    authMethods?: MembershipCreateauthMethodsInput | string[]
+    rfidTag?: string | null
+    qrCode?: string | null
+    usbKeyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type MembershipUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    access_role?: StringFieldUpdateOperationsInput | string
-    business_role?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    auth_methods?: MembershipUpdateauth_methodsInput | string[]
-    rfid_tag?: NullableStringFieldUpdateOperationsInput | string | null
-    qr_code?: NullableStringFieldUpdateOperationsInput | string | null
-    usb_key_id?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    accessRole?: EnumAccessRoleFieldUpdateOperationsInput | $Enums.AccessRole
+    businessRole?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
+    authMethods?: MembershipUpdateauthMethodsInput | string[]
+    rfidTag?: NullableStringFieldUpdateOperationsInput | string | null
+    qrCode?: NullableStringFieldUpdateOperationsInput | string | null
+    usbKeyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organization?: OrganizationUpdateOneRequiredWithoutMembershipsNestedInput
-    task_progress?: TaskProgressUpdateManyWithoutWorkerNestedInput
+    taskProgress?: TaskProgressUpdateManyWithoutWorkerNestedInput
   }
 
   export type MembershipUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    organization_id?: StringFieldUpdateOperationsInput | string
-    access_role?: StringFieldUpdateOperationsInput | string
-    business_role?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    auth_methods?: MembershipUpdateauth_methodsInput | string[]
-    rfid_tag?: NullableStringFieldUpdateOperationsInput | string | null
-    qr_code?: NullableStringFieldUpdateOperationsInput | string | null
-    usb_key_id?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    task_progress?: TaskProgressUncheckedUpdateManyWithoutWorkerNestedInput
+    organizationId?: StringFieldUpdateOperationsInput | string
+    accessRole?: EnumAccessRoleFieldUpdateOperationsInput | $Enums.AccessRole
+    businessRole?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
+    authMethods?: MembershipUpdateauthMethodsInput | string[]
+    rfidTag?: NullableStringFieldUpdateOperationsInput | string | null
+    qrCode?: NullableStringFieldUpdateOperationsInput | string | null
+    usbKeyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    taskProgress?: TaskProgressUncheckedUpdateManyWithoutWorkerNestedInput
   }
 
   export type MembershipUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    organization_id?: StringFieldUpdateOperationsInput | string
-    access_role?: StringFieldUpdateOperationsInput | string
-    business_role?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    auth_methods?: MembershipUpdateauth_methodsInput | string[]
-    rfid_tag?: NullableStringFieldUpdateOperationsInput | string | null
-    qr_code?: NullableStringFieldUpdateOperationsInput | string | null
-    usb_key_id?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    accessRole?: EnumAccessRoleFieldUpdateOperationsInput | $Enums.AccessRole
+    businessRole?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
+    authMethods?: MembershipUpdateauthMethodsInput | string[]
+    rfidTag?: NullableStringFieldUpdateOperationsInput | string | null
+    qrCode?: NullableStringFieldUpdateOperationsInput | string | null
+    usbKeyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MembershipCreateManyOrganizationInput = {
     id?: string
-    user_id: string
-    access_role: string
-    business_role?: string | null
-    status: string
-    auth_methods?: MembershipCreateauth_methodsInput | string[]
-    rfid_tag?: string | null
-    qr_code?: string | null
-    usb_key_id?: string | null
-    created_at?: Date | string
-    updated_at?: Date | string
+    userId: string
+    accessRole: $Enums.AccessRole
+    businessRole?: string | null
+    status: $Enums.MembershipStatus
+    authMethods?: MembershipCreateauthMethodsInput | string[]
+    rfidTag?: string | null
+    qrCode?: string | null
+    usbKeyId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type InviteCreateManyOrganizationInput = {
     id?: string
     email: string
-    access_role: string
+    accessRole: $Enums.AccessRole
     token: string
-    expires_at: Date | string
-    created_at?: Date | string
+    expiresAt: Date | string
+    createdAt?: Date | string
   }
 
   export type StageCreateManyOrganizationInput = {
     id?: string
+    key: string
     name: string
     icon?: string | null
-    color_hsl?: string | null
-    category?: string | null
+    colorHsl?: string | null
+    category?: $Enums.ProjectCategory | null
     sequence: number
-    is_active?: boolean
-    is_required?: boolean
-    created_at?: Date | string
-    updated_at?: Date | string
+    isActive?: boolean
+    isRequired?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type VehicleCreateManyOrganizationInput = {
@@ -17101,133 +17564,137 @@ export namespace Prisma {
     brand: string
     model: string
     year?: number | null
-    registration_number: string
-    customer_name: string
-    customer_email?: string | null
-    customer_phone?: string | null
-    is_active?: boolean
+    registrationNumber: string
+    customerName: string
+    customerEmail?: string | null
+    customerPhone?: string | null
+    isActive?: boolean
+    status?: $Enums.TaskProgressStatus
     notes?: string | null
-    qr_code_token: string
-    tracking_token: string
-    entry_time?: Date | string
-    estimated_completion?: Date | string | null
-    current_stage_id?: string | null
-    created_at?: Date | string
-    updated_at?: Date | string
+    qrCodeToken: string
+    trackingToken: string
+    entryTime?: Date | string
+    estimatedCompletion?: Date | string | null
+    currentStageId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type MembershipUpdateWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    access_role?: StringFieldUpdateOperationsInput | string
-    business_role?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    auth_methods?: MembershipUpdateauth_methodsInput | string[]
-    rfid_tag?: NullableStringFieldUpdateOperationsInput | string | null
-    qr_code?: NullableStringFieldUpdateOperationsInput | string | null
-    usb_key_id?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    accessRole?: EnumAccessRoleFieldUpdateOperationsInput | $Enums.AccessRole
+    businessRole?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
+    authMethods?: MembershipUpdateauthMethodsInput | string[]
+    rfidTag?: NullableStringFieldUpdateOperationsInput | string | null
+    qrCode?: NullableStringFieldUpdateOperationsInput | string | null
+    usbKeyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutMembershipsNestedInput
-    task_progress?: TaskProgressUpdateManyWithoutWorkerNestedInput
+    taskProgress?: TaskProgressUpdateManyWithoutWorkerNestedInput
   }
 
   export type MembershipUncheckedUpdateWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    user_id?: StringFieldUpdateOperationsInput | string
-    access_role?: StringFieldUpdateOperationsInput | string
-    business_role?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    auth_methods?: MembershipUpdateauth_methodsInput | string[]
-    rfid_tag?: NullableStringFieldUpdateOperationsInput | string | null
-    qr_code?: NullableStringFieldUpdateOperationsInput | string | null
-    usb_key_id?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    task_progress?: TaskProgressUncheckedUpdateManyWithoutWorkerNestedInput
+    userId?: StringFieldUpdateOperationsInput | string
+    accessRole?: EnumAccessRoleFieldUpdateOperationsInput | $Enums.AccessRole
+    businessRole?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
+    authMethods?: MembershipUpdateauthMethodsInput | string[]
+    rfidTag?: NullableStringFieldUpdateOperationsInput | string | null
+    qrCode?: NullableStringFieldUpdateOperationsInput | string | null
+    usbKeyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    taskProgress?: TaskProgressUncheckedUpdateManyWithoutWorkerNestedInput
   }
 
   export type MembershipUncheckedUpdateManyWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    user_id?: StringFieldUpdateOperationsInput | string
-    access_role?: StringFieldUpdateOperationsInput | string
-    business_role?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    auth_methods?: MembershipUpdateauth_methodsInput | string[]
-    rfid_tag?: NullableStringFieldUpdateOperationsInput | string | null
-    qr_code?: NullableStringFieldUpdateOperationsInput | string | null
-    usb_key_id?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    accessRole?: EnumAccessRoleFieldUpdateOperationsInput | $Enums.AccessRole
+    businessRole?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumMembershipStatusFieldUpdateOperationsInput | $Enums.MembershipStatus
+    authMethods?: MembershipUpdateauthMethodsInput | string[]
+    rfidTag?: NullableStringFieldUpdateOperationsInput | string | null
+    qrCode?: NullableStringFieldUpdateOperationsInput | string | null
+    usbKeyId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type InviteUpdateWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    access_role?: StringFieldUpdateOperationsInput | string
+    accessRole?: EnumAccessRoleFieldUpdateOperationsInput | $Enums.AccessRole
     token?: StringFieldUpdateOperationsInput | string
-    expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type InviteUncheckedUpdateWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    access_role?: StringFieldUpdateOperationsInput | string
+    accessRole?: EnumAccessRoleFieldUpdateOperationsInput | $Enums.AccessRole
     token?: StringFieldUpdateOperationsInput | string
-    expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type InviteUncheckedUpdateManyWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    access_role?: StringFieldUpdateOperationsInput | string
+    accessRole?: EnumAccessRoleFieldUpdateOperationsInput | $Enums.AccessRole
     token?: StringFieldUpdateOperationsInput | string
-    expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StageUpdateWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     icon?: NullableStringFieldUpdateOperationsInput | string | null
-    color_hsl?: NullableStringFieldUpdateOperationsInput | string | null
-    category?: NullableStringFieldUpdateOperationsInput | string | null
+    colorHsl?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableEnumProjectCategoryFieldUpdateOperationsInput | $Enums.ProjectCategory | null
     sequence?: IntFieldUpdateOperationsInput | number
-    is_active?: BoolFieldUpdateOperationsInput | boolean
-    is_required?: BoolFieldUpdateOperationsInput | boolean
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isRequired?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tasks?: TaskUpdateManyWithoutStageNestedInput
-    vehicles_in_stage?: VehicleUpdateManyWithoutCurrent_stageNestedInput
+    vehiclesInStage?: VehicleUpdateManyWithoutCurrentStageNestedInput
   }
 
   export type StageUncheckedUpdateWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     icon?: NullableStringFieldUpdateOperationsInput | string | null
-    color_hsl?: NullableStringFieldUpdateOperationsInput | string | null
-    category?: NullableStringFieldUpdateOperationsInput | string | null
+    colorHsl?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableEnumProjectCategoryFieldUpdateOperationsInput | $Enums.ProjectCategory | null
     sequence?: IntFieldUpdateOperationsInput | number
-    is_active?: BoolFieldUpdateOperationsInput | boolean
-    is_required?: BoolFieldUpdateOperationsInput | boolean
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isRequired?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tasks?: TaskUncheckedUpdateManyWithoutStageNestedInput
-    vehicles_in_stage?: VehicleUncheckedUpdateManyWithoutCurrent_stageNestedInput
+    vehiclesInStage?: VehicleUncheckedUpdateManyWithoutCurrentStageNestedInput
   }
 
   export type StageUncheckedUpdateManyWithoutOrganizationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     icon?: NullableStringFieldUpdateOperationsInput | string | null
-    color_hsl?: NullableStringFieldUpdateOperationsInput | string | null
-    category?: NullableStringFieldUpdateOperationsInput | string | null
+    colorHsl?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: NullableEnumProjectCategoryFieldUpdateOperationsInput | $Enums.ProjectCategory | null
     sequence?: IntFieldUpdateOperationsInput | number
-    is_active?: BoolFieldUpdateOperationsInput | boolean
-    is_required?: BoolFieldUpdateOperationsInput | boolean
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isRequired?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type VehicleUpdateWithoutOrganizationInput = {
@@ -17236,19 +17703,20 @@ export namespace Prisma {
     brand?: StringFieldUpdateOperationsInput | string
     model?: StringFieldUpdateOperationsInput | string
     year?: NullableIntFieldUpdateOperationsInput | number | null
-    registration_number?: StringFieldUpdateOperationsInput | string
-    customer_name?: StringFieldUpdateOperationsInput | string
-    customer_email?: NullableStringFieldUpdateOperationsInput | string | null
-    customer_phone?: NullableStringFieldUpdateOperationsInput | string | null
-    is_active?: BoolFieldUpdateOperationsInput | boolean
+    registrationNumber?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    customerEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumTaskProgressStatusFieldUpdateOperationsInput | $Enums.TaskProgressStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
-    qr_code_token?: StringFieldUpdateOperationsInput | string
-    tracking_token?: StringFieldUpdateOperationsInput | string
-    entry_time?: DateTimeFieldUpdateOperationsInput | Date | string
-    estimated_completion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    current_stage?: StageUpdateOneWithoutVehicles_in_stageNestedInput
+    qrCodeToken?: StringFieldUpdateOperationsInput | string
+    trackingToken?: StringFieldUpdateOperationsInput | string
+    entryTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    estimatedCompletion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    currentStage?: StageUpdateOneWithoutVehiclesInStageNestedInput
     tasks?: TaskUpdateManyWithoutVehicleNestedInput
   }
 
@@ -17258,19 +17726,20 @@ export namespace Prisma {
     brand?: StringFieldUpdateOperationsInput | string
     model?: StringFieldUpdateOperationsInput | string
     year?: NullableIntFieldUpdateOperationsInput | number | null
-    registration_number?: StringFieldUpdateOperationsInput | string
-    customer_name?: StringFieldUpdateOperationsInput | string
-    customer_email?: NullableStringFieldUpdateOperationsInput | string | null
-    customer_phone?: NullableStringFieldUpdateOperationsInput | string | null
-    is_active?: BoolFieldUpdateOperationsInput | boolean
+    registrationNumber?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    customerEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumTaskProgressStatusFieldUpdateOperationsInput | $Enums.TaskProgressStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
-    qr_code_token?: StringFieldUpdateOperationsInput | string
-    tracking_token?: StringFieldUpdateOperationsInput | string
-    entry_time?: DateTimeFieldUpdateOperationsInput | Date | string
-    estimated_completion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    current_stage_id?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    qrCodeToken?: StringFieldUpdateOperationsInput | string
+    trackingToken?: StringFieldUpdateOperationsInput | string
+    entryTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    estimatedCompletion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStageId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tasks?: TaskUncheckedUpdateManyWithoutVehicleNestedInput
   }
 
@@ -17280,63 +17749,64 @@ export namespace Prisma {
     brand?: StringFieldUpdateOperationsInput | string
     model?: StringFieldUpdateOperationsInput | string
     year?: NullableIntFieldUpdateOperationsInput | number | null
-    registration_number?: StringFieldUpdateOperationsInput | string
-    customer_name?: StringFieldUpdateOperationsInput | string
-    customer_email?: NullableStringFieldUpdateOperationsInput | string | null
-    customer_phone?: NullableStringFieldUpdateOperationsInput | string | null
-    is_active?: BoolFieldUpdateOperationsInput | boolean
+    registrationNumber?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    customerEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumTaskProgressStatusFieldUpdateOperationsInput | $Enums.TaskProgressStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
-    qr_code_token?: StringFieldUpdateOperationsInput | string
-    tracking_token?: StringFieldUpdateOperationsInput | string
-    entry_time?: DateTimeFieldUpdateOperationsInput | Date | string
-    estimated_completion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    current_stage_id?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    qrCodeToken?: StringFieldUpdateOperationsInput | string
+    trackingToken?: StringFieldUpdateOperationsInput | string
+    entryTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    estimatedCompletion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentStageId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TaskProgressCreateManyWorkerInput = {
     id?: string
-    status: string
+    status: $Enums.TaskProgressStatus
     notes?: string | null
-    started_at?: Date | string | null
-    completed_at?: Date | string | null
-    task_id: string
-    created_at?: Date | string
-    updated_at?: Date | string
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    taskId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type TaskProgressUpdateWithoutWorkerInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumTaskProgressStatusFieldUpdateOperationsInput | $Enums.TaskProgressStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
-    started_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    completed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    task?: TaskUpdateOneRequiredWithoutTask_progressNestedInput
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    task?: TaskUpdateOneRequiredWithoutTaskProgressNestedInput
   }
 
   export type TaskProgressUncheckedUpdateWithoutWorkerInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumTaskProgressStatusFieldUpdateOperationsInput | $Enums.TaskProgressStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
-    started_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    completed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    task_id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    taskId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TaskProgressUncheckedUpdateManyWithoutWorkerInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumTaskProgressStatusFieldUpdateOperationsInput | $Enums.TaskProgressStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
-    started_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    completed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    task_id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    taskId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TaskCreateManyVehicleInput = {
@@ -17344,12 +17814,11 @@ export namespace Prisma {
     title: string
     sequence: number
     description?: string | null
-    estimated_duration?: number | null
-    priority?: string | null
-    is_completed?: boolean
-    stage_id: string
-    created_at?: Date | string
-    updated_at?: Date | string
+    estimatedDuration?: number | null
+    priority?: $Enums.TaskPriority | null
+    stageId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type TaskUpdateWithoutVehicleInput = {
@@ -17357,13 +17826,12 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     sequence?: IntFieldUpdateOperationsInput | number
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    estimated_duration?: NullableIntFieldUpdateOperationsInput | number | null
-    priority?: NullableStringFieldUpdateOperationsInput | string | null
-    is_completed?: BoolFieldUpdateOperationsInput | boolean
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    estimatedDuration?: NullableIntFieldUpdateOperationsInput | number | null
+    priority?: NullableEnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     stage?: StageUpdateOneRequiredWithoutTasksNestedInput
-    task_progress?: TaskProgressUpdateManyWithoutTaskNestedInput
+    taskProgress?: TaskProgressUpdateManyWithoutTaskNestedInput
   }
 
   export type TaskUncheckedUpdateWithoutVehicleInput = {
@@ -17371,13 +17839,12 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     sequence?: IntFieldUpdateOperationsInput | number
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    estimated_duration?: NullableIntFieldUpdateOperationsInput | number | null
-    priority?: NullableStringFieldUpdateOperationsInput | string | null
-    is_completed?: BoolFieldUpdateOperationsInput | boolean
-    stage_id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    task_progress?: TaskProgressUncheckedUpdateManyWithoutTaskNestedInput
+    estimatedDuration?: NullableIntFieldUpdateOperationsInput | number | null
+    priority?: NullableEnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority | null
+    stageId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    taskProgress?: TaskProgressUncheckedUpdateManyWithoutTaskNestedInput
   }
 
   export type TaskUncheckedUpdateManyWithoutVehicleInput = {
@@ -17385,12 +17852,11 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     sequence?: IntFieldUpdateOperationsInput | number
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    estimated_duration?: NullableIntFieldUpdateOperationsInput | number | null
-    priority?: NullableStringFieldUpdateOperationsInput | string | null
-    is_completed?: BoolFieldUpdateOperationsInput | boolean
-    stage_id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    estimatedDuration?: NullableIntFieldUpdateOperationsInput | number | null
+    priority?: NullableEnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority | null
+    stageId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TaskCreateManyStageInput = {
@@ -17398,33 +17864,33 @@ export namespace Prisma {
     title: string
     sequence: number
     description?: string | null
-    estimated_duration?: number | null
-    priority?: string | null
-    is_completed?: boolean
-    vehicle_id: string
-    created_at?: Date | string
-    updated_at?: Date | string
+    estimatedDuration?: number | null
+    priority?: $Enums.TaskPriority | null
+    vehicleId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
-  export type VehicleCreateManyCurrent_stageInput = {
+  export type VehicleCreateManyCurrentStageInput = {
     id?: string
     vin?: string | null
     brand: string
     model: string
     year?: number | null
-    registration_number: string
-    customer_name: string
-    customer_email?: string | null
-    customer_phone?: string | null
-    is_active?: boolean
+    registrationNumber: string
+    customerName: string
+    customerEmail?: string | null
+    customerPhone?: string | null
+    isActive?: boolean
+    status?: $Enums.TaskProgressStatus
     notes?: string | null
-    qr_code_token: string
-    tracking_token: string
-    entry_time?: Date | string
-    estimated_completion?: Date | string | null
-    organization_id: string
-    created_at?: Date | string
-    updated_at?: Date | string
+    qrCodeToken: string
+    trackingToken: string
+    entryTime?: Date | string
+    estimatedCompletion?: Date | string | null
+    organizationId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type TaskUpdateWithoutStageInput = {
@@ -17432,13 +17898,12 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     sequence?: IntFieldUpdateOperationsInput | number
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    estimated_duration?: NullableIntFieldUpdateOperationsInput | number | null
-    priority?: NullableStringFieldUpdateOperationsInput | string | null
-    is_completed?: BoolFieldUpdateOperationsInput | boolean
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    estimatedDuration?: NullableIntFieldUpdateOperationsInput | number | null
+    priority?: NullableEnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     vehicle?: VehicleUpdateOneRequiredWithoutTasksNestedInput
-    task_progress?: TaskProgressUpdateManyWithoutTaskNestedInput
+    taskProgress?: TaskProgressUpdateManyWithoutTaskNestedInput
   }
 
   export type TaskUncheckedUpdateWithoutStageInput = {
@@ -17446,13 +17911,12 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     sequence?: IntFieldUpdateOperationsInput | number
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    estimated_duration?: NullableIntFieldUpdateOperationsInput | number | null
-    priority?: NullableStringFieldUpdateOperationsInput | string | null
-    is_completed?: BoolFieldUpdateOperationsInput | boolean
-    vehicle_id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    task_progress?: TaskProgressUncheckedUpdateManyWithoutTaskNestedInput
+    estimatedDuration?: NullableIntFieldUpdateOperationsInput | number | null
+    priority?: NullableEnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority | null
+    vehicleId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    taskProgress?: TaskProgressUncheckedUpdateManyWithoutTaskNestedInput
   }
 
   export type TaskUncheckedUpdateManyWithoutStageInput = {
@@ -17460,121 +17924,123 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     sequence?: IntFieldUpdateOperationsInput | number
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    estimated_duration?: NullableIntFieldUpdateOperationsInput | number | null
-    priority?: NullableStringFieldUpdateOperationsInput | string | null
-    is_completed?: BoolFieldUpdateOperationsInput | boolean
-    vehicle_id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    estimatedDuration?: NullableIntFieldUpdateOperationsInput | number | null
+    priority?: NullableEnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority | null
+    vehicleId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type VehicleUpdateWithoutCurrent_stageInput = {
+  export type VehicleUpdateWithoutCurrentStageInput = {
     id?: StringFieldUpdateOperationsInput | string
     vin?: NullableStringFieldUpdateOperationsInput | string | null
     brand?: StringFieldUpdateOperationsInput | string
     model?: StringFieldUpdateOperationsInput | string
     year?: NullableIntFieldUpdateOperationsInput | number | null
-    registration_number?: StringFieldUpdateOperationsInput | string
-    customer_name?: StringFieldUpdateOperationsInput | string
-    customer_email?: NullableStringFieldUpdateOperationsInput | string | null
-    customer_phone?: NullableStringFieldUpdateOperationsInput | string | null
-    is_active?: BoolFieldUpdateOperationsInput | boolean
+    registrationNumber?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    customerEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumTaskProgressStatusFieldUpdateOperationsInput | $Enums.TaskProgressStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
-    qr_code_token?: StringFieldUpdateOperationsInput | string
-    tracking_token?: StringFieldUpdateOperationsInput | string
-    entry_time?: DateTimeFieldUpdateOperationsInput | Date | string
-    estimated_completion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    qrCodeToken?: StringFieldUpdateOperationsInput | string
+    trackingToken?: StringFieldUpdateOperationsInput | string
+    entryTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    estimatedCompletion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     organization?: OrganizationUpdateOneRequiredWithoutVehiclesNestedInput
     tasks?: TaskUpdateManyWithoutVehicleNestedInput
   }
 
-  export type VehicleUncheckedUpdateWithoutCurrent_stageInput = {
+  export type VehicleUncheckedUpdateWithoutCurrentStageInput = {
     id?: StringFieldUpdateOperationsInput | string
     vin?: NullableStringFieldUpdateOperationsInput | string | null
     brand?: StringFieldUpdateOperationsInput | string
     model?: StringFieldUpdateOperationsInput | string
     year?: NullableIntFieldUpdateOperationsInput | number | null
-    registration_number?: StringFieldUpdateOperationsInput | string
-    customer_name?: StringFieldUpdateOperationsInput | string
-    customer_email?: NullableStringFieldUpdateOperationsInput | string | null
-    customer_phone?: NullableStringFieldUpdateOperationsInput | string | null
-    is_active?: BoolFieldUpdateOperationsInput | boolean
+    registrationNumber?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    customerEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumTaskProgressStatusFieldUpdateOperationsInput | $Enums.TaskProgressStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
-    qr_code_token?: StringFieldUpdateOperationsInput | string
-    tracking_token?: StringFieldUpdateOperationsInput | string
-    entry_time?: DateTimeFieldUpdateOperationsInput | Date | string
-    estimated_completion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    organization_id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    qrCodeToken?: StringFieldUpdateOperationsInput | string
+    trackingToken?: StringFieldUpdateOperationsInput | string
+    entryTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    estimatedCompletion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tasks?: TaskUncheckedUpdateManyWithoutVehicleNestedInput
   }
 
-  export type VehicleUncheckedUpdateManyWithoutCurrent_stageInput = {
+  export type VehicleUncheckedUpdateManyWithoutCurrentStageInput = {
     id?: StringFieldUpdateOperationsInput | string
     vin?: NullableStringFieldUpdateOperationsInput | string | null
     brand?: StringFieldUpdateOperationsInput | string
     model?: StringFieldUpdateOperationsInput | string
     year?: NullableIntFieldUpdateOperationsInput | number | null
-    registration_number?: StringFieldUpdateOperationsInput | string
-    customer_name?: StringFieldUpdateOperationsInput | string
-    customer_email?: NullableStringFieldUpdateOperationsInput | string | null
-    customer_phone?: NullableStringFieldUpdateOperationsInput | string | null
-    is_active?: BoolFieldUpdateOperationsInput | boolean
+    registrationNumber?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    customerEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumTaskProgressStatusFieldUpdateOperationsInput | $Enums.TaskProgressStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
-    qr_code_token?: StringFieldUpdateOperationsInput | string
-    tracking_token?: StringFieldUpdateOperationsInput | string
-    entry_time?: DateTimeFieldUpdateOperationsInput | Date | string
-    estimated_completion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    organization_id?: StringFieldUpdateOperationsInput | string
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    qrCodeToken?: StringFieldUpdateOperationsInput | string
+    trackingToken?: StringFieldUpdateOperationsInput | string
+    entryTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    estimatedCompletion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    organizationId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TaskProgressCreateManyTaskInput = {
     id?: string
-    status: string
+    status: $Enums.TaskProgressStatus
     notes?: string | null
-    started_at?: Date | string | null
-    completed_at?: Date | string | null
-    worker_membership_id?: string | null
-    created_at?: Date | string
-    updated_at?: Date | string
+    startedAt?: Date | string | null
+    completedAt?: Date | string | null
+    workerMembershipId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type TaskProgressUpdateWithoutTaskInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumTaskProgressStatusFieldUpdateOperationsInput | $Enums.TaskProgressStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
-    started_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    completed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    worker?: MembershipUpdateOneWithoutTask_progressNestedInput
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    worker?: MembershipUpdateOneWithoutTaskProgressNestedInput
   }
 
   export type TaskProgressUncheckedUpdateWithoutTaskInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumTaskProgressStatusFieldUpdateOperationsInput | $Enums.TaskProgressStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
-    started_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    completed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    worker_membership_id?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workerMembershipId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TaskProgressUncheckedUpdateManyWithoutTaskInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumTaskProgressStatusFieldUpdateOperationsInput | $Enums.TaskProgressStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
-    started_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    completed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    worker_membership_id?: NullableStringFieldUpdateOperationsInput | string | null
-    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    startedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    workerMembershipId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

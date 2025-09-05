@@ -1,11 +1,9 @@
 // File: back/src/services/user.service.ts
-// Last change: Consolidated all user-related services and fully decoupled from Prisma.
+// Last change: Refactored to align with SSoT and Bridge Layer conventions.
 
 import jwt from 'jsonwebtoken';
-import { hash_password } from '../utils/auth-crypto.utils';
-import { sign_token } from '../utils/auth-jwt.utils';
-import { AccessRole } from 'common/types/access-role.types';
-import { MembershipStatus } from 'common/types/auth backup.types';
+import { hashPassword } from '../utils/auth-crypto.utils';
+import { signToken } from '../utils/auth-jwt.utils';
 import {
   get_user_by_email,
   get_all_users_from_db,
@@ -16,10 +14,67 @@ import {
 import {
   get_membership_by_user_and_org,
   create_membership,
-  create_organization_with_owner,
 } from '../utils/bridge-organization.utils';
+import {
+  ACCESS_ROLES,
+  MEMBERSHIP_STATUSES,
+} from 'common/configs/01-constants.config';
+import type {
+  AccessRole,
+  MembershipStatus,
+  AuthUser,
+  AuthMembership,
+  BusinessRole,
+} from 'common/types/project.types';
 
-// --- Input Data Interfaces (DTOs - Data Transfer Objects) ---
+// =================================================================
+// HELPER TYPES & MAPPERS
+// =================================================================
+
+// Helper types for snake_case data from the bridge layer.
+type BridgeMembership = {
+  id: string;
+  user_id: string;
+  organization_id: string;
+  access_role: AccessRole;
+  business_role: BusinessRole | null;
+  status: MembershipStatus;
+};
+
+type BridgeUser = {
+  id: string;
+  name: string;
+  email: string;
+  password: string | null;
+  is_verified: boolean;
+  is_active: boolean;
+  memberships: BridgeMembership[];
+};
+
+/**
+ * Maps a snake_case bridge user object to a camelCase AuthUser object.
+ */
+function mapBridgeUserToAuthUser(user: BridgeUser): AuthUser {
+  const primaryMembership = user.memberships[0] || {};
+  return {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    isVerified: user.is_verified,
+    accessRole: primaryMembership.access_role || ACCESS_ROLES.WORKER, // Default role if no membership
+    businessRole: primaryMembership.business_role || null,
+    memberships: user.memberships.map((m) => ({
+      organizationId: m.organization_id,
+      role: m.access_role,
+      businessRole: m.business_role,
+      status: m.status,
+    })),
+  };
+}
+
+// =================================================================
+// DTOs (Data Transfer Objects) for service inputs
+// =================================================================
 
 interface RegisterIndividualUserData {
   name: string;
@@ -27,146 +82,116 @@ interface RegisterIndividualUserData {
   password: string;
 }
 
-interface RegisterOrganizationData {
-  user_name: string;
-  user_email: string;
-  user_password: string;
-  org_name: string;
-  org_type: string;
-}
-
 interface UpdateUserData {
   name?: string;
   email?: string;
-  is_active?: boolean;
-  // Note: 'role' and 'rfid_tag' are part of the Membership model.
-  // Updating them would require a separate service function that calls
-  // the organization bridge.
+  isActive?: boolean;
 }
 
 interface DecodedPasswordLinkToken {
-  user_id: string;
+  userId: string;
   purpose: 'link-password';
   iat: number;
   exp: number;
 }
 
-// ==================================================
-// REGISTRATION AND ONBOARDING
-// ==================================================
+// =================================================================
+// SERVICE FUNCTIONS
+// =================================================================
 
 /**
- * Registers a new individual user.
- * @param data - Object containing the user's name, email, and password.
- * @returns The created user object.
+ * Registers a new individual user without an organization.
  */
-export const register_individual_user_service = async (data: RegisterIndividualUserData) => {
+export async function registerIndividualUserService(
+  data: RegisterIndividualUserData
+) {
   const { name, email, password } = data;
 
-  const existing_user = await get_user_by_email(email);
-  if (existing_user) {
-    throw new Error('USER_ALREADY_EXISTS');
+  const existingUser = await get_user_by_email(email.toLowerCase());
+  if (existingUser) {
+    throw new Error('User with this email already exists.');
   }
 
-  const hashed_password = await hash_password(password);
+  const hashedPassword = await hashPassword(password);
 
-  // The bridge function `create_user` expects a simple object.
-  const new_user = await create_user({
+  const newUser = (await create_user({
     name,
-    email,
-    password: hashed_password,
-  });
+    email: email.toLowerCase(),
+    password: hashedPassword,
+  })) as BridgeUser;
 
-  return new_user;
-};
-
-/**
- * Registers a new organization and its owner.
- * @param data - Object containing user and organization details.
- * @returns An object with the created user, organization, and membership.
- */
-export const register_organization_and_owner_service = async (data: RegisterOrganizationData) => {
-  const { user_name, user_email, user_password, org_name, org_type } = data;
-
-  const existing_user = await get_user_by_email(user_email);
-  if (existing_user) {
-    throw new Error('USER_ALREADY_EXISTS');
-  }
-
-  const hashed_password = await hash_password(user_password);
-
-  return create_organization_with_owner({
-    user_name,
-    user_email,
-    hashed_password,
-    org_name,
-    org_type,
-  });
-};
+  return mapBridgeUserToAuthUser(newUser);
+}
 
 /**
- * Allows a logged-in user to request to join an existing organization.
- * @param user_id - The ID of the user requesting to join.
- * @param organization_id - The ID of the target organization.
- * @returns The created membership object with a "pending" status.
+ * Allows a user to request to join an organization.
  */
-export const request_to_join_organization_service = async (
-  user_id: string,
-  organization_id: string
-) => {
-  const existing_membership = await get_membership_by_user_and_org(user_id, organization_id);
-  if (existing_membership) {
-    if (existing_membership.status === MembershipStatus.Pending) {
-      throw new Error('REQUEST_ALREADY_PENDING');
+export async function requestToJoinOrganizationService(
+  userId: string,
+  organizationId: string
+) {
+  const existing = (await get_membership_by_user_and_org(
+    userId,
+    organizationId
+  )) as BridgeMembership | null;
+
+  if (existing) {
+    if (existing.status === MEMBERSHIP_STATUSES.PENDING) {
+      throw new Error('A membership request is already pending.');
     }
-    throw new Error('ALREADY_A_MEMBER');
+    throw new Error('User is already a member of this organization.');
   }
 
-  return create_membership({
-    user_id,
-    organization_id,
-    access_role: AccessRole.Worker,
-    status: MembershipStatus.Pending,
-  });
-};
+  const membership = (await create_membership({
+    user_id: userId,
+    organization_id: organizationId,
+    access_role: ACCESS_ROLES.WORKER,
+    status: MEMBERSHIP_STATUSES.PENDING,
+  })) as BridgeMembership;
 
-
-// ==================================================
-// USER MANAGEMENT AND CRUD
-// ==================================================
+  return {
+    organizationId: membership.organization_id,
+    role: membership.access_role,
+    businessRole: membership.business_role,
+    status: membership.status,
+  } as AuthMembership;
+}
 
 /**
- * Handles the logic for requesting a password link for a user.
- * @param email - The email of the user requesting the link.
+ * Generates and logs a password link for a user.
  */
-export const request_password_link_service = async (email: string) => {
-  const user = await get_user_by_email(email.toLowerCase());
+export async function requestPasswordLinkService(email: string) {
+  const user = (await get_user_by_email(
+    email.toLowerCase()
+  )) as BridgeUser | null;
 
   if (!user) {
-    console.warn(`[USER_SERVICE] Password link requested for non-existent user: ${email}`);
-    return;
+    console.warn(
+      `[USER_SERVICE] Password link requested for non-existent user: ${email}`
+    );
+    return; // Fail silently
   }
 
-  const link_token = jwt.sign(
-    { user_id: user.id, purpose: 'link-password' },
+  const linkToken = jwt.sign(
+    { userId: user.id, purpose: 'link-password' },
     process.env.JWT_SECRET!,
     { expiresIn: '15m' }
   );
 
-  const verification_url = `${process.env.FRONTEND_URL}/link-password?token=${link_token}`;
-  console.log(`[DEV] Password link URL for ${user.email}: ${verification_url}`);
-};
+  const verificationUrl = `${process.env.FRONTEND_URL}/link-password?token=${linkToken}`;
+  console.log(`[DEV] Password link URL for ${user.email}: ${verificationUrl}`);
+}
 
 /**
- * Completes the password linking process.
- * @param token - The JWT from the password link.
- * @param password - The new password to set.
- * @returns An object containing the new auth token and the updated user.
+ * Completes the password linking process using a token.
  */
-export const complete_password_link_service = async (token: string, password: string) => {
+export async function completePasswordLinkService(token: string, password: string) {
   let decoded: DecodedPasswordLinkToken;
   try {
-    decoded = jwt.verify(token, process.env.JWT_SECRET!) as DecodedPasswordLinkToken;
+    decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET!
+    ) as DecodedPasswordLinkToken;
   } catch (error) {
     throw new Error('Invalid or expired token.');
   }
@@ -175,47 +200,43 @@ export const complete_password_link_service = async (token: string, password: st
     throw new Error('Invalid token purpose.');
   }
 
-  const hashed_password = await hash_password(password);
+  const hashedPassword = await hashPassword(password);
 
-  const updated_user = await update_user_in_db(decoded.user_id, {
-    password: hashed_password,
-  });
+  const updatedUser = (await update_user_in_db(decoded.userId, {
+    password: hashedPassword,
+  })) as BridgeUser;
 
-  const auth_token = sign_token(updated_user);
-  return { token: auth_token, user: updated_user };
-};
+  const authUser = mapBridgeUserToAuthUser(updatedUser);
+  const authToken = signToken(authUser);
+
+  return { token: authToken, user: authUser };
+}
 
 /**
  * Retrieves a list of all users.
- * @returns An array of user objects.
  */
-export const get_all_users_service = () => {
-  return get_all_users_from_db();
-};
+export async function getAllUsersService() {
+  const users = (await get_all_users_from_db()) as BridgeUser[];
+  return users.map(mapBridgeUserToAuthUser);
+}
 
 /**
  * Retrieves a single user by their ID.
- * @param id - The ID of the user to retrieve.
- * @returns The user object or null if not found.
  */
-export const get_user_by_id_service = (id: string) => {
-  return get_user_by_id_from_db(id);
-};
+export async function getUserByIdService(id: string) {
+  const user = (await get_user_by_id_from_db(id)) as BridgeUser | null;
+  return user ? mapBridgeUserToAuthUser(user) : null;
+}
 
 /**
  * Updates a user's core information.
- * @param id - The ID of the user to update.
- * @param data - An object with the user data to update.
- * @returns The updated user object.
  */
-export const update_user_service = (id: string, data: UpdateUserData) => {
-  // This function now passes a clean, Prisma-independent object to the bridge.
-  const update_data = {
+export async function updateUserService(id: string, data: UpdateUserData) {
+  const updatedUser = (await update_user_in_db(id, {
     name: data.name,
     email: data.email,
-    is_active: data.is_active,
-  };
+    is_active: data.isActive,
+  })) as BridgeUser;
 
-  return update_user_in_db(id, update_data);
-};
-
+  return mapBridgeUserToAuthUser(updatedUser);
+}

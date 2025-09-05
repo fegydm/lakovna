@@ -1,7 +1,8 @@
 // File: common/configs/02-colors.config.ts
-// Last change: Renamed file and aligned with the new config structure.
+// Last change: Updated type imports after atomization of project types.
 
-import type { HslColor } from '../types/project.types';
+// ZMENA: Importujeme z ui.types.ts, kam HslColor po refaktoringu patrí.
+import type { HslColor } from '../types/ui.types';
 import { PROJECT_ORG_TYPES } from './01-constants.config';
 
 export const PROJECT_COLOR_CONFIG = {

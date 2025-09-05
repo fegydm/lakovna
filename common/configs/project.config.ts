@@ -1,13 +1,13 @@
 // File: common/configs/project.config.ts
 // Last change: Created the final aggregator config from all partial configs.
 
-import { ACCESS_ROLES, ZODIAC_SIGNS } from './01-constants.config';
+import { ACCESS_ROLES, ZODIAC_SIGNS, BUSINESS_ROLES } from './01-constants.config';
 import { PROJECT_COLOR_CONFIG } from './02-colors.config';
 import { APP_CONFIG } from './03-app.config';
 import { UI_CONFIG } from './04-ui.config';
 import { I18N_CONFIG } from './05-i18n.config';
 import { DATA_CONFIG } from './06-data.config';
-import type { ZodiacSign } from '../types/project.types';
+import type { ZodiacSign } from '../types/shared.types';
 
 export const PROJECT_CONFIG = {
   app: APP_CONFIG,
@@ -27,15 +27,7 @@ export const PROJECT_CONFIG = {
     [ACCESS_ROLES.VIEWER]: 10,
   },
 
-  businessRoles: [
-    'shop_owner',
-    'painter',
-    'service_tech',
-    'advisor',
-    'estimator',
-    'detailer',
-    'wrapper',
-  ] as const,
+  businessRoles: BUSINESS_ROLES,
 
   zodiac: {
     displayNames: {

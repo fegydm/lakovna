@@ -1,7 +1,8 @@
 // File: common/configs/03-app.config.ts
-// Last change: Added logger configuration.
+// Last change: Completed logger configuration with console method mapping and strong types.
 
 import { LOG_LEVELS } from './01-constants.config';
+import type { ConsoleMethod, LogLevel } from '../types/shared.types';
 
 export const APP_CONFIG = {
   appName: 'Lakovňa',
@@ -29,13 +30,20 @@ export const APP_CONFIG = {
       [LOG_LEVELS.INFO]: 1,
       [LOG_LEVELS.WARN]: 2,
       [LOG_LEVELS.ERROR]: 3,
-    },
+    } as Record<LogLevel, number>,
     styles: {
       [LOG_LEVELS.DEBUG]: 'color: #888;',
       [LOG_LEVELS.INFO]: 'color: #2563eb;',
       [LOG_LEVELS.WARN]: 'color: #f59e0b;',
       [LOG_LEVELS.ERROR]: 'color: #ef4444;',
-    },
+    } as Record<LogLevel, string>,
+    // PRIDANÉ: Mapovanie na metódy konzoly pre SSoT
+    consoleMethods: {
+      [LOG_LEVELS.DEBUG]: 'log',
+      [LOG_LEVELS.INFO]: 'info',
+      [LOG_LEVELS.WARN]: 'warn',
+      [LOG_LEVELS.ERROR]: 'error',
+    } as Record<LogLevel, ConsoleMethod>,
   },
   technical: {
     storageKeys: {

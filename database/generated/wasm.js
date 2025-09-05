@@ -125,10 +125,10 @@ exports.Prisma.UserScalarFieldEnum = {
   email: 'email',
   name: 'name',
   password: 'password',
-  is_verified: 'is_verified',
-  is_active: 'is_active',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
+  isVerified: 'isVerified',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.OrganizationScalarFieldEnum = {
@@ -136,34 +136,34 @@ exports.Prisma.OrganizationScalarFieldEnum = {
   name: 'name',
   type: 'type',
   description: 'description',
-  is_verified: 'is_verified',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
+  isVerified: 'isVerified',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.MembershipScalarFieldEnum = {
   id: 'id',
-  user_id: 'user_id',
-  organization_id: 'organization_id',
-  access_role: 'access_role',
-  business_role: 'business_role',
+  userId: 'userId',
+  organizationId: 'organizationId',
+  accessRole: 'accessRole',
+  businessRole: 'businessRole',
   status: 'status',
-  auth_methods: 'auth_methods',
-  rfid_tag: 'rfid_tag',
-  qr_code: 'qr_code',
-  usb_key_id: 'usb_key_id',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
+  authMethods: 'authMethods',
+  rfidTag: 'rfidTag',
+  qrCode: 'qrCode',
+  usbKeyId: 'usbKeyId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.InviteScalarFieldEnum = {
   id: 'id',
-  organization_id: 'organization_id',
+  organizationId: 'organizationId',
   email: 'email',
-  access_role: 'access_role',
+  accessRole: 'accessRole',
   token: 'token',
-  expires_at: 'expires_at',
-  created_at: 'created_at'
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.VehicleScalarFieldEnum = {
@@ -172,34 +172,36 @@ exports.Prisma.VehicleScalarFieldEnum = {
   brand: 'brand',
   model: 'model',
   year: 'year',
-  registration_number: 'registration_number',
-  customer_name: 'customer_name',
-  customer_email: 'customer_email',
-  customer_phone: 'customer_phone',
-  is_active: 'is_active',
+  registrationNumber: 'registrationNumber',
+  customerName: 'customerName',
+  customerEmail: 'customerEmail',
+  customerPhone: 'customerPhone',
+  isActive: 'isActive',
+  status: 'status',
   notes: 'notes',
-  qr_code_token: 'qr_code_token',
-  tracking_token: 'tracking_token',
-  entry_time: 'entry_time',
-  estimated_completion: 'estimated_completion',
-  organization_id: 'organization_id',
-  current_stage_id: 'current_stage_id',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
+  qrCodeToken: 'qrCodeToken',
+  trackingToken: 'trackingToken',
+  entryTime: 'entryTime',
+  estimatedCompletion: 'estimatedCompletion',
+  organizationId: 'organizationId',
+  currentStageId: 'currentStageId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.StageScalarFieldEnum = {
   id: 'id',
+  key: 'key',
   name: 'name',
   icon: 'icon',
-  color_hsl: 'color_hsl',
+  colorHsl: 'colorHsl',
   category: 'category',
   sequence: 'sequence',
-  is_active: 'is_active',
-  is_required: 'is_required',
-  organization_id: 'organization_id',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
+  isActive: 'isActive',
+  isRequired: 'isRequired',
+  organizationId: 'organizationId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.TaskScalarFieldEnum = {
@@ -207,33 +209,32 @@ exports.Prisma.TaskScalarFieldEnum = {
   title: 'title',
   sequence: 'sequence',
   description: 'description',
-  estimated_duration: 'estimated_duration',
+  estimatedDuration: 'estimatedDuration',
   priority: 'priority',
-  is_completed: 'is_completed',
-  vehicle_id: 'vehicle_id',
-  stage_id: 'stage_id',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
+  vehicleId: 'vehicleId',
+  stageId: 'stageId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.TaskProgressScalarFieldEnum = {
   id: 'id',
   status: 'status',
   notes: 'notes',
-  started_at: 'started_at',
-  completed_at: 'completed_at',
-  task_id: 'task_id',
-  worker_membership_id: 'worker_membership_id',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
+  startedAt: 'startedAt',
+  completedAt: 'completedAt',
+  taskId: 'taskId',
+  workerMembershipId: 'workerMembershipId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SessionScalarFieldEnum = {
   id: 'id',
   sid: 'sid',
   data: 'data',
-  expires_at: 'expires_at',
-  created_at: 'created_at'
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -250,7 +251,56 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+exports.ProjectOrgType = exports.$Enums.ProjectOrgType = {
+  BODYSHOP: 'BODYSHOP',
+  SERVICE: 'SERVICE',
+  DEALER: 'DEALER',
+  TUNING: 'TUNING',
+  WRAPSHOP: 'WRAPSHOP',
+  DETAILING: 'DETAILING'
+};
 
+exports.AccessRole = exports.$Enums.AccessRole = {
+  SUPERADMIN: 'SUPERADMIN',
+  DEVELOPER: 'DEVELOPER',
+  OWNER: 'OWNER',
+  MANAGER: 'MANAGER',
+  COORDINATOR: 'COORDINATOR',
+  WORKER: 'WORKER',
+  PARTNER: 'PARTNER',
+  VIEWER: 'VIEWER'
+};
+
+exports.MembershipStatus = exports.$Enums.MembershipStatus = {
+  ACTIVE: 'ACTIVE',
+  PENDING: 'PENDING',
+  INACTIVE: 'INACTIVE',
+  SUSPENDED: 'SUSPENDED'
+};
+
+exports.TaskProgressStatus = exports.$Enums.TaskProgressStatus = {
+  PENDING: 'PENDING',
+  IN_PROGRESS: 'IN_PROGRESS',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED',
+  ON_HOLD: 'ON_HOLD',
+  BLOCKED: 'BLOCKED',
+  CANCELLED: 'CANCELLED'
+};
+
+exports.ProjectCategory = exports.$Enums.ProjectCategory = {
+  PAINT: 'PAINT',
+  MECHANICAL: 'MECHANICAL',
+  FULL_SERVICE: 'FULL_SERVICE'
+};
+
+exports.TaskPriority = exports.$Enums.TaskPriority = {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH',
+  CRITICAL: 'CRITICAL',
+  URGENT: 'URGENT'
+};
 
 exports.Prisma.ModelName = {
   User: 'User',

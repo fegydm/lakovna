@@ -1,9 +1,12 @@
 // File: common/configs/04-ui.config.ts
-// Last change: Consolidated all UI-related configurations.
+// Last change: Replaced hardcoded keys with SSoT constants.
 
 import { AUTH_STATUSES, PROJECT_CATEGORIES, PROJECT_ORG_TYPES } from './01-constants.config';
 import { PROJECT_COLOR_CONFIG } from './02-colors.config';
-import type { HslColor, DotCategoryConfig, ProjectOrgTypeDetails, AuthStatus } from '../types/project.types';
+
+import type { AuthStatus, ProjectOrgTypeDetails } from '../types/auth.types';
+import type { HslColor, DotCategoryConfig } from '../types/ui.types';
+import type { ProjectCategory, ProjectOrgType } from '../types/shared.types';
 
 export const UI_CONFIG = {
   routing: {
@@ -22,9 +25,10 @@ export const UI_CONFIG = {
   },
   branding: {
     colors: {
-      primary: PROJECT_COLOR_CONFIG.projectRoleColors.bodyshop as HslColor,
-      secondary: PROJECT_COLOR_CONFIG.projectRoleColors.service as HslColor,
-      accent: PROJECT_COLOR_CONFIG.projectRoleColors.dealer as HslColor,
+      // OPRAVA: Používame konštanty s hranatými zátvorkami namiesto hardkódovaných reťazcov.
+      primary: PROJECT_COLOR_CONFIG.projectRoleColors[PROJECT_ORG_TYPES.BODYSHOP] as HslColor,
+      secondary: PROJECT_COLOR_CONFIG.projectRoleColors[PROJECT_ORG_TYPES.SERVICE] as HslColor,
+      accent: PROJECT_COLOR_CONFIG.projectRoleColors[PROJECT_ORG_TYPES.DEALER] as HslColor,
     },
     logo: {
       text: '🏭 Lakovňa',
@@ -36,22 +40,25 @@ export const UI_CONFIG = {
     [PROJECT_CATEGORIES.PAINT]: {
       label: 'Karoséria & Vizuál',
       description: 'Zamerané na vizuálne úpravy a lakovanie vozidiel.',
-      color: PROJECT_COLOR_CONFIG.projectRoleColors.bodyshop as HslColor,
+      // OPRAVA: Používame konštanty s hranatými zátvorkami.
+      color: PROJECT_COLOR_CONFIG.projectRoleColors[PROJECT_ORG_TYPES.BODYSHOP] as HslColor,
       icon: '🎨',
     },
     [PROJECT_CATEGORIES.MECHANICAL]: {
       label: 'Mechanika & Servis',
       description: 'Komplexná diagnostika a oprava mechanických častí.',
-      color: PROJECT_COLOR_CONFIG.projectRoleColors.service as HslColor,
+      // OPRAVA: Používame konštanty s hranatými zátvorkami.
+      color: PROJECT_COLOR_CONFIG.projectRoleColors[PROJECT_ORG_TYPES.SERVICE] as HslColor,
       icon: '🔧',
     },
     [PROJECT_CATEGORIES.FULL_SERVICE]: {
       label: 'Komplexné služby',
       description: 'Poskytuje kompletné služby od laku až po motor.',
-      color: PROJECT_COLOR_CONFIG.projectRoleColors.dealer as HslColor,
+      // OPRAVA: Používame konštanty s hranatými zátvorkami.
+      color: PROJECT_COLOR_CONFIG.projectRoleColors[PROJECT_ORG_TYPES.DEALER] as HslColor,
       icon: '🏪',
     },
-  } as Record<typeof PROJECT_CATEGORIES[keyof typeof PROJECT_CATEGORIES], DotCategoryConfig>,
+  } as Record<ProjectCategory, DotCategoryConfig>,
   platformCategoryMappings: {
     [PROJECT_CATEGORIES.PAINT]: 'A',
     [PROJECT_CATEGORIES.MECHANICAL]: 'B',
@@ -94,7 +101,7 @@ export const UI_CONFIG = {
       description: 'Profesionálne čistenie a ochrana vozidiel.',
       category: PROJECT_CATEGORIES.PAINT,
     },
-  } as Record<typeof PROJECT_ORG_TYPES[keyof typeof PROJECT_ORG_TYPES], ProjectOrgTypeDetails>,
+  } as Record<ProjectOrgType, ProjectOrgTypeDetails>,
   authStatusLabels: {
     [AUTH_STATUSES.ANONYMOUS]: 'Anonymous',
     [AUTH_STATUSES.COOKIES]: 'Temporary',

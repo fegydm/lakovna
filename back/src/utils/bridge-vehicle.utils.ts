@@ -1,64 +1,87 @@
 // File: back/src/utils/bridge-vehicle.utils.ts
-// Last change: Aligned with camelCase conventions and decoupled from Prisma types.
-// Changes: Corrected relation names and handled missing schema fields to resolve TypeScript errors.
+// Last change: Final fix for nested type transformation (currentStage.colorHsl).
 
 import { prisma } from '../core/prisma.client';
-import { TaskProgressStatus } from 'common/types/project.types';
 import { randomUUID } from 'crypto';
+import type { Prisma } from '@prisma/client';
+import type { CreateVehiclePayload, UpdateVehiclePayload, VehicleTrackingDTO, VehicleInfo } from 'common/types/vehicle.types';
+// ZMENA: Pridávame import pre našu centrálnu funkciu na parsovanie farieb
+import { parseHslString } from 'common/utils/color.utils';
 
-interface CreateVehicleInput {
-  organizationId: string;
-  brand: string;
-  model: string;
-  registrationNumber: string;
-  vin?: string;
-  customerName: string;
-  customerEmail?: string;
-  customerPhone?: string;
-  entryTime: Date;
-  estimatedCompletion?: Date;
-  currentStageId?: string;
-  status: TaskProgressStatus;
+// =====================================================================
+// Centrálna transformačná funkcia
+// =====================================================================
+
+// Definujeme si presný typ, ktorý vracia Prisma, aby sme mali istotu.
+type PrismaVehicle = Prisma.VehicleGetPayload<{
+  include: { 
+    currentStage: { include: { tasks: true } };
+    tasks: true 
+  };
+}>;
+
+/**
+ * Transforms a vehicle object from Prisma into the application's VehicleInfo DTO.
+ * This is the single source of truth for this transformation.
+ * @param vehicle The raw vehicle object from Prisma.
+ * @returns A formatted VehicleInfo object, or null.
+ */
+function transformPrismaVehicleToDTO(vehicle: PrismaVehicle | null): VehicleInfo | null {
+  if (!vehicle) {
+    return null;
+  }
+
+  const {
+    customerName,
+    customerEmail,
+    customerPhone,
+    qrCodeToken,
+    trackingToken,
+    currentStage, // Explicitne oddelíme currentStage, aby sme ho mohli upraviť
+    ...restOfVehicle
+  } = vehicle;
+
+  // ZMENA: Vytvoríme nový, transformovaný objekt pre stage, kde opravíme `colorHsl`
+  const transformedStage = currentStage
+    ? {
+        ...currentStage,
+        colorHsl: parseHslString(currentStage.colorHsl), // Aplikujeme transformáciu
+      }
+    : null;
+
+  // Vytvoríme finálny DTO objekt s opraveným `currentStage`
+  return {
+    ...restOfVehicle,
+    currentStage: transformedStage, // Použijeme transformovaný stage
+    customer: {
+      name: customerName,
+      email: customerEmail ?? undefined,
+      phone: customerPhone ?? undefined,
+    },
+    qrCode: qrCodeToken,
+    trackingToken: trackingToken,
+  };
 }
 
-interface UpdateVehicleInput {
-  brand?: string;
-  model?: string;
-  registrationNumber?: string;
-  vin?: string;
-  customerName?: string;
-  customerEmail?: string;
-  customerPhone?: string;
-  entryTime?: Date;
-  estimatedCompletion?: Date;
-  currentStageId?: string;
-  status?: TaskProgressStatus;
-}
+// =====================================================================
+// EXPORTOVANÉ BRIDGE FUNKCIE
+// =====================================================================
 
-export const getRawVehicleTrackingDataFromDb = (token: string) => {
+export async function getVehicleTrackingData(token: string): Promise<VehicleTrackingDTO | null> {
   return prisma.vehicle.findUnique({
-    where: { tracking_token: token },
+    where: { trackingToken: token },
     select: {
       brand: true,
       model: true,
-      registration_number: true,
-      // FIX (Error 1): The 'status' field does not exist on the 'Vehicle' model
-      // and has been removed from the select clause. To use it, add the field
-      // to the 'Vehicle' model in your 'schema.prisma' file.
-      // status: true,
-      entry_time: true,
-      estimated_completion: true,
-      current_stage: {
+      registrationNumber: true,
+      entryTime: true,
+      estimatedCompletion: true,
+      currentStage: {
         select: {
           name: true,
           sequence: true,
         },
       },
-      // FIX: The original query structure for 'tasks' was incorrect based on the
-      // generated Prisma types. The types indicate a direct relation to the 'Task'
-      // model, not a join model. The query has been simplified to reflect this.
-      // NOTE: To retrieve a 'status' for each task, you must define an explicit
-      // many-to-many relation in your 'schema.prisma' file.
       tasks: {
         select: {
           title: true,
@@ -70,73 +93,76 @@ export const getRawVehicleTrackingDataFromDb = (token: string) => {
       },
     },
   });
-};
+}
 
-export const getAllVehiclesFromDb = () => {
-  return prisma.vehicle.findMany({
-    include: { current_stage: true },
+export async function getAllVehicles(): Promise<VehicleInfo[]> {
+  const vehiclesFromDb = await prisma.vehicle.findMany({
+    include: {
+      tasks: { orderBy: { sequence: 'asc' } },
+      currentStage: {
+        include: {
+          tasks: { orderBy: { sequence: 'asc' } },
+        },
+      },
+    },
+    orderBy: { createdAt: 'desc' },
   });
-};
+  return vehiclesFromDb.map(transformPrismaVehicleToDTO).filter((v): v is VehicleInfo => v !== null);
+}
 
-export const getVehicleByIdFromDb = (id: string) => {
-  return prisma.vehicle.findUnique({
+export async function getVehicleById(id: string): Promise<VehicleInfo | null> {
+  const vehicleFromDb = await prisma.vehicle.findUnique({
     where: { id },
-    // FIX (Error 2): Reverted relation name from 'vehicleTasks' back to 'tasks'
-    // as 'vehicleTasks' does not exist according to the Prisma schema.
-    include: { current_stage: true, tasks: true },
-  });
-};
-
-export const createVehicleInDb = (data: CreateVehicleInput) => {
-  return prisma.vehicle.create({
-    data: {
-      organization_id: data.organizationId,
-      brand: data.brand,
-      model: data.model,
-      registration_number: data.registrationNumber,
-      vin: data.vin,
-      customer_name: data.customerName,
-      customer_email: data.customerEmail,
-      customer_phone: data.customerPhone,
-      entry_time: data.entryTime,
-      estimated_completion: data.estimatedCompletion,
-      current_stage_id: data.currentStageId,
-      // FIX: The 'status' field does not exist on the 'Vehicle' model.
-      // This line remains commented out. Add the field to your schema to use it.
-      // status: data.status,
-      // FIX (Error 3): Added mandatory fields 'qr_code_token' and 'tracking_token'
-      // which were missing from the create input. They are now generated automatically.
-      qr_code_token: randomUUID(),
-      tracking_token: randomUUID(),
+    include: {
+      tasks: { orderBy: { sequence: 'asc' } },
+      currentStage: {
+        include: {
+          tasks: { orderBy: { sequence: 'asc' } },
+        },
+      },
     },
   });
-};
+  return transformPrismaVehicleToDTO(vehicleFromDb);
+}
 
-export const updateVehicleInDb = (id: string, data: UpdateVehicleInput) => {
-  return prisma.vehicle.update({
-    where: { id },
+export async function createVehicle(data: CreateVehiclePayload): Promise<VehicleInfo> {
+  const newVehicleFromDb = await prisma.vehicle.create({
     data: {
-      brand: data.brand,
-      model: data.model,
-      registration_number: data.registrationNumber,
-      vin: data.vin,
-      customer_name: data.customerName,
-      customer_email: data.customerEmail,
-      customer_phone: data.customerPhone,
-      entry_time: data.entryTime,
-      estimated_completion: data.estimatedCompletion,
-      current_stage_id: data.currentStageId,
-      // FIX (Error 4): Similar to the create function, the 'status' field does not exist
-      // on the 'Vehicle' model according to the Prisma types. It's commented out
-      // to allow the code to compile. Please update your schema accordingly.
-      // status: data.status,
+      ...data,
+      qrCodeToken: randomUUID(),
+      trackingToken: randomUUID(),
+    },
+    include: {
+      tasks: { orderBy: { sequence: 'asc' } },
+      currentStage: {
+        include: {
+          tasks: { orderBy: { sequence: 'asc' } },
+        },
+      },
     },
   });
-};
+  return transformPrismaVehicleToDTO(newVehicleFromDb)!;
+}
 
-export const deleteVehicleFromDb = (id: string) => {
-  return prisma.vehicle.delete({
+export async function updateVehicle(id: string, data: UpdateVehiclePayload): Promise<VehicleInfo> {
+  const updatedVehicleFromDb = await prisma.vehicle.update({
+    where: { id },
+    data,
+    include: {
+      tasks: { orderBy: { sequence: 'asc' } },
+      currentStage: {
+        include: {
+          tasks: { orderBy: { sequence: 'asc' } },
+        },
+      },
+    },
+  });
+  return transformPrismaVehicleToDTO(updatedVehicleFromDb)!;
+}
+
+export async function deleteVehicle(id: string): Promise<{ success: boolean; id: string }> {
+  await prisma.vehicle.delete({
     where: { id },
   });
-};
-
+  return { success: true, id };
+}
